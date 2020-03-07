@@ -5,9 +5,9 @@ require(`dotenv`).config({
 module.exports = {
   pathPrefix: "AntwanSherif",
   siteMetadata: {
-    siteTitle: `Antwan Sherif's Portfolio`,
+    siteTitle: `Antwan Sherif`,
     siteTitleAlt: `Antwan Sherif's Portfolio`,
-    siteHeadline: `Antwan Sherif's Portfolio`,
+    siteHeadline: `Antwan Sherif`,
     siteLanguage: `en`,
     author: `@antwansherif`,
   },

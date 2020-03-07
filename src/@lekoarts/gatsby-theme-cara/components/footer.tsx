@@ -5,7 +5,7 @@ const Footer = () => {
   return (
     <ThemeFooter>
       Copyright &copy; {new Date().getFullYear()}. All rights reserved.
-      <br />
+      {/* <br />
       <Flex
         sx={{
           justifyContent: `center`,
@@ -30,7 +30,7 @@ const Footer = () => {
         <Styled.a aria-label="Link to the theme author's website" href="https://www.lekoarts.de/en">
           LekoArts
         </Styled.a>
-      </Flex>
+      </Flex> */}
     </ThemeFooter>
   )
 }
