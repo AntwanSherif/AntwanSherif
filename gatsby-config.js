@@ -3,6 +3,7 @@ require(`dotenv`).config({
 })
 
 module.exports = {
+  pathPrefix: "AntwanSherif",
   siteMetadata: {
     siteTitle: `Antwan Sherif's Portfolio`,
     siteTitleAlt: `Antwan Sherif's Portfolio`,
@@ -25,8 +26,8 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `Antwan - @lekoarts/gatsby-theme-cara`,
-        short_name: `Antwan`,
+        name: `Antwan Sherif`,
+        short_name: `Antwan Sherif`,
         description: `Antwan Sherif's Portfolio`,
         start_url: `/`,
         background_color: `#141821`,
