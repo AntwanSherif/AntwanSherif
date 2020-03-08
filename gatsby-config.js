@@ -8,6 +8,8 @@ module.exports = {
     siteTitle: `Antwan Sherif`,
     siteTitleAlt: `Antwan Sherif's Portfolio`,
     siteHeadline: `Antwan Sherif`,
+    siteUrl: `https://antwansherif.github.io/AntwanSherif/`,
+    siteDescription: `Antwan Sherif's Portfolio`,
     siteLanguage: `en`,
     author: `@antwansherif`,
   },
