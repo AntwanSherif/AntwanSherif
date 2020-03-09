@@ -20,11 +20,11 @@ const ProjectCard = ({ link, title, children, bg }: ProjectCardProps) => (
       boxShadow: `lg`,
       position: `relative`,
       textDecoration: `none`,
-      minHeight: 350,
       borderRadius: `lg`,
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'space-between',
+      minHeight: 350,
       px: 4,
       py: [4, 5],
       color: `white`,
@@ -34,7 +34,7 @@ const ProjectCard = ({ link, title, children, bg }: ProjectCardProps) => (
         color: `white !important`,
         transform: `translateY(-5px)`,
         boxShadow: `xl`,
-      },
+      }
     }}
   >
     <div sx={{ opacity: 0.85, textShadow: `0 2px 10px rgba(0, 0, 0, 0.3)` }}>{children}</div>

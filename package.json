@@ -24,7 +24,8 @@
     "gatsby-plugin-netlify": "^2.1.6",
     "gatsby-plugin-offline": "^2.2.7",
     "react": "^16.9.0",
-    "react-dom": "^16.9.0"
+    "react-dom": "^16.9.0",
+    "react-typist": "^2.0.5"
   },
   "devDependencies": {
     "cross-env": "^5.2.0",
