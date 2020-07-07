@@ -1,6 +1,0 @@
-- name: Gatsby Publish
-  uses: enriikke/gatsby-gh-pages-action@v2.1.1
-  with:
-    access-token: 3ad8a390518706a2f75ec20fc88e3d5fa0d728b9
-    deploy-branch: gh-pages
-    gatsby-args: --prefix-paths
