@@ -1,7 +1,7 @@
 # Hello, nerds
 
 
-<span style='font-size:2em;'>I create exciting web and mobile app experiences for the next generation of consumer-facing companies 🌟</span>
+I create exciting web and mobile app experiences for the next generation of consumer-facing companies 🌟
 
 And I aspire to be one of the most influencing software engineers in the JavaScript community in Egypt. ⚡️👨🏻‍💻
 
