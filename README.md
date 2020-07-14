@@ -9,14 +9,13 @@ I aspire to be one of the most influencing software engineers in the JavaScript 
 
 ## Projects:
 These are projects I work on in my free time:
+> Some of these projects are still in development
 
 - [Restaurant Reservation](https://expo.io/@antwansherif/Restaurant_Reservation): A mobile app that helps clients and restaurant branch managers to reserve/manage reservations according to the partial re-opening rules set by Egyptian government during Covid-19 pandemic.
 - [21Farmer](https://dashboard.21farmer.com/): A cloud based IoT solution that provides data & analytics to farmers, to make informed decisions and to enhance land performance and resource utilization.
 - [antwan.me | Personal Portfolio](https://antwan.me/): My personal portfolio.
 - [Paper, Scissors, Rock! Game](https://paper-scissors-rock-game.now.sh/): The popular Paper, Scissors, Rock! game. Available for offline-access 😉.
 - [Simple E-commerce](https://it-clinic-task.herokuapp.com/): A very simple E-Commerce app built with MERN stack.
-
-> Some of these projects are still in development
 
 ## Contributions:
 I also contribute to the following project(s):
