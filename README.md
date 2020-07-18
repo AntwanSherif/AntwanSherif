@@ -1,7 +1,7 @@
-# Hello, nerds
+# Hello nerds,
 
 
-Hi, my name is Antwan 👋 , I'm a senior software engineer at Vodafone International Solutions (_Vois).
+My name is Antwan 👋 , I'm a senior software engineer at Vodafone International Solutions (_Vois).
 
 I create exciting web and mobile app experiences for the next generation of consumer-facing companies 🌟
 
