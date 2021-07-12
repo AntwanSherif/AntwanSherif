@@ -20,7 +20,7 @@ These are projects I work on in my free time:
 ## Contributions:
 I also contribute to the following project(s):
 
-- [12 am Thoughts](https://12amthoughts.xyz/): An online platform that aims to provide a safe space for individuals to express their thoughts & feelings anonymously with no fear of judgement or embarrassment.
+- [12 am Thoughts](https://12am-thoughts.vercel.app/): An online platform that aims to provide a safe space for individuals to express their thoughts & feelings anonymously with no fear of judgement or embarrassment.
 
 
 ## Get in touch:
