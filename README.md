@@ -15,7 +15,6 @@ These are projects I work on in my free time:
 - [21Farmer](https://dashboard.21farmer.com/): A cloud based IoT solution that provides data & analytics to farmers to make informed decisions and to enhance land performance and resource utilization.
 - [antwan.me | Personal Portfolio](https://antwan.me/): My personal portfolio.
 - [Paper, Scissors, Rock! Game](https://paper-scissors-rock-game.now.sh/): The popular Paper, Scissors, Rock! game. Available for offline-access 😉.
-- [Simple E-commerce](https://it-clinic-task.herokuapp.com/): A very simple E-Commerce app built with MERN stack.
 
 ## Contributions:
 I also contribute to the following project(s):
