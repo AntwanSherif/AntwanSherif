@@ -1,14 +1,14 @@
 # Hello nerds,
 
 
-My name is Antwan 👋 , I'm a senior software engineer at Vodafone Intelligent Solutions (_VOIS).
+My name is Antwan 👋 , I'm a senior software engineer at Shore GmbH.
 
 I create exciting web and mobile app experiences for the next generation of consumer-facing companies 🌟
 
 I aspire to be one of the most influencing software engineers in the JavaScript community in Egypt. ⚡️👨🏻‍💻
 
 ## Projects:
-These are some freelance/side-projects I worked:
+These are some freelance/side-projects I worked on:
 - [Dinney](http://play.google.com/store/apps/details?id=com.antwansherif.Dinney): A mobile app that enables customers to reserve tables in Egypt restaurants according to the re-opening rules set by Egyptian government during Covid-19 pandemic.
 - [21Farmer](https://dashboard.21farmer.com/): A cloud based IoT solution that provides data & analytics to farmers to make informed decisions and to enhance land performance and resource utilization.
 - [antwan.me | Personal Portfolio](https://antwan.me/): My personal portfolio.
