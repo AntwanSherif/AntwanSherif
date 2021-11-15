@@ -10,7 +10,7 @@ I aspire to be one of the most influencing software engineers in the JavaScript 
 ## Projects:
 These are some freelance/side-projects I worked on:
 - [HAKTIV](https://www.haktiv.com/): HAKTIV is a bug bounty platform that is the first of its kind in the Middle-East region. It will connect the growing market of tech companies with the finest security researchers and talents in the region to provide security testing on web, mobile, network, source code, and client-side applications.
-- [Dinney](http://play.google.com/store/apps/details?id=com.antwansherif.Dinney): A mobile app that enables customers to reserve tables in Egypt restaurants according to the re-opening rules set by Egyptian government during Covid-19 pandemic.
+- [Dinney](https://play.google.com/store/apps/details?id=com.antwansherif.DinneyManager): A mobile app that enables customers to reserve tables in Egypt restaurants according to the re-opening rules set by Egyptian government during Covid-19 pandemic.
 - [21Farmer](https://dashboard.21farmer.com/): A cloud based IoT solution that provides data & analytics to farmers to make informed decisions and to enhance land performance and resource utilization.
 - [El-Mawkaa](http://www.elmawkaa.com/): El-Mawkaa is a platform that connects all stakeholders in the construction and architecture sector from engineers, investors, contractors and suppliers in the MENA region. The platform provides services to all parties, such as engineering services and updates of the latest prices of building materials.
 - [antwan.me | Personal Portfolio](https://antwan.me/): My personal portfolio.
