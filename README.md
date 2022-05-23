@@ -1,7 +1,7 @@
 # Hello nerds,
 
 
-My name is Antwan 👋 , I'm a senior software engineer at Shore GmbH.
+My name is Antwan 👋 , I'm a senior software engineer at [Shore](https://www.shore.com/en/).
 
 I create exciting web and mobile app experiences for the next generation of consumer-facing companies 🌟
 
