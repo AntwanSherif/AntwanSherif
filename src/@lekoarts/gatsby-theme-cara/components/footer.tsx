@@ -3,6 +3,7 @@ import { Footer as ThemeFooter, Styled, Flex, jsx } from "theme-ui"
 
 const Footer = () => {
   return (
+    <>
     <ThemeFooter>
       Copyright &copy; {new Date().getFullYear()}. All rights reserved.
       {/* <br />
@@ -32,6 +33,8 @@ const Footer = () => {
         </Styled.a>
       </Flex> */}      
     </ThemeFooter>
+    <script src="https://connect.shore.com/widget/loading.js"></script><a class="termine24-widget termine24-widget-custom" style="background-color: #1162e5; color: #ffffff;" target="_blank" href="https://connect.shore.com/widget/instagram-test?locale=en-US">Book Now</a>
+    </>
   )
 }
 
