@@ -18,9 +18,7 @@ const Footer = () => {
         }}
       >
         <img width="30" height="30" src="https://img.lekoarts.de/gatsby/logo_w30.png" alt="LekoArts Logo" />
-        {` `}
-    <script src="https://connect.shore.com/widget/loading.js"></script><a class="termine24-widget termine24-widget-custom" style="background-color: #1162e5; color: #ffffff;" target="_blank" href="https://connect.shore.com/widget/instagram-test?locale=en-US">Book Now</a>
-        
+        {` `}        
         <Styled.a
           aria-label="Link to the theme's GitHub repository"
           sx={{ ml: 2 }}
