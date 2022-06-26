@@ -3,7 +3,6 @@ import { Footer as ThemeFooter, Styled, Flex, jsx } from "theme-ui"
 
 const Footer = () => {
   return (
-    <>
     <ThemeFooter>
       Copyright &copy; {new Date().getFullYear()}. All rights reserved.
       {/* <br />
@@ -18,7 +17,7 @@ const Footer = () => {
         }}
       >
         <img width="30" height="30" src="https://img.lekoarts.de/gatsby/logo_w30.png" alt="LekoArts Logo" />
-        {` `}        
+        {` `}
         <Styled.a
           aria-label="Link to the theme's GitHub repository"
           sx={{ ml: 2 }}
@@ -31,9 +30,8 @@ const Footer = () => {
         <Styled.a aria-label="Link to the theme author's website" href="https://www.lekoarts.de/en">
           LekoArts
         </Styled.a>
-      </Flex> */}      
+      </Flex> */}
     </ThemeFooter>
-    </>
   )
 }
 
