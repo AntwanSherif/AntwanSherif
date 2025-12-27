@@ -9,17 +9,17 @@ I aspire to be one of the most influential software engineers in the JavaScript 
 
 ## Projects:
 These are some freelance/side-projects I worked on:
-- [HAKTIV](https://www.haktiv.com/): HAKTIV is a bug bounty platform that is the first of its kind in the Middle-East region. It will connect the growing market of tech companies with the finest security researchers and talents in the region to provide security testing on web, mobile, network, source code, and client-side applications.
+- [HAKTIV](https://www.haktiv.com/): First bug bounty platform in the Middle East, connecting tech companies with top security researchers.
 - [Dinney](https://play.google.com/store/apps/details?id=com.antwansherif.Dinney): A mobile app that enables customers to reserve tables in Egyptian restaurants according to the re-opening rules set by the Egyptian government during the COVID-19 pandemic.
-- [21Farmer](https://dashboard.21farmer.com/): A cloud-based IoT solution that provides data & analytics to farmers to make informed decisions and to enhance land performance and resource utilization.
-- [El-Mawkaa](http://www.elmawkaa.com/): El-Mawkaa is a platform that connects all stakeholders in the construction and architecture sector, from engineers, investors, contractors, and suppliers in the MENA region. The platform provides services to all parties, including engineering services and updates on the latest prices for building materials.
+- [21Farmer](https://dashboard.21farmer.com/): A cloud-based Farming IoT solution providing analytics to farmers to make informed decisions and to enhance land performance and resource utilization.
+- [El-Mawkaa](http://www.elmawkaa.com/): El-Mawkaa is a Construction Marketplace in the MENA region.
 - [antwan.me | Personal Portfolio](https://antwan.me/): My personal portfolio.
 - [Paper, Scissors, Rock! Game](https://paper-scissors-rock-game.now.sh/): The popular Paper, Scissors, Rock! Game. Available for offline access 😉.
 
 ## Contributions:
 I also contribute to the following project(s):
 
-- [12 am Thoughts](https://12am-thoughts.vercel.app/): An online platform that aims to provide a safe space for individuals to express their thoughts & feelings anonymously with no fear of judgement or embarrassment.
+- [12AM Thoughts](https://12am-thoughts.vercel.app/): An online platform that aims to provide a safe space for individuals to express their thoughts & feelings anonymously.
 
 
 ## Get in touch:
