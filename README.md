@@ -1,7 +1,7 @@
 # Hello nerds,
 
 
-My name is Antwan 👋 , I'm a senior software engineer at [Trade Republic]([https://www.goflink.com/en/](https://traderepublic.com/en-de)).
+My name is Antwan 👋 , I'm a senior software engineer at [Trade Republic](https://traderepublic.com/en-de).
 
 I create exciting web and mobile app experiences for the next generation of consumer-facing companies 🌟
 
