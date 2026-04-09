@@ -1,47 +1,28 @@
-<div align="center">
-<img alt="Portfolio" src="https://github.com/dillionverma/portfolio/assets/16860528/57ffca81-3f0a-4425-b31d-094f61725455" width="90%">
-</div>
+# Hello nerds,
 
-# Portfolio [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fdillionverma%2Fportfolio)
+My name is Antwan 👋 , I'm a senior software engineer at [Trade Republic](https://traderepublic.com/en-de).
 
-Built with next.js, [shadcn/ui](https://ui.shadcn.com/), and [magic ui](https://magicui.design/), deployed on Vercel.
+I create exciting web and mobile app experiences for the next generation of consumer-facing companies 🌟
 
-# Features
+I aspire to be one of the most influential software engineers in the JavaScript community in Egypt. ⚡️👨🏻‍💻
 
-- Setup only takes a few minutes by editing the [single config file](./src/data/resume.tsx)
-- Built using Next.js 14, React, Typescript, Shadcn/UI, TailwindCSS, Framer Motion, Magic UI
-- Includes a blog
-- Responsive for different devices
-- Optimized for Next.js and Vercel
+## Projects:
 
-# Getting Started Locally
+These are some freelance/side-projects I worked on:
 
-1. Clone this repository to your local machine:
+- [HAKTIV](https://www.haktiv.com/): First bug bounty platform in the Middle East, connecting tech companies with top security researchers.
+- [Dinney](https://play.google.com/store/apps/details?id=com.antwansherif.Dinney): A mobile app that enables customers to reserve tables in Egyptian restaurants according to the re-opening rules set by the Egyptian government during the COVID-19 pandemic.
+- [21Farmer](https://dashboard.21farmer.com/): A cloud-based Farming IoT solution providing analytics to farmers to make informed decisions and to enhance land performance and resource utilization.
+- [El-Mawkaa](http://www.elmawkaa.com/): El-Mawkaa is a Construction Marketplace in the MENA region.
+- [antwan.me | Personal Portfolio](https://antwan.me/): My personal portfolio.
+- [Paper, Scissors, Rock! Game](https://paper-scissors-rock-game.now.sh/): The popular Paper, Scissors, Rock! Game. Available for offline access 😉.
 
-   ```bash
-   git clone https://github.com/dillionverma/portfolio
-   ```
+## Contributions:
 
-2. Move to the cloned directory
+I also contributed to the following project(s):
 
-   ```bash
-   cd portfolio
-   ```
+- [12AM Thoughts](https://12am-thoughts.vercel.app/): An online platform that aims to provide a safe space for individuals to express their thoughts & feelings anonymously.
 
-3. Install dependencies:
+## Get in touch:
 
-   ```bash
-   pnpm install
-   ```
-
-4. Start the local Server:
-
-   ```bash
-   pnpm dev
-   ```
-
-5. Open the [Config file](./src/data/resume.tsx) and make changes
-
-# License
-
-Licensed under the [MIT license](https://github.com/dillionverma/portfolio/blob/main/LICENSE.md).
+Connect with me on [LinkedIn](https://www.linkedin.com/in/antwansherif/) or say hi on [Twitter](https://twitter.com/AntwanSherif)
