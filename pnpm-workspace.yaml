@@ -1,0 +1,6 @@
+allowBuilds:
+  esbuild: false
+  sharp: false
+  unrs-resolver: false
+optional: true
+nodeLinker: hoisted

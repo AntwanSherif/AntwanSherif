@@ -6,39 +6,59 @@ import { DATA } from "@/data/resume";
 import Link from "next/link";
 import Markdown from "react-markdown";
 import ContactSection from "@/components/section/contact-section";
-import HackathonsSection from "@/components/section/hackathons-section";
 import ProjectsSection from "@/components/section/projects-section";
+import TalksSection from "@/components/section/talks-section";
 import WorkSection from "@/components/section/work-section";
 import { ArrowUpRight } from "lucide-react";
+import ScrambleText from "@/components/ScrambleText";
+import MagneticButton from "@/components/MagneticButton";
+import SourceFieldClient from "@/components/SourceFieldClient";
 
 const BLUR_FADE_DELAY = 0.04;
 
 export default function Page() {
   return (
     <main className="min-h-dvh flex flex-col gap-14 relative">
-      <section id="hero">
-        <div className="mx-auto w-full max-w-2xl space-y-8">
-          <div className="gap-2 gap-y-6 flex flex-col md:flex-row justify-between">
-            <div className="gap-2 flex flex-col order-2 md:order-1">
-              <BlurFadeText
-                delay={BLUR_FADE_DELAY}
-                className="text-3xl font-semibold tracking-tighter sm:text-4xl lg:text-5xl"
-                yOffset={8}
-                text={`Hi, I'm ${DATA.name.split(" ")[0]}`}
-              />
-              <BlurFadeText
-                className="text-muted-foreground max-w-[600px] md:text-lg lg:text-xl"
-                delay={BLUR_FADE_DELAY}
-                text={DATA.description}
-              />
+      <section id="hero" className="relative -mx-6 px-6 min-h-[80vh] flex items-center">
+        {/* Particle field background */}
+        <SourceFieldClient className="absolute inset-0 opacity-40 pointer-events-none" />
+
+        <div className="relative z-10 w-full max-w-2xl mx-auto space-y-6">
+          <BlurFade delay={BLUR_FADE_DELAY}>
+            <Avatar className="size-20 md:size-24 border rounded-full shadow-lg ring-2 ring-border">
+              <AvatarImage alt={DATA.name} src={DATA.avatarUrl} />
+              <AvatarFallback>{DATA.initials}</AvatarFallback>
+            </Avatar>
+          </BlurFade>
+
+          <BlurFade delay={BLUR_FADE_DELAY * 2}>
+            <h1 className="font-cal text-5xl sm:text-6xl lg:text-7xl tracking-tight text-foreground leading-none">
+              <ScrambleText text={DATA.name} />
+            </h1>
+          </BlurFade>
+
+          <BlurFade delay={BLUR_FADE_DELAY * 3}>
+            <p className="text-lg sm:text-xl text-muted-foreground max-w-md">
+              {DATA.description}
+            </p>
+          </BlurFade>
+
+          <BlurFade delay={BLUR_FADE_DELAY * 4}>
+            <div className="flex flex-wrap gap-3 pt-2">
+              <MagneticButton
+                href="#projects"
+                className="bg-[var(--accent-1)] text-[#0a0a0f] hover:bg-[var(--accent-1)]/90"
+              >
+                View Work
+              </MagneticButton>
+              <MagneticButton
+                href="#contact"
+                className="border border-border text-foreground hover:border-[var(--accent-2)] hover:text-[var(--accent-2)]"
+              >
+                Get in Touch
+              </MagneticButton>
             </div>
-            <BlurFade delay={BLUR_FADE_DELAY} className="order-1 md:order-2">
-              <Avatar className="size-24 md:size-32 border rounded-full shadow-lg ring-4 ring-muted">
-                <AvatarImage alt={DATA.name} src={DATA.avatarUrl} />
-                <AvatarFallback>{DATA.initials}</AvatarFallback>
-              </Avatar>
-            </BlurFade>
-          </div>
+          </BlurFade>
         </div>
       </section>
       <section id="about">
@@ -135,9 +155,9 @@ export default function Page() {
           <ProjectsSection />
         </BlurFade>
       </section>
-      <section id="hackathons">
-        <BlurFade delay={BLUR_FADE_DELAY * 13}>
-          <HackathonsSection />
+      <section id="talks">
+        <BlurFade delay={BLUR_FADE_DELAY * 15}>
+          <TalksSection />
         </BlurFade>
       </section>
       <section id="contact">
