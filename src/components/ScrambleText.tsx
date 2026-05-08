@@ -25,6 +25,10 @@ export default function ScrambleText({
 
   const scramble = useCallback(() => {
     if (!spanRef.current) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      spanRef.current.textContent = text;
+      return;
+    }
     cancelAnimationFrame(rafRef.current);
 
     const chars = text.split("");
