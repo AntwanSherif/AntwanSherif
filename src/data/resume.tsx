@@ -240,7 +240,11 @@ export const DATA = {
         { src: '/talks/react-query/IMG_2469-01.jpeg', objectPosition: '30% 15%' },
         { src: '/talks/react-query/20221221_204955-01.jpeg', objectPosition: 'center top' }
       ],
-      links: ['https://slides.com/antwansherif/building-great-user-experiences-with-react-query/fullscreen']
+      links: [
+        { label: 'Slides', href: 'https://slides.com/antwansherif/building-great-user-experiences-with-react-query/fullscreen' },
+        { label: 'GitHub', href: 'https://github.com/AntwanSherif/ux-with-react-query-talk' },
+        { label: 'Demo', href: 'https://ux-with-react-query-talk.vercel.app/' }
+      ]
     },
     {
       title: 'Career Advancement in Software Engineering',
@@ -254,7 +258,7 @@ export const DATA = {
         { src: '/talks/career-advancement/1668957708813.jpeg', objectPosition: '55% 95%' },
         { src: '/talks/career-advancement/1668786345212.jpeg', objectPosition: '72% 15%' }
       ],
-      links: []
+      links: [] as { label: string; href: string }[]
     }
   ]
 } as const;

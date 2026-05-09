@@ -56,16 +56,21 @@ export default function TalksSection() {
                       {talk.event}
                     </span>
                   </div>
-                  {talk.links[0] && (
-                    <Link
-                      href={talk.links[0]}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex-none flex items-center gap-1.5 text-xs border border-border rounded-lg px-3 py-1.5 text-muted-foreground hover:text-foreground hover:border-[var(--accent-2)] transition-colors"
-                    >
-                      <ExternalLink className="size-3" />
-                      Slides
-                    </Link>
+                  {talk.links.length > 0 && (
+                    <div className="flex-none flex items-center gap-2">
+                      {talk.links.map((link) => (
+                        <Link
+                          key={link.href}
+                          href={link.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-1.5 text-xs border border-border rounded-lg px-3 py-1.5 text-muted-foreground hover:text-foreground hover:border-accent-2 transition-colors"
+                        >
+                          <ExternalLink className="size-3" />
+                          {link.label}
+                        </Link>
+                      ))}
+                    </div>
                   )}
                 </div>
 
