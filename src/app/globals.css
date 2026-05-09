@@ -1,13 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@font-face {
-  font-family: "Cal Sans";
-  src: url("/fonts/CalSans-SemiBold.woff2") format("woff2");
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
 @plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:where(.dark, .dark *));
@@ -53,7 +46,7 @@
   --color-accent-2: var(--accent-2);
   --color-accent-ai: var(--accent-ai);
   --color-surface: var(--surface);
-  --font-cal: "Cal Sans", sans-serif;
+  --font-bricolage: var(--font-bricolage), sans-serif;
 }
 
 :root {

@@ -3,70 +3,148 @@
 import { useEffect, useRef, useCallback } from "react";
 import { cn } from "@/lib/utils";
 
-const CHARSET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%&";
+type Dir = "left" | "right" | "up" | "down";
+const DIRS: Dir[] = ["left", "right", "up", "down"];
+
+const OUT: Record<Dir, string> = {
+  left: "translateX(-100%)",
+  right: "translateX(100%)",
+  up: "translateY(-100%)",
+  down: "translateY(100%)",
+};
+const IN_START: Record<Dir, string> = {
+  left: "translateX(100%)",
+  right: "translateX(-100%)",
+  up: "translateY(100%)",
+  down: "translateY(-100%)",
+};
+
+const STRIPE_STYLE: React.CSSProperties = {
+  background:
+    "repeating-linear-gradient(-45deg, transparent 0px, var(--foreground) 2px, transparent 2px, transparent 9px)",
+  WebkitBackgroundClip: "text",
+  backgroundClip: "text",
+  WebkitTextFillColor: "transparent",
+  WebkitTextStroke: "1.5px var(--foreground)",
+  font: "inherit",
+  lineHeight: "inherit",
+  letterSpacing: "inherit",
+};
 
 interface ScrambleTextProps {
   text: string;
   className?: string;
-  /** How many frames each character cycles before settling */
-  scrambleFrames?: number;
-  /** Delay (ms) between each character starting to settle */
-  staggerMs?: number;
+  randomInterval?: number;
 }
 
 export default function ScrambleText({
   text,
   className,
-  scrambleFrames = 10,
-  staggerMs = 40,
+  randomInterval = 1000,
 }: ScrambleTextProps) {
-  const spanRef = useRef<HTMLSpanElement>(null);
-  const rafRef = useRef<number>(0);
+  const containerRef = useRef<HTMLSpanElement>(null);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const scramble = useCallback(() => {
-    if (!spanRef.current) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      spanRef.current.textContent = text;
-      return;
-    }
-    cancelAnimationFrame(rafRef.current);
+  const triggerLetter = useCallback((el: HTMLElement) => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (el.dataset.animating === "true") return;
+    el.dataset.animating = "true";
 
-    const chars = text.split("");
-    // Track how many frames each character has been randomized
-    const frameCount = chars.map((_, i) => -(i * Math.round(staggerMs / 16)));
+    const dir = el.dataset.dir as Dir;
+    const front = el.querySelector<HTMLElement>(".sl-f");
+    const back = el.querySelector<HTMLElement>(".sl-b");
+    if (!front || !back) return;
 
-    const render = () => {
-      if (!spanRef.current) return;
-      let done = true;
-      const output = chars.map((char, i) => {
-        if (char === " ") return " ";
-        if (frameCount[i] >= scrambleFrames) return char;
-        done = false;
-        frameCount[i]++;
-        if (frameCount[i] < 0) return char; // stagger delay: show original while waiting
-        return CHARSET[Math.floor(Math.random() * CHARSET.length)];
+    back.style.transition = "none";
+    back.style.transform = IN_START[dir];
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        const ease = "150ms cubic-bezier(0.4,0,0.2,1)";
+        front.style.transition = `transform ${ease}`;
+        back.style.transition = `transform ${ease}`;
+        front.style.transform = OUT[dir];
+        back.style.transform = "translate(0%,0%)";
+
+        setTimeout(() => {
+          front.style.transition = `transform ${ease}`;
+          back.style.transition = `transform ${ease}`;
+          front.style.transform = "translate(0%,0%)";
+          back.style.transform = IN_START[dir];
+
+          setTimeout(() => {
+            el.dataset.animating = "false";
+          }, 150);
+        }, 400);
       });
-      spanRef.current.textContent = output.join("");
-      if (!done) rafRef.current = requestAnimationFrame(render);
-    };
+    });
+  }, []);
 
-    rafRef.current = requestAnimationFrame(render);
-  }, [text, scrambleFrames, staggerMs]);
-
-  // Trigger on mount
   useEffect(() => {
-    scramble();
-    return () => cancelAnimationFrame(rafRef.current);
-  }, [scramble]);
+    const container = containerRef.current;
+    if (!container) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const letters = Array.from(container.querySelectorAll<HTMLElement>("[data-letter]"));
+
+    const schedule = () => {
+      const idle = letters.filter((el) => el.dataset.animating !== "true");
+      if (idle.length > 0) triggerLetter(idle[Math.floor(Math.random() * idle.length)]);
+      timerRef.current = setTimeout(schedule, randomInterval);
+    };
+    timerRef.current = setTimeout(schedule, 800);
+
+    const handlers = letters.map((el) => {
+      const fn = () => triggerLetter(el);
+      el.addEventListener("mouseenter", fn);
+      return { el, fn };
+    });
+
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+      handlers.forEach(({ el, fn }) => el.removeEventListener("mouseenter", fn));
+    };
+  }, [text, randomInterval, triggerLetter]);
 
   return (
     <span
-      ref={spanRef}
-      className={cn("scramble-text", className)}
-      onMouseEnter={scramble}
+      ref={containerRef}
+      className={cn(className)}
       aria-label={text}
+      style={{ display: "inline-flex", alignItems: "baseline" }}
     >
-      {text}
+      {text.split("").map((char, i) => {
+        if (char === " ")
+          return <span key={i} style={{ display: "inline-block", width: "0.3em" }} />;
+        const dir = DIRS[i % DIRS.length];
+        return (
+          <span
+            key={i}
+            data-letter
+            data-dir={dir}
+            data-animating="false"
+            style={{ position: "relative", display: "inline-block", overflow: "hidden" }}
+          >
+            <span className="sl-f" style={{ display: "block", transform: "translate(0%,0%)" }}>
+              {char}
+            </span>
+            <span
+              className="sl-b"
+              style={{
+                position: "absolute",
+                inset: 0,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                transform: IN_START[dir],
+                ...STRIPE_STYLE,
+              }}
+            >
+              {char}
+            </span>
+          </span>
+        );
+      })}
     </span>
   );
 }
