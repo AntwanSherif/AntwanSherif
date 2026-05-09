@@ -64,7 +64,7 @@ export default function WorkSection() {
               </div>
             </div>
           </AccordionTrigger>
-          <AccordionContent className='p-0 ml-13 text-xs sm:text-sm text-muted-foreground'>
+          <AccordionContent className='p-0 ml-13 md:ml-15 text-xs sm:text-sm text-muted-foreground'>
             <Markdown
               components={{
                 strong: ({ children }) => <strong className='text-foreground font-semibold'>{children}</strong>,

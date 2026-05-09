@@ -113,7 +113,7 @@ export const DATA = {
       description: `*B2B SaaS startup digitizing local service providers across Europe*\n\n### Performance & Optimization\n- Removed performance bottlenecks, reducing initial page load from **5s → 400ms**, significantly improving retention and engagement\n\n### Modernization & Architecture\n- Migrated legacy micro-frontends (Elm) to React/TypeScript, delivering a more maintainable and scalable architecture\n- Introduced Cypress E2E test coverage, improving release confidence and reducing regressions\n- Standardized frontend tooling and practices, improving DX and delivery speed`
     },
     {
-      company: 'Vodafone Intelligent Solutions (_VOIS)',
+      company: 'Vodafone Intelligent Solutions (VOIS)',
       href: 'https://www.linkedin.com/company/vois',
       badges: [],
       location: 'Cairo, Egypt',

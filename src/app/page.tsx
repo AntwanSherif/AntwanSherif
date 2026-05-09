@@ -17,12 +17,12 @@ const BLUR_FADE_DELAY = 0.04;
 
 export default function Page() {
   return (
-    <main className='min-h-dvh flex flex-col gap-14 relative'>
-      <section id='hero' className='relative -mx-6 px-6 min-h-[80vh] flex items-center'>
-        {/* Particle field background */}
-        <SourceFieldClient className='absolute inset-0 opacity-40 pointer-events-none' />
+    <main className='min-h-dvh flex flex-col gap-10 sm:gap-14 relative'>
+      <section id='hero' className='relative min-h-[80vh] flex items-center'>
+        {/* Particle field background — extends beyond padding edges */}
+        <SourceFieldClient className='absolute inset-y-0 -left-6 -right-6 opacity-40 pointer-events-none' />
 
-        <div className='relative z-10 w-full max-w-2xl mx-auto space-y-6'>
+        <div className='relative z-10 w-full space-y-6'>
           <BlurFade delay={BLUR_FADE_DELAY}>
             <Avatar className='size-20 md:size-24 border rounded-full shadow-lg ring-2 ring-border'>
               <AvatarImage alt={DATA.name} src={DATA.avatarUrl} />
@@ -31,7 +31,7 @@ export default function Page() {
           </BlurFade>
 
           <BlurFade delay={BLUR_FADE_DELAY * 2}>
-            <h1 className='font-bricolage text-5xl sm:text-6xl lg:text-7xl tracking-tight text-foreground leading-none'>
+            <h1 className='font-bricolage text-4xl sm:text-5xl md:text-6xl lg:text-7xl tracking-tight text-foreground leading-none wrap-break-word'>
               <ScrambleText text={DATA.name} />
             </h1>
           </BlurFade>

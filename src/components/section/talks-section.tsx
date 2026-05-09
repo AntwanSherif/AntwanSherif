@@ -48,8 +48,8 @@ export default function TalksSection() {
               )}
 
               {/* Talk info */}
-              <div className="p-5 flex flex-col gap-3">
-                <div className="flex items-start justify-between gap-3">
+              <div className="p-4 sm:p-5 flex flex-col gap-3">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                   <div className="flex flex-col gap-1">
                     <h3 className="font-semibold text-base leading-snug">{talk.title}</h3>
                     <span className="text-xs font-medium text-[var(--accent-2)] uppercase tracking-wide">
