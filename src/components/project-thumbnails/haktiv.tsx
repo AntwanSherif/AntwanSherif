@@ -11,27 +11,32 @@ export function HaktivThumbnail() {
         <filter id="rev-h-sh">
           <feDropShadow dx="2" dy="4" stdDeviation="5" floodColor="rgba(0,0,0,0.6)" />
         </filter>
+        <clipPath id="haktiv-cup"><path d="M-22 -44 Q-20 -30 -18 -12 Q-15 4 0 8 Q15 4 18 -12 Q20 -30 22 -44 Z" /></clipPath>
       </defs>
       <rect width="400" height="200" fill="#0c0d14" />
       <rect width="400" height="200" fill="url(#rev-h-glow)" />
       <DotGrid />
       <g transform="translate(86, 100)" filter="url(#rev-h-sh)">
-        <ellipse cx="0" cy="-44" rx="22" ry="5" fill="#F0C542" />
-        <path
-          d="M-22 -44 Q-20 -30 -18 -12 Q-15 4 0 8 Q15 4 18 -12 Q20 -30 22 -44 Z"
-          fill="rgba(240,197,66,0.92)"
-          stroke="#F0C542"
-          strokeWidth="1.5"
-          strokeLinejoin="round"
-        />
-        <ellipse cx="0" cy="-44" rx="18" ry="3" fill="rgba(140,100,20,0.65)" />
-        <path d="M-22 -34 Q-38 -30 -38 -18 Q-38 -6 -24 -6" fill="none" stroke="#F0C542" strokeWidth="3" strokeLinecap="round" />
-        <path d="M22 -34 Q38 -30 38 -18 Q38 -6 24 -6" fill="none" stroke="#F0C542" strokeWidth="3" strokeLinecap="round" />
-        <path d="M-5 8 Q-7 14 -6 20 L6 20 Q7 14 5 8 Z" fill="#F0C542" />
-        <rect x="-18" y="20" width="36" height="6" fill="#F0C542" />
-        <rect x="-22" y="26" width="44" height="6" rx="1" fill="#F0C542" />
-        <ellipse cx="0" cy="32" rx="22" ry="2.5" fill="rgba(140,100,20,0.7)" />
-        <text x="0" y="-16" textAnchor="middle" fill="#1a0a04" fontSize="14" fontFamily="monospace" fontWeight="bold">$</text>
+        <g className="thumb-trophy">
+          <ellipse cx="0" cy="-44" rx="22" ry="5" fill="#F0C542" />
+          <path
+            d="M-22 -44 Q-20 -30 -18 -12 Q-15 4 0 8 Q15 4 18 -12 Q20 -30 22 -44 Z"
+            fill="rgba(240,197,66,0.92)"
+            stroke="#F0C542"
+            strokeWidth="1.5"
+            strokeLinejoin="round"
+          />
+          <ellipse cx="0" cy="-44" rx="18" ry="3" fill="rgba(140,100,20,0.65)" />
+          <path d="M-22 -34 Q-38 -30 -38 -18 Q-38 -6 -24 -6" fill="none" stroke="#F0C542" strokeWidth="3" strokeLinecap="round" />
+          <path d="M22 -34 Q38 -30 38 -18 Q38 -6 24 -6" fill="none" stroke="#F0C542" strokeWidth="3" strokeLinecap="round" />
+          <path d="M-5 8 Q-7 14 -6 20 L6 20 Q7 14 5 8 Z" fill="#F0C542" />
+          <rect x="-18" y="20" width="36" height="6" fill="#F0C542" />
+          <rect x="-22" y="26" width="44" height="6" rx="1" fill="#F0C542" />
+          <ellipse cx="0" cy="32" rx="22" ry="2.5" fill="rgba(140,100,20,0.7)" />
+          <g clipPath="url(#haktiv-cup)"><rect className="thumb-shine" x="-7" y="-50" width="9" height="64" fill="rgba(255,255,255,0.5)" /></g>
+          <ellipse className="thumb-gleam" cx="-8" cy="-30" rx="2.6" ry="10" fill="#fff7d6" />
+          <text x="0" y="-16" textAnchor="middle" fill="#1a0a04" fontSize="14" fontFamily="monospace" fontWeight="bold">$</text>
+        </g>
       </g>
       <rect x="172" y="38" width="212" height="126" rx="6"
         fill="rgba(248,248,248,0.03)" stroke="rgba(248,248,248,0.12)" strokeWidth="1" filter="url(#rev-h-sh)" />
@@ -45,7 +50,7 @@ export function HaktivThumbnail() {
       ].map(({ y, amt, bar }, i) => (
         <g key={i}>
           <circle cx="188" cy={y + 10} r="6" fill="rgba(248,248,248,0.06)" stroke="rgba(248,248,248,0.22)" strokeWidth="1" />
-          <rect x="202" y={y + 6} width={60 * bar + 20} height="3.5" rx="2" fill="rgba(248,248,248,0.2)" />
+          <rect className={`thumb-lb r${i + 1}`} x="202" y={y + 6} width={60 * bar + 20} height="3.5" rx="2" fill="rgba(248,248,248,0.2)" />
           <rect x="202" y={y + 13} width={40 * bar + 10} height="2.5" rx="1" fill="rgba(248,248,248,0.09)" />
           <text x="372" y={y + 14} textAnchor="end" fill="#F0C542" fontSize="11" fontFamily="monospace" fontWeight="bold">{amt}</text>
         </g>
