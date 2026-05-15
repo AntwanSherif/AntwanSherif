@@ -1,93 +1,91 @@
 import { DotGrid } from './dot-grid';
 
+function IGPost({ x, y }: { x: number; y: number }) {
+  const W = 96;
+  const PH = W;
+  return (
+    <g transform={`translate(${x},${y})`}>
+      <rect width={W} height={W + 60} rx="6" fill="#0a0a0f" stroke="rgba(255,255,255,0.22)" strokeWidth="1.2" />
+      <circle cx="14" cy="14" r="6" fill="rgba(168,85,247,0.55)" stroke="rgba(168,85,247,0.7)" strokeWidth="0.8" />
+      <rect x="24" y="10" width="28" height="3.5" rx="1.5" fill="rgba(255,255,255,0.35)" />
+      <rect x="24" y="16" width="18" height="2.5" rx="1" fill="rgba(255,255,255,0.18)" />
+      <rect x={W - 18} y="7" width="13" height="13" rx="3.5" fill="none" stroke="rgba(255,255,255,0.7)" strokeWidth="1.2" />
+      <circle cx={W - 11.5} cy="13.5" r="3.8" fill="none" stroke="rgba(255,255,255,0.7)" strokeWidth="1" />
+      <circle cx={W - 7.5} cy="9.5" r="1" fill="rgba(255,255,255,0.8)" />
+      <line x1="0" y1="28" x2={W} y2="28" stroke="rgba(255,255,255,0.08)" strokeWidth="0.8" />
+      <rect x="0" y="28" width={W} height={PH} fill="rgba(168,85,247,0.28)" />
+      <polygon points={`${W * 0.4},28 ${W * 0.6},28 ${W * 0.75},${28 + PH} ${W * 0.25},${28 + PH}`} fill="rgba(236,72,153,0.18)" />
+      <line x1="0" y1={28 + PH} x2={W} y2={28 + PH} stroke="rgba(255,255,255,0.08)" strokeWidth="0.8" />
+      <path d={`M10 ${28 + PH + 9} Q8 ${28 + PH + 6} 10 ${28 + PH + 3} Q12 ${28 + PH + 6} 10 ${28 + PH + 9} Z`} fill="rgba(255,255,255,0.6)" />
+      <circle cx="22" cy={28 + PH + 6} r="3.5" fill="none" stroke="rgba(255,255,255,0.45)" strokeWidth="1" />
+      <path
+        d={`M32 ${28 + PH + 3} L42 ${28 + PH + 6} L32 ${28 + PH + 9}`}
+        fill="none"
+        stroke="rgba(255,255,255,0.45)"
+        strokeWidth="1"
+        strokeLinejoin="round"
+      />
+      <rect x="6" y={28 + PH + 16} width="50" height="2.5" rx="1" fill="rgba(255,255,255,0.22)" />
+      <rect x="6" y={28 + PH + 22} width="35" height="2.5" rx="1" fill="rgba(255,255,255,0.14)" />
+    </g>
+  );
+}
+
 export function InstaSuperEditThumbnail() {
   return (
     <svg viewBox="0 0 400 200" className="w-full h-full block">
       <defs>
-        <radialGradient id="rev-ise-glow" cx="50%" cy="40%" r="55%">
-          <stop offset="0%" stopColor="#a855f7" stopOpacity="0.16" />
+        <radialGradient id="ise-glow" cx="28%" cy="40%" r="45%">
+          <stop offset="0%" stopColor="#a855f7" stopOpacity="0.18" />
           <stop offset="100%" stopColor="#a855f7" stopOpacity="0" />
         </radialGradient>
-        <filter id="rev-ise-sh">
+        <filter id="ise-shadow">
           <feDropShadow dx="2" dy="4" stdDeviation="6" floodColor="rgba(0,0,0,0.6)" />
         </filter>
       </defs>
       <rect width="400" height="200" fill="#08000e" />
-      <rect width="400" height="200" fill="url(#rev-ise-glow)" />
+      <rect width="400" height="200" fill="url(#ise-glow)" />
       <DotGrid />
-      <g transform="translate(10, 0)">
-        <polygon points="30,28 38,28 60,142 50,142" fill="rgba(236,72,153,0.24)" />
-        <polygon points="48,28 56,28 80,142 66,142" fill="rgba(168,85,247,0.22)" />
-        <polygon points="66,28 74,28 96,142 82,142" fill="rgba(77,208,225,0.2)" />
-        <polygon points="14,142 102,142 92,160 24,160" fill="rgba(248,248,248,0.07)" stroke="rgba(248,248,248,0.2)" strokeWidth="1" />
-        <g transform="translate(58, 104)">
-          <circle cx="0" cy="-22" r="7" fill="rgba(248,248,248,0.85)" />
-          <path d="M-9 -12 L-11 18 L-7 38 L7 38 L11 18 L9 -12 Z" fill="rgba(248,248,248,0.85)" />
-          <path d="M-9 -10 L-22 -14 L-22 -10 L-7 -6 Z" fill="rgba(248,248,248,0.85)" />
+      <g transform="translate(8,0)">
+        <polygon points="28,26 36,26 58,142 48,142" fill="rgba(236,72,153,0.24)" />
+        <polygon points="46,26 54,26 78,142 64,142" fill="rgba(168,85,247,0.22)" />
+        <polygon points="64,26 72,26 92,142 78,142" fill="rgba(77,208,225,0.2)" />
+        <polygon points="12,142 102,142 92,160 22,160" fill="rgba(248,248,248,0.08)" stroke="rgba(248,248,248,0.22)" strokeWidth="1" />
+        <image href="/thumbnails/freddie-nobg.png" x="8" y="37" width="98" height="112" preserveAspectRatio="xMidYMax meet" />
+        <g filter="url(#ise-shadow)" transform="rotate(-10 95 50)">
+          <rect x="80" y="40" width="28" height="20" rx="2.5" fill="rgba(248,248,248,0.1)" stroke="rgba(236,72,153,0.6)" strokeWidth="1.2" />
+          <rect x="86" y="44" width="16" height="12" rx="1" fill="none" stroke="rgba(236,72,153,0.85)" strokeWidth="0.9" />
+          <circle cx="94" cy="50" r="2.8" fill="none" stroke="rgba(236,72,153,0.85)" strokeWidth="0.9" />
+          <circle cx="89" cy="46.5" r="0.7" fill="rgba(236,72,153,0.85)" />
         </g>
-        <line x1="36" y1="80" x2="36" y2="142" stroke="rgba(248,248,248,0.4)" strokeWidth="1.1" />
-        <ellipse cx="36" cy="80" rx="3" ry="4" fill="#F0C542" />
-        <ellipse cx="36" cy="80" rx="1.5" ry="2.5" fill="rgba(240,197,66,0.65)" />
-        {[18, 30, 42, 54, 66, 78, 90, 102].map((x, i) => (
-          <ellipse key={i} cx={x} cy={176} rx={i % 2 === 0 ? 5.5 : 4.5} ry={i % 2 === 0 ? 10 : 8}
-            fill="rgba(0,0,0,0.65)" stroke="rgba(248,248,248,0.22)" strokeWidth="0.7" />
-        ))}
-        <g filter="url(#rev-ise-sh)" transform="rotate(-10 90 50)">
-          <rect x="78" y="42" width="26" height="18" rx="2" fill="rgba(248,248,248,0.12)" stroke="rgba(236,72,153,0.55)" strokeWidth="1.2" />
-          <rect x="84" y="48" width="14" height="8" rx="1" fill="none" stroke="rgba(236,72,153,0.85)" strokeWidth="0.9" />
-          <circle cx="91" cy="52" r="2.2" fill="none" stroke="rgba(236,72,153,0.85)" strokeWidth="0.9" />
-          <circle cx="86.5" cy="49.5" r="0.6" fill="rgba(236,72,153,0.85)" />
-        </g>
-        <g filter="url(#rev-ise-sh)" transform="rotate(8 100 78)">
-          <rect x="86" y="68" width="26" height="18" rx="2" fill="rgba(248,248,248,0.12)" stroke="rgba(168,85,247,0.55)" strokeWidth="1.2" />
-          <polygon points="94,73 94,82 102,77.5" fill="rgba(168,85,247,0.85)" />
+        <g filter="url(#ise-shadow)" transform="rotate(8 100 78)">
+          <rect x="86" y="68" width="26" height="20" rx="2.5" fill="rgba(248,248,248,0.1)" stroke="rgba(168,85,247,0.6)" strokeWidth="1.2" />
+          <polygon points="94.8,73.8 94.8,83.8 104.8,78.8" fill="rgba(168,85,247,0.9)" />
         </g>
       </g>
-      <g stroke="rgba(248,248,248,0.3)" strokeWidth="1.3" fill="none" strokeLinecap="round">
-        <line x1="122" y1="100" x2="150" y2="100" />
-        <path d="M145 94 L152 100 L145 106" />
+      <g stroke="rgba(248,248,248,0.32)" strokeWidth="1.4" fill="none" strokeLinecap="round">
+        <line x1="132" y1="100" x2="162" y2="100" />
+        <path d="M157 94 L164 100 L157 106" />
       </g>
-      <rect x="158" y="38" width="84" height="124" rx="8"
-        fill="rgba(240,197,66,0.1)" stroke="#F0C542" strokeWidth="1.6" filter="url(#rev-ise-sh)" />
-      <text x="200" y="76" textAnchor="middle" fill="#F0C542" fontSize="16" fontFamily="monospace" fontWeight="bold">AI</text>
-      <line x1="172" y1="84" x2="228" y2="84" stroke="rgba(240,197,66,0.18)" strokeWidth="0.8" />
+      <rect x="170" y="44" width="76" height="112" rx="8" fill="rgba(240,197,66,0.1)" stroke="#F0C542" strokeWidth="1.6" filter="url(#ise-shadow)" />
+      <text x="208" y="75" textAnchor="middle" fill="#F0C542" fontSize="16" fontFamily="monospace" fontWeight="bold">AI</text>
+      <line x1="180" y1="87" x2="236" y2="87" stroke="rgba(240,197,66,0.18)" strokeWidth="0.8" />
       {[
-        { l: 'Quality', v: 0.88, y: 100 },
-        { l: 'Rank', v: 0.72, y: 120 },
-        { l: 'Curate', v: 0.95, y: 140 },
+        { l: 'Quality', v: 0.88, y: 98 },
+        { l: 'Rank', v: 0.72, y: 116 },
+        { l: 'Curate', v: 0.95, y: 134 },
       ].map(({ l, v, y }) => (
         <g key={l}>
-          <text x="170" y={y + 6} fill="rgba(240,197,66,0.55)" fontSize="7" fontFamily="monospace">{l}</text>
-          <rect x="200" y={y} width="32" height="8" rx="2" fill="rgba(240,197,66,0.1)" />
-          <rect x="200" y={y} width={32 * v} height="8" rx="2" fill="rgba(240,197,66,0.6)" />
+          <text x="178" y={y + 7} fill="rgba(240,197,66,0.55)" fontSize="7" fontFamily="monospace">{l}</text>
+          <rect x="210" y={y} width="28" height="8" rx="2" fill="rgba(240,197,66,0.1)" />
+          <rect x="210" y={y} width={28 * v} height="8" rx="2" fill="rgba(240,197,66,0.6)" />
         </g>
       ))}
-      <g stroke="rgba(248,248,248,0.3)" strokeWidth="1.3" fill="none" strokeLinecap="round">
-        <line x1="248" y1="100" x2="276" y2="100" />
-        <path d="M271 94 L278 100 L271 106" />
+      <g stroke="rgba(248,248,248,0.32)" strokeWidth="1.4" fill="none" strokeLinecap="round">
+        <line x1="252" y1="100" x2="282" y2="100" />
+        <path d="M277 94 L284 100 L277 106" />
       </g>
-      <g filter="url(#rev-ise-sh)">
-        <rect x="284" y="30" width="44" height="110" rx="6" fill="#0a0a0f" stroke="rgba(236,72,153,0.6)" strokeWidth="1.4" />
-        <rect x="296" y="34" width="20" height="3" rx="1.5" fill="rgba(248,248,248,0.15)" />
-        <rect x="288" y="42" width="36" height="9" fill="rgba(0,0,0,0.5)" />
-        <rect x="290" y="44" width="6" height="5" rx="1" fill="none" stroke="rgba(248,248,248,0.7)" strokeWidth="0.7" />
-        <circle cx="293" cy="46.5" r="1.4" fill="none" stroke="rgba(248,248,248,0.7)" strokeWidth="0.6" />
-        <rect x="316" y="44" width="6" height="5" rx="1.2" fill="none" stroke="rgba(248,248,248,0.7)" strokeWidth="0.7" />
-        <circle cx="319" cy="46.5" r="1.2" fill="none" stroke="rgba(248,248,248,0.7)" strokeWidth="0.6" />
-        <circle cx="320.5" cy="44.8" r="0.5" fill="rgba(248,248,248,0.8)" />
-        <rect x="288" y="54" width="36" height="56" rx="2" fill="rgba(236,72,153,0.4)" />
-        <path d="M293 122 Q290 119 293 116 Q296 119 293 122 Z" fill="rgba(248,248,248,0.7)" />
-        <circle cx="302" cy="119" r="2" fill="none" stroke="rgba(248,248,248,0.7)" strokeWidth="0.7" />
-        <path d="M310 116 L316 119 L310 122" fill="none" stroke="rgba(248,248,248,0.7)" strokeWidth="0.7" strokeLinejoin="round" />
-      </g>
-      <g filter="url(#rev-ise-sh)">
-        <rect x="336" y="44" width="44" height="110" rx="6" fill="#0a0a0f" stroke="rgba(168,85,247,0.55)" strokeWidth="1.4" />
-        <rect x="348" y="48" width="20" height="3" rx="1.5" fill="rgba(248,248,248,0.15)" />
-        <rect x="340" y="56" width="36" height="80" rx="2" fill="rgba(168,85,247,0.4)" />
-        <circle cx="358" cy="96" r="9" fill="rgba(0,0,0,0.45)" />
-        <polygon points="355,91 355,101 364,96" fill="rgba(248,248,248,0.9)" />
-        <rect x="342" y="58" width="9" height="9" rx="1.5" fill="none" stroke="rgba(248,248,248,0.6)" strokeWidth="0.7" />
-      </g>
+      <IGPost x={290} y={24} />
     </svg>
   );
 }
