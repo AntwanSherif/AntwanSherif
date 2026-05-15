@@ -12,10 +12,10 @@ function ProjectImage({ src, alt }: { src: string; alt: string }) {
   const [imageError, setImageError] = useState(false);
 
   if (!src || imageError) {
-    return <div className='w-full h-48 bg-muted' />;
+    return <div className='w-full aspect-[2/1] bg-muted' />;
   }
 
-  return <img src={src} alt={alt} className='w-full h-48 object-cover' onError={() => setImageError(true)} />;
+  return <img src={src} alt={alt} className='w-full aspect-[2/1] object-cover' onError={() => setImageError(true)} />;
 }
 
 interface Props {
@@ -63,25 +63,25 @@ export function ProjectCard({ title, href, description, dates, tags, link, image
         {href ? (
           <Link href={href} target='_blank' rel='noopener noreferrer' className='block'>
             {video ? (
-              <video src={video} autoPlay loop muted playsInline className='w-full h-48 object-cover' />
+              <video src={video} autoPlay loop muted playsInline className='w-full aspect-[2/1] object-cover' />
             ) : thumbnailSlot ? (
-              <div className='w-full h-48 overflow-hidden'>{thumbnailSlot}</div>
+              <div className='w-full aspect-[2/1] overflow-hidden'>{thumbnailSlot}</div>
             ) : image ? (
               <ProjectImage src={image} alt={title} />
             ) : (
-              <div className='w-full h-48 bg-muted' />
+              <div className='w-full aspect-[2/1] bg-muted' />
             )}
           </Link>
         ) : (
           <div>
             {video ? (
-              <video src={video} autoPlay loop muted playsInline className='w-full h-48 object-cover' />
+              <video src={video} autoPlay loop muted playsInline className='w-full aspect-[2/1] object-cover' />
             ) : thumbnailSlot ? (
-              <div className='w-full h-48 overflow-hidden'>{thumbnailSlot}</div>
+              <div className='w-full aspect-[2/1] overflow-hidden'>{thumbnailSlot}</div>
             ) : image ? (
               <ProjectImage src={image} alt={title} />
             ) : (
-              <div className='w-full h-48 bg-muted' />
+              <div className='w-full aspect-[2/1] bg-muted' />
             )}
           </div>
         )}
