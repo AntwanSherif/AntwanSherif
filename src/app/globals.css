@@ -276,6 +276,7 @@ html {
   z-index: 10;
   opacity: 0;
   transition: opacity 300ms;
+  will-change: opacity;
 }
 
 .spotlight-card:hover .spotlight-overlay {
