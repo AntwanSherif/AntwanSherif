@@ -47,11 +47,8 @@ export function InstaSuperEditThumbnail() {
       <rect width="400" height="200" fill="url(#ise-glow)" />
       <DotGrid />
       <g transform="translate(8,0)">
-        <polygon points="28,26 36,26 58,142 48,142" fill="rgba(236,72,153,0.24)" />
-        <polygon points="46,26 54,26 78,142 64,142" fill="rgba(168,85,247,0.22)" />
-        <polygon points="64,26 72,26 92,142 78,142" fill="rgba(77,208,225,0.2)" />
         <polygon points="12,142 102,142 92,160 22,160" fill="rgba(248,248,248,0.08)" stroke="rgba(248,248,248,0.22)" strokeWidth="1" />
-        <image href="/thumbnails/freddie-nobg.png" x="8" y="37" width="98" height="112" preserveAspectRatio="xMidYMax meet" />
+        <g className="thumb-freddie"><image href="/thumbnails/freddie-nobg.png" x="8" y="37" width="98" height="112" preserveAspectRatio="xMidYMax meet" /></g>
         <g filter="url(#ise-shadow)" transform="rotate(-10 95 50)">
           <rect x="80" y="40" width="28" height="20" rx="2.5" fill="rgba(248,248,248,0.1)" stroke="rgba(236,72,153,0.6)" strokeWidth="1.2" />
           <rect x="86" y="44" width="16" height="12" rx="1" fill="none" stroke="rgba(236,72,153,0.85)" strokeWidth="0.9" />
@@ -62,6 +59,9 @@ export function InstaSuperEditThumbnail() {
           <rect x="86" y="68" width="26" height="20" rx="2.5" fill="rgba(248,248,248,0.1)" stroke="rgba(168,85,247,0.6)" strokeWidth="1.2" />
           <polygon points="94.8,73.8 94.8,83.8 104.8,78.8" fill="rgba(168,85,247,0.9)" />
         </g>
+        <polygon className="thumb-beam b1" points="28,26 36,26 58,142 48,142" fill="rgba(236,72,153,0.24)" />
+        <polygon className="thumb-beam b2" points="46,26 54,26 78,142 64,142" fill="rgba(168,85,247,0.22)" />
+        <polygon className="thumb-beam b3" points="64,26 72,26 92,142 78,142" fill="rgba(77,208,225,0.2)" />
       </g>
       <g stroke="rgba(248,248,248,0.32)" strokeWidth="1.4" fill="none" strokeLinecap="round">
         <line x1="132" y1="100" x2="162" y2="100" />
