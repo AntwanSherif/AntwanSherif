@@ -191,18 +191,6 @@ export const DATA = {
       video: ''
     },
     {
-      title: 'Dinney',
-      href: '',
-      dates: 'Jun 2020 - Oct 2020',
-      active: false,
-      description:
-        'A Restaurant Reservation mobile app that helps clients and restaurant branch managers to reserve/manage reservations according to the partial re-opening rules set by Egyptian government during Covid-19 pandemic',
-      technologies: ['Next.js', 'React', 'React Native', 'React Query', 'Material-UI'],
-      links: [],
-      image: '',
-      video: ''
-    },
-    {
       title: '12AM Thoughts',
       href: '',
       dates: 'Apr 2020 - Aug 2020',
@@ -215,13 +203,13 @@ export const DATA = {
       video: ''
     },
     {
-      title: '21Farmer',
+      title: 'Dinney',
       href: '',
-      dates: 'Feb 2020 - Jun 2020',
+      dates: 'Jun 2020 - Oct 2020',
       active: false,
       description:
-        'Cloud-based precision agriculture platform — combining IoT sensor hardware with a web dashboard for real-time soil health monitoring, automated irrigation control, and multi-plot field tracking via interactive map visualizations.',
-      technologies: ['Next.js', 'React', 'Redux', 'Mapbox', 'Material-UI'],
+        'A Restaurant Reservation mobile app that helps clients and restaurant branch managers to reserve/manage reservations according to the partial re-opening rules set by Egyptian government during Covid-19 pandemic',
+      technologies: ['Next.js', 'React', 'React Native', 'React Query', 'Material-UI'],
       links: [],
       image: '',
       video: ''
@@ -241,6 +229,18 @@ export const DATA = {
           icon: <Icons.globe className='size-3' />
         }
       ],
+      image: '',
+      video: ''
+    },
+    {
+      title: '21Farmer',
+      href: '',
+      dates: 'Feb 2020 - Jun 2020',
+      active: false,
+      description:
+        'Cloud-based precision agriculture platform — combining IoT sensor hardware with a web dashboard for real-time soil health monitoring, automated irrigation control, and multi-plot field tracking via interactive map visualizations.',
+      technologies: ['Next.js', 'React', 'Redux', 'Mapbox', 'Material-UI'],
+      links: [],
       image: '',
       video: ''
     }
