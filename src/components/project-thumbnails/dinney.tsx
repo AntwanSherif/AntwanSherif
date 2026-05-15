@@ -7,18 +7,14 @@ export function DinneyThumbnail() {
       <DotGrid />
       <rect x="20" y="22" width="190" height="156" fill="none" stroke="rgba(248,248,248,0.2)" strokeWidth="1.2" />
       {[
-        { cx: 80, cy: 60, res: false },
-        { cx: 160, cy: 60, res: true },
-        { cx: 80, cy: 110, res: true },
-        { cx: 160, cy: 110, res: false },
-        { cx: 120, cy: 160, res: false },
+        { cx: 65, cy: 65, res: false },
+        { cx: 160, cy: 65, res: true },
+        { cx: 65, cy: 135, res: true },
+        { cx: 160, cy: 135, res: false },
       ].map(({ cx, cy, res }, i) => (
         <g key={i}>
-          <circle cx={cx} cy={cy} r="22" fill="none"
-            stroke={res ? 'rgba(240,197,66,0.55)' : 'rgba(248,248,248,0.16)'} strokeWidth="1.2" />
-          <circle cx={cx} cy={cy} r="13"
-            fill={res ? 'rgba(240,197,66,0.1)' : 'rgba(248,248,248,0.04)'}
-            stroke={res ? 'rgba(240,197,66,0.4)' : 'rgba(248,248,248,0.1)'} strokeWidth="1" />
+          <circle cx={cx} cy={cy} r="22" fill="none" stroke={res ? 'rgba(240,197,66,0.55)' : 'rgba(248,248,248,0.16)'} strokeWidth="1.2" />
+          <circle cx={cx} cy={cy} r="13" fill={res ? 'rgba(240,197,66,0.1)' : 'rgba(248,248,248,0.04)'} stroke={res ? 'rgba(240,197,66,0.4)' : 'rgba(248,248,248,0.1)'} strokeWidth="1" />
           {res && (
             <g>
               <line x1={cx - 4.5} y1={cy - 2} x2={cx - 4.5} y2={cy + 6} stroke="#F0C542" strokeWidth="1.4" strokeLinecap="round" />
@@ -38,9 +34,17 @@ export function DinneyThumbnail() {
         Array.from({ length: 5 }).map((_, t) => {
           const filled = [[0, 2], [1, 1], [2, 3], [3, 0], [4, 2], [5, 4], [6, 1], [2, 0]].some(([dd, tt]) => dd === d && tt === t);
           return (
-            <rect key={`${d}-${t}`} x={232 + d * 20} y={50 + t * 16} width="16" height="12" rx="2"
+            <rect
+              key={`${d}-${t}`}
+              x={232 + d * 20}
+              y={50 + t * 16}
+              width="16"
+              height="12"
+              rx="2"
               fill={filled ? 'rgba(240,197,66,0.5)' : 'rgba(248,248,248,0.05)'}
-              stroke={filled ? '#F0C542' : 'rgba(248,248,248,0.1)'} strokeWidth="0.7" />
+              stroke={filled ? '#F0C542' : 'rgba(248,248,248,0.1)'}
+              strokeWidth="0.7"
+            />
           );
         })
       )}
