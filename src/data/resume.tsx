@@ -160,13 +160,25 @@ export const DATA = {
   ],
   projects: [
     {
+      title: 'Insta Super Edit',
+      href: '',
+      dates: 'Apr 2026 - Present',
+      active: false,
+      description:
+        'AI-powered content curation tool for concert photographers and videographers. After a show, you have hundreds of raw photos and clips. The tool uses AI to score and curate the best 10–20 shots, then exports them in Instagram-ready formats (Stories, Reels, Posts) turning a 2 day effort into in minutes.',
+      technologies: ['Vercel AI SDK', 'Next.js', 'Bun', 'React', 'WebSocket', 'FFmpeg', 'TypeScript'],
+      links: [],
+      image: '',
+      video: ''
+    },
+    {
       title: 'HAKTIV',
       href: 'https://haktiv.com',
-      dates: 'Okt 2020 - Apr 2021',
+      dates: 'Oct 2020 - Apr 2021',
       active: false,
       description:
         'First bug bounty platform in the Middle East — connecting tech companies with top security researchers to responsibly disclose vulnerabilities.',
-      technologies: ['React.js', 'TypeScript', 'React Query'],
+      technologies: ['React', 'TypeScript', 'React Query'],
       links: [
         {
           type: 'Website',
@@ -241,7 +253,10 @@ export const DATA = {
         { src: '/talks/react-query/20221221_204955-01.jpeg', objectPosition: 'center top' }
       ],
       links: [
-        { label: 'Slides', href: 'https://slides.com/antwansherif/building-great-user-experiences-with-react-query/fullscreen' },
+        {
+          label: 'Slides',
+          href: 'https://slides.com/antwansherif/building-great-user-experiences-with-react-query/fullscreen'
+        },
         { label: 'GitHub', href: 'https://github.com/AntwanSherif/ux-with-react-query-talk' },
         { label: 'Demo', href: 'https://ux-with-react-query-talk.vercel.app/' }
       ]
