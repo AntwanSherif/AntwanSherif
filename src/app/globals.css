@@ -321,18 +321,81 @@ html {
   -webkit-mask-repeat: no-repeat;
 }
 
-/* ── Thumbnail animations ───────────────────────────────── */
-@keyframes sensor-pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
-}
+/* ── Thumbnail animations (always-on, RSC-safe, additive) ───────── */
+@keyframes moonBreath { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.03); } }
+@keyframes moonGlow   { 0%, 100% { opacity: .45; } 50% { opacity: 1; } }
+@keyframes moonStar   { 0%, 100% { opacity: .25; } 50% { opacity: .95; } }
+@keyframes connFlow   { to { stroke-dashoffset: -14; } }
+@keyframes receivePulse { 0%, 100% { opacity: .62; } 50% { opacity: 1; } }
+@keyframes freddieSway { 0%, 100% { transform: rotate(-1.5deg); } 50% { transform: rotate(1.5deg); } }
+@keyframes beamSweep  { 0%, 100% { transform: rotate(-7deg); } 50% { transform: rotate(7deg); } }
+@keyframes beamSweepB { 0%, 100% { transform: rotate(6deg); } 50% { transform: rotate(-6deg); } }
+@keyframes beamPulse  { 0%, 100% { opacity: .10; } 50% { opacity: .85; } }
+@keyframes waveEmit   { 0%, 100% { opacity: .12; } 55% { opacity: .6; } }
+@keyframes livePulse  { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }
+@keyframes signalUp   { to { stroke-dashoffset: -8; } }
+@keyframes barSoil  { 0% { transform: scaleX(1); } 20% { transform: scaleX(1.04); } 42% { transform: scaleX(.94); } 66% { transform: scaleX(1.025); } 84% { transform: scaleX(.97); } 100% { transform: scaleX(1); } }
+@keyframes barTemp  { 0% { transform: scaleX(1); } 16% { transform: scaleX(1.1); } 34% { transform: scaleX(.81); } 54% { transform: scaleX(1.07); } 72% { transform: scaleX(.88); } 88% { transform: scaleX(1.02); } 100% { transform: scaleX(1); } }
+@keyframes barYield { 0% { transform: scaleX(1); } 28% { transform: scaleX(1.025); } 50% { transform: scaleX(.95); } 70% { transform: scaleX(1.012); } 88% { transform: scaleX(.975); } 100% { transform: scaleX(1); } }
+@keyframes barHumid { 0% { transform: scaleX(1); } 22% { transform: scaleX(.91); } 46% { transform: scaleX(1.08); } 64% { transform: scaleX(.95); } 82% { transform: scaleX(1.04); } 100% { transform: scaleX(1); } }
+@keyframes trophyBreath { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.03); } }
+@keyframes shineSweep { 0% { transform: translateX(-30px) rotate(20deg); opacity: 0; } 12% { opacity: .85; } 45% { opacity: .85; } 57% { transform: translateX(30px) rotate(20deg); opacity: 0; } 100% { opacity: 0; } }
+@keyframes gleam { 0%, 100% { opacity: .12; } 50% { opacity: .55; } }
+@keyframes lbGrow { 0% { transform: scaleX(.55); } 55% { transform: scaleX(1); } 100% { transform: scaleX(1); } }
+@keyframes bookPulse { 0%, 100% { opacity: 0; } 45% { opacity: .6; } }
+@keyframes platePulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
 
-.sensor-pulse {
-  animation: sensor-pulse 2s ease-in-out infinite;
-}
+/* 12AM */
+.thumb-moon { transform-box: fill-box; transform-origin: center; animation: moonBreath 5s ease-in-out infinite; }
+.thumb-moonglow { animation: moonGlow 4s ease-in-out infinite; }
+.thumb-stars circle { transform-box: fill-box; transform-origin: center; animation: moonStar 3s ease-in-out infinite; }
+.thumb-stars circle:nth-child(2n) { animation-delay: .7s; }
+.thumb-stars circle:nth-child(3n) { animation-delay: 1.4s; }
+.thumb-stars circle:nth-child(5n) { animation-delay: 2s; }
+
+/* ElMawkaa */
+.thumb-flow { animation: connFlow 1.5s linear infinite; }
+.thumb-receive { animation: receivePulse 2.4s ease-in-out infinite; }
+
+/* Insta Super Edit */
+.thumb-freddie { transform-box: fill-box; transform-origin: 50% 100%; animation: freddieSway 3.8s ease-in-out infinite; }
+.thumb-beam { transform-box: fill-box; transform-origin: 50% 0%; }
+.thumb-beam.b1 { animation: beamSweep 4.2s ease-in-out infinite, beamPulse 1.6s ease-in-out infinite; }
+.thumb-beam.b2 { animation: beamSweepB 3.4s ease-in-out infinite, beamPulse 1.6s ease-in-out infinite .5s; }
+.thumb-beam.b3 { animation: beamSweep 4.8s ease-in-out infinite .6s, beamPulse 1.6s ease-in-out infinite 1s; }
+
+/* 21Farmer */
+.thumb-wave { animation: waveEmit 2.6s ease-in-out infinite; }
+.thumb-wave.w2 { animation-delay: .45s; }
+.thumb-wave.w3 { animation-delay: .9s; }
+.thumb-live { animation: livePulse 2s ease-in-out infinite; }
+.thumb-signal { animation: signalUp 1.3s linear infinite; }
+.thumb-bar { transform-box: fill-box; transform-origin: left center; animation-timing-function: ease-in-out; animation-iteration-count: infinite; }
+.thumb-bar.bSoil  { animation-name: barSoil;  animation-duration: 7s; }
+.thumb-bar.bTemp  { animation-name: barTemp;  animation-duration: 5.5s; animation-delay: .6s; }
+.thumb-bar.bYield { animation-name: barYield; animation-duration: 9.5s; }
+.thumb-bar.bHumid { animation-name: barHumid; animation-duration: 6.5s; animation-delay: 1.4s; }
+
+/* Haktiv */
+.thumb-trophy { transform-box: fill-box; transform-origin: center; animation: trophyBreath 3.8s ease-in-out infinite; }
+.thumb-shine { transform-box: fill-box; transform-origin: center; animation: shineSweep 4.5s ease-in-out infinite; }
+.thumb-gleam { animation: gleam 2.6s ease-in-out infinite; }
+.thumb-lb { transform-box: fill-box; transform-origin: left center; animation: lbGrow 4s ease-in-out infinite; }
+.thumb-lb.r2 { animation-delay: .5s; }
+.thumb-lb.r3 { animation-delay: 1s; }
+.thumb-lb.r4 { animation-delay: 1.5s; }
+
+/* Dinney */
+.thumb-book { opacity: 0; animation: bookPulse 3.4s ease-in-out infinite; }
+.thumb-book.b2 { animation-delay: 1.2s; }
+.thumb-book.b3 { animation-delay: 2.3s; }
+.thumb-plate { transform-box: fill-box; transform-origin: center; animation: platePulse 3.6s ease-in-out infinite; }
+.thumb-plate.p2 { animation-delay: 1.1s; }
 
 @media (prefers-reduced-motion: reduce) {
-  .sensor-pulse {
-    animation: none;
+  .thumb-moon, .thumb-moonglow, .thumb-stars circle, .thumb-flow, .thumb-receive,
+  .thumb-freddie, .thumb-beam, .thumb-wave, .thumb-live, .thumb-signal, .thumb-bar,
+  .thumb-trophy, .thumb-shine, .thumb-gleam, .thumb-lb, .thumb-book, .thumb-plate {
+    animation: none !important;
   }
 }
