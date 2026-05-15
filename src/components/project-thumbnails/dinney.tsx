@@ -13,16 +13,21 @@ export function DinneyThumbnail() {
         { cx: 160, cy: 135, res: false },
       ].map(({ cx, cy, res }, i) => (
         <g key={i}>
-          <circle cx={cx} cy={cy} r="22" fill="none" stroke={res ? 'rgba(240,197,66,0.55)' : 'rgba(248,248,248,0.16)'} strokeWidth="1.2" />
-          <circle cx={cx} cy={cy} r="13" fill={res ? 'rgba(240,197,66,0.1)' : 'rgba(248,248,248,0.04)'} stroke={res ? 'rgba(240,197,66,0.4)' : 'rgba(248,248,248,0.1)'} strokeWidth="1" />
-          {res && (
-            <g>
+          {res ? (
+            <g className={`thumb-plate ${i === 1 ? 'p1' : 'p2'}`}>
+              <circle cx={cx} cy={cy} r="22" fill="none" stroke="rgba(240,197,66,0.55)" strokeWidth="1.2" />
+              <circle cx={cx} cy={cy} r="13" fill="rgba(240,197,66,0.1)" stroke="rgba(240,197,66,0.4)" strokeWidth="1" />
               <line x1={cx - 4.5} y1={cy - 2} x2={cx - 4.5} y2={cy + 6} stroke="#F0C542" strokeWidth="1.4" strokeLinecap="round" />
               <line x1={cx - 6.5} y1={cy - 6} x2={cx - 6.5} y2={cy - 2} stroke="#F0C542" strokeWidth="1" strokeLinecap="round" />
               <line x1={cx - 4.5} y1={cy - 7} x2={cx - 4.5} y2={cy - 2} stroke="#F0C542" strokeWidth="1" strokeLinecap="round" />
               <line x1={cx - 2.5} y1={cy - 6} x2={cx - 2.5} y2={cy - 2} stroke="#F0C542" strokeWidth="1" strokeLinecap="round" />
               <line x1={cx + 4.5} y1={cy + 1} x2={cx + 4.5} y2={cy + 6} stroke="#F0C542" strokeWidth="1.4" strokeLinecap="round" />
               <path d={`M${cx + 3} ${cy - 7} L${cx + 3} ${cy} L${cx + 6} ${cy} Z`} fill="#F0C542" />
+            </g>
+          ) : (
+            <g>
+              <circle cx={cx} cy={cy} r="22" fill="none" stroke="rgba(248,248,248,0.16)" strokeWidth="1.2" />
+              <circle cx={cx} cy={cy} r="13" fill="rgba(248,248,248,0.04)" stroke="rgba(248,248,248,0.1)" strokeWidth="1" />
             </g>
           )}
         </g>
@@ -48,6 +53,9 @@ export function DinneyThumbnail() {
           );
         })
       )}
+      <rect className="thumb-book b1" x="292" y="82" width="16" height="12" rx="2" fill="#F0C542" />
+      <rect className="thumb-book b2" x="332" y="66" width="16" height="12" rx="2" fill="#F0C542" />
+      <rect className="thumb-book b3" x="232" y="114" width="16" height="12" rx="2" fill="#F0C542" />
       <rect x="224" y="152" width="156" height="26" rx="4" fill="rgba(248,248,248,0.02)" stroke="rgba(248,248,248,0.1)" strokeWidth="1" />
       <text x="232" y="170" fill="rgba(248,248,248,0.4)" fontSize="9" fontFamily="monospace">PARTY</text>
       {[0, 1, 2].map(i => (
