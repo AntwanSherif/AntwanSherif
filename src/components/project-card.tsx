@@ -107,9 +107,9 @@ export function ProjectCard({ title, href, description, dates, tags, link, image
           </div>
         )}
         {status === 'in-progress' && (
-          <div className='absolute top-2 left-2 flex flex-wrap gap-2'>
+          <div role='status' aria-label='Status: In Progress' className='absolute top-2 left-2 flex flex-wrap gap-2'>
             <Badge
-              className='flex items-center gap-1.5 text-xs bg-[#F0C542] text-black hover:bg-[#F0C542]/90'
+              className='flex items-center gap-1.5 text-xs bg-[var(--accent-1)] text-black hover:bg-[var(--accent-1)]/90'
               variant='default'
             >
               In Progress
