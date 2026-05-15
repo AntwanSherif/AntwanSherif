@@ -173,16 +173,16 @@ export const DATA = {
     },
     {
       title: 'HAKTIV',
-      href: 'https://haktiv.com',
+      href: 'https://www.haktiv.ai',
       dates: 'Oct 2020 - Apr 2021',
       active: false,
       description:
-        'First bug bounty platform in the Middle East — connecting tech companies with top security researchers to responsibly disclose vulnerabilities.',
+        'First bug bounty and crowdsourced penetration testing platform in the Middle East and Africa — a marketplace connecting tech companies with vetted security researchers to responsibly disclose vulnerabilities.\n\nThe company has since rebranded as **Haktiv AI**, pivoting to AI-powered GRC compliance automation, now backed by Microsoft, Misk, and Plug and Play.',
       technologies: ['React', 'TypeScript', 'React Query'],
       links: [
         {
           type: 'Website',
-          href: 'https://haktiv.com',
+          href: 'https://www.haktiv.ai',
           icon: <Icons.globe className='size-3' />
         }
       ],
@@ -219,7 +219,7 @@ export const DATA = {
       dates: 'Feb 2020 - Jun 2020',
       active: false,
       description:
-        'A cloud-based IoT solution that provides data & analytics to farmers to make informed decisions and to enhance land performance and resource utilization.',
+        'Cloud-based precision agriculture platform — combining IoT sensor hardware with a web dashboard for real-time soil health monitoring, automated irrigation control, and multi-plot field tracking via interactive map visualizations.',
       technologies: ['Next.js', 'React', 'Redux', 'Mapbox', 'Material-UI'],
       links: [],
       image: '',
@@ -227,13 +227,19 @@ export const DATA = {
     },
     {
       title: 'ElMawkaa',
-      href: '',
+      href: 'https://www.wamda.com/2024/10/ayen-acquires-elmawkaa-seven-figure-deal',
       dates: 'Jun 2018 - Jan 2019',
       active: false,
       description:
-        'A marketplace platform connecting all stakeholders in the construction and architecture sector from engineers, investors and suppliers in the MENA region. It provides services such as consulting, materials marketplace, etc.',
+        'Egyptian ConTech B2B marketplace — connecting contractors, engineers, and property owners with vetted building material suppliers across MENA. Replaced fragmented, phone-based procurement with a matching algorithm that surfaces competing supplier bids within minutes.\n\n**Acquired by Ayen** (Saudi PropTech leader) in an SAR seven-figure deal (Oct 2024). Traction: **65K app downloads**, **90K unique website visits**, **+20% MoM GMV growth**, **1.3K+ suppliers** and **8K+ contractors** onboarded.',
       technologies: ['React', 'Redux', 'firebase', 'Material-UI'],
-      links: [],
+      links: [
+        {
+          type: 'Acquired by Ayen',
+          href: 'https://www.wamda.com/2024/10/ayen-acquires-elmawkaa-seven-figure-deal',
+          icon: <Icons.globe className='size-3' />
+        }
+      ],
       image: '',
       video: ''
     }
