@@ -20,8 +20,16 @@ One pre-existing thumbnail bug is fixed as part of this work (12AM moon).
 
 ## Phase A — Wider cards
 
-- `src/components/section/projects-section.tsx`: the grid wrapper
-  `max-w-200` → `max-w-280` (≈1120px; 2-col stays, cards ≈554px).
+- **Layout width (revised after live review):** the root container in
+  `src/app/layout.tsx` was the bottleneck — `max-w-2xl` (~672px) clamped
+  *every* section, so widening only the projects grid did nothing and a
+  per-section breakout looked inconsistent. Final decision: widen the global
+  container to `max-w-[816px]` (≈768px content after `px-6`) so ALL sections
+  share one uniform width, and set the projects grid to `w-full` (fills the
+  container, no separate `max-w` cap). Net project cards ≈378px — meaningfully
+  wider than the original ~306px, consistent with every other section.
+- (Superseded: the earlier `max-w-200`→`max-w-280` grid-only tweak — the grid
+  cap is irrelevant once the container governs width uniformly.)
 - `src/components/project-card.tsx`: the three thumbnail containers
   `w-full h-48 overflow-hidden` (and the two `bg-muted` fallbacks and
   `ProjectImage`/`video` branches) change the fixed `h-48` to an aspect box
