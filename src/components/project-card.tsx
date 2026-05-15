@@ -28,6 +28,7 @@ interface Props {
   image?: string;
   video?: string;
   thumbnailSlot?: React.ReactNode;
+  status?: 'in-progress';
   links?: readonly {
     icon: React.ReactNode;
     type: string;
@@ -36,7 +37,7 @@ interface Props {
   className?: string;
 }
 
-export function ProjectCard({ title, href, description, dates, tags, link, image, video, thumbnailSlot, links, className }: Props) {
+export function ProjectCard({ title, href, description, dates, tags, link, image, video, thumbnailSlot, status, links, className }: Props) {
   const cardRef = useRef<HTMLDivElement>(null);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -103,6 +104,16 @@ export function ProjectCard({ title, href, description, dates, tags, link, image
                 </Badge>
               </Link>
             ))}
+          </div>
+        )}
+        {status === 'in-progress' && (
+          <div className='absolute top-2 left-2 flex flex-wrap gap-2'>
+            <Badge
+              className='flex items-center gap-1.5 text-xs bg-[#F0C542] text-black hover:bg-[#F0C542]/90'
+              variant='default'
+            >
+              In Progress
+            </Badge>
           </div>
         )}
       </div>

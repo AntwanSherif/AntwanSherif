@@ -164,6 +164,7 @@ export const DATA = {
       href: '',
       dates: 'Apr 2026 - Present',
       active: false,
+      status: 'in-progress',
       description:
         'AI-powered content curation tool for concert photographers and videographers. After a show, you have hundreds of raw photos and clips. The tool uses AI to score and curate the best 10–20 shots, then exports them in Instagram-ready formats (Stories, Reels, Posts) turning a 2 day effort into in minutes.',
       technologies: ['Vercel AI SDK', 'Next.js', 'Bun', 'React', 'WebSocket', 'FFmpeg', 'TypeScript'],

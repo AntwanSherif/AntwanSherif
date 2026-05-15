@@ -37,6 +37,7 @@ export default function ProjectsSection() {
                 image={project.image}
                 video={project.video}
                 links={project.links}
+                status={'status' in project ? project.status : undefined}
                 thumbnailSlot={THUMBNAIL_MAP[project.title]}
               />
             </BlurFade>
