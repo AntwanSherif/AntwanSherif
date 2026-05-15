@@ -28,35 +28,36 @@ export function TwentyOneFarmerThumbnail() {
       <text x="106" y="156" textAnchor="middle" fill="rgba(34,197,94,0.36)" fontSize="8" fontFamily="monospace">SUBSOIL</text>
       {[60, 106, 152].map((cx, i) => (
         <g key={i} filter="url(#farmer-shadow)">
-          <line x1={cx} y1="22" x2={cx} y2="70" stroke="rgba(240,197,66,0.4)" strokeWidth="1" strokeDasharray="2,2" />
-          <path d={`M${cx - 8} 64 Q${cx} 56 ${cx + 8} 64`} fill="none" stroke="rgba(240,197,66,0.55)" strokeWidth="1.1" strokeLinecap="round" />
-          <path d={`M${cx - 12} 58 Q${cx} 44 ${cx + 12} 58`} fill="none" stroke="rgba(240,197,66,0.35)" strokeWidth="1.1" strokeLinecap="round" />
-          <path d={`M${cx - 15} 52 Q${cx} 34 ${cx + 15} 52`} fill="none" stroke="rgba(240,197,66,0.2)" strokeWidth="1" strokeLinecap="round" />
+          <line className="thumb-signal" x1={cx} y1="22" x2={cx} y2="70" stroke="rgba(240,197,66,0.4)" strokeWidth="1" strokeDasharray="2,2" />
+          <path className="thumb-wave w1" d={`M${cx - 8} 64 Q${cx} 56 ${cx + 8} 64`} fill="none" stroke="rgba(240,197,66,0.55)" strokeWidth="1.1" strokeLinecap="round" />
+          <path className="thumb-wave w2" d={`M${cx - 12} 58 Q${cx} 44 ${cx + 12} 58`} fill="none" stroke="rgba(240,197,66,0.35)" strokeWidth="1.1" strokeLinecap="round" />
+          <path className="thumb-wave w3" d={`M${cx - 15} 52 Q${cx} 34 ${cx + 15} 52`} fill="none" stroke="rgba(240,197,66,0.2)" strokeWidth="1" strokeLinecap="round" />
           <circle cx={cx} cy="70" r="6.5" fill="rgba(240,197,66,0.14)" stroke="#F0C542" strokeWidth="1.3" />
           <circle cx={cx} cy="70" r="3" fill="#F0C542" />
         </g>
       ))}
       <rect x="208" y="22" width="172" height="156" rx="4" fill="rgba(248,248,248,0.03)" stroke="rgba(248,248,248,0.12)" strokeWidth="1" filter="url(#farmer-shadow)" />
       <text x="216" y="36" fill="rgba(34,197,94,0.6)" fontSize="8" fontFamily="monospace">LIVE · SENSOR DATA</text>
-      <circle cx="370" cy="33" r="2.8" fill="#22c55e">
-        <animate attributeName="opacity" values="1;0.4;1" dur="2s" repeatCount="indefinite" />
-      </circle>
+      <circle className="thumb-live" cx="370" cy="33" r="2.8" fill="#22c55e" />
       <line x1="208" y1="42" x2="380" y2="42" stroke="rgba(248,248,248,0.08)" />
-      {[
-        { l: 'Soil', v: 0.75, y: 52 },
-        { l: 'Water', v: 0.55, y: 72 },
-        { l: 'Temp', v: 0.88, y: 92 },
-        { l: 'Yield', v: 0.65, y: 112 },
-        { l: 'pH', v: 0.72, y: 132 },
-        { l: 'Humid', v: 0.8, y: 152 },
-      ].map(({ l, v, y }) => (
-        <g key={l}>
-          <text x="216" y={y + 9} fill="rgba(248,248,248,0.35)" fontSize="7.5" fontFamily="monospace">{l}</text>
-          <rect x="248" y={y} width="100" height="11" rx="2" fill="rgba(34,197,94,0.1)" />
-          <rect x="248" y={y} width={100 * v} height="11" rx="2" fill="rgba(34,197,94,0.5)" />
-          <text x="372" y={y + 9} textAnchor="end" fill="rgba(34,197,94,0.7)" fontSize="8" fontFamily="monospace">{Math.round(v * 100)}%</text>
-        </g>
-      ))}
+      {(() => {
+        const barClass: Record<string, string> = { Soil: 'thumb-bar bSoil', Temp: 'thumb-bar bTemp', Yield: 'thumb-bar bYield', Humid: 'thumb-bar bHumid' };
+        return [
+          { l: 'Soil', v: 0.75, y: 52 },
+          { l: 'Water', v: 0.55, y: 72 },
+          { l: 'Temp', v: 0.88, y: 92 },
+          { l: 'Yield', v: 0.65, y: 112 },
+          { l: 'pH', v: 0.72, y: 132 },
+          { l: 'Humid', v: 0.8, y: 152 },
+        ].map(({ l, v, y }) => (
+          <g key={l}>
+            <text x="216" y={y + 9} fill="rgba(248,248,248,0.35)" fontSize="7.5" fontFamily="monospace">{l}</text>
+            <rect x="248" y={y} width="100" height="11" rx="2" fill="rgba(34,197,94,0.1)" />
+            <rect x="248" y={y} width={100 * v} height="11" rx="2" fill="rgba(34,197,94,0.5)" className={barClass[l]} />
+            <text x="372" y={y + 9} textAnchor="end" fill="rgba(34,197,94,0.7)" fontSize="8" fontFamily="monospace">{Math.round(v * 100)}%</text>
+          </g>
+        ));
+      })()}
     </svg>
   );
 }
