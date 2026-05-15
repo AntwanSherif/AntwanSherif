@@ -18,8 +18,8 @@ export function ElmawkaaThumbnail() {
           strokeWidth="1.2"
         />
         <rect y="20" width="140" height="130" rx="3" fill="rgba(240,197,66,0.04)" stroke="rgba(240,197,66,0.55)" strokeWidth="1.6" />
-        <text x="70" y="64" textAnchor="middle" fill="#F0C542" fontSize="15" fontFamily="monospace" fontWeight="bold" letterSpacing="2">MARKET</text>
-        <text x="70" y="84" textAnchor="middle" fill="#F0C542" fontSize="15" fontFamily="monospace" fontWeight="bold" letterSpacing="2">PLACE</text>
+        <text className="thumb-receive" x="70" y="64" textAnchor="middle" fill="#F0C542" fontSize="15" fontFamily="monospace" fontWeight="bold" letterSpacing="2">MARKET</text>
+        <text className="thumb-receive" x="70" y="84" textAnchor="middle" fill="#F0C542" fontSize="15" fontFamily="monospace" fontWeight="bold" letterSpacing="2">PLACE</text>
         {[10, 54, 98].map((x, i) => (
           <g key={i}>
             <rect x={x} y="102" width="32" height="42" rx="2" fill="rgba(248,248,248,0.04)" stroke="rgba(248,248,248,0.2)" strokeWidth="0.9" />
@@ -82,7 +82,7 @@ export function ElmawkaaThumbnail() {
         <rect x="0" y="34" width="58" height="8" rx="0 0 4 4" fill="rgba(217,119,6,0.22)" />
         <text x="29" y="41" textAnchor="middle" fill="rgba(217,119,6,0.9)" fontSize="7.5" fontFamily="monospace" fontWeight="bold">BRICK</text>
       </g>
-      <g stroke="rgba(240,197,66,0.35)" strokeWidth="1.1" strokeDasharray="4,3" fill="none">
+      <g className="thumb-flow" stroke="rgba(240,197,66,0.35)" strokeWidth="1.1" strokeDasharray="4,3" fill="none">
         <line x1="70" y1="52" x2="131" y2="72" />
         <line x1="330" y1="52" x2="270" y2="72" />
         <line x1="70" y1="148" x2="131" y2="130" />
