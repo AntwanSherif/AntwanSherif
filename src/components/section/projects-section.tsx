@@ -1,5 +1,6 @@
 import BlurFade from '@/components/magicui/blur-fade';
 import { ProjectCard } from '@/components/project-card';
+import { THUMBNAIL_MAP } from '@/components/project-thumbnails';
 import { DATA } from '@/data/resume';
 
 const BLUR_FADE_DELAY = 0.04;
@@ -12,7 +13,7 @@ export default function ProjectsSection() {
           <div className='flex items-center w-full'>
             <div className='flex-1 h-px bg-linear-to-r from-transparent from-5% via-border via-95% to-transparent' />
             <div className='border bg-primary z-10 rounded-xl px-4 py-1'>
-              <span className='text-background text-sm font-medium'>My Projects</span>
+              <span className='text-background text-sm font-medium'>Projects</span>
             </div>
             <div className='flex-1 h-px bg-linear-to-l from-transparent from-5% via-border via-95% to-transparent' />
           </div>
@@ -36,6 +37,7 @@ export default function ProjectsSection() {
                 image={project.image}
                 video={project.video}
                 links={project.links}
+                thumbnailSlot={THUMBNAIL_MAP[project.title]}
               />
             </BlurFade>
           ))}

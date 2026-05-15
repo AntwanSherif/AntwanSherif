@@ -27,6 +27,7 @@ interface Props {
   link?: string;
   image?: string;
   video?: string;
+  thumbnailSlot?: React.ReactNode;
   links?: readonly {
     icon: React.ReactNode;
     type: string;
@@ -35,7 +36,7 @@ interface Props {
   className?: string;
 }
 
-export function ProjectCard({ title, href, description, dates, tags, link, image, video, links, className }: Props) {
+export function ProjectCard({ title, href, description, dates, tags, link, image, video, thumbnailSlot, links, className }: Props) {
   const cardRef = useRef<HTMLDivElement>(null);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -61,6 +62,8 @@ export function ProjectCard({ title, href, description, dates, tags, link, image
         <Link href={href || '#'} target='_blank' rel='noopener noreferrer' className='block'>
           {video ? (
             <video src={video} autoPlay loop muted playsInline className='w-full h-48 object-cover' />
+          ) : thumbnailSlot ? (
+            <div className='w-full h-48 overflow-hidden'>{thumbnailSlot}</div>
           ) : image ? (
             <ProjectImage src={image} alt={title} />
           ) : (
