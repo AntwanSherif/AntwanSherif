@@ -2,7 +2,7 @@ import { DotGrid } from './dot-grid';
 
 export function InstaSuperEditThumbnail() {
   return (
-    <svg viewBox="0 0 400 200" style={{ width: '100%', height: '100%', display: 'block' }}>
+    <svg viewBox="0 0 400 200" className="w-full h-full block">
       <defs>
         <radialGradient id="rev-ise-glow" cx="50%" cy="40%" r="55%">
           <stop offset="0%" stopColor="#a855f7" stopOpacity="0.16" />

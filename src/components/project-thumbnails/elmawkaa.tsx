@@ -1,6 +1,6 @@
 export function ElmawkaaThumbnail() {
   return (
-    <svg viewBox="0 0 400 200" style={{ width: '100%', height: '100%', display: 'block' }}>
+    <svg viewBox="0 0 400 200" className="w-full h-full block">
       <defs>
         <clipPath id="rev-em-glass"><rect width="68" height="54" rx="6" /></clipPath>
         <clipPath id="rev-em-brick"><rect width="68" height="54" rx="6" /></clipPath>

@@ -319,3 +319,19 @@ html {
   mask-repeat: no-repeat;
   -webkit-mask-repeat: no-repeat;
 }
+
+/* ── Thumbnail animations ───────────────────────────────── */
+@keyframes sensor-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.sensor-pulse {
+  animation: sensor-pulse 2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sensor-pulse {
+    animation: none;
+  }
+}

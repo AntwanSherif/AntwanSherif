@@ -4,7 +4,7 @@ export function TwelveAmThumbnail() {
     [22, 40], [114, 52], [200, 18], [248, 46], [180, 108], [320, 98], [365, 160], [138, 148], [268, 118],
   ];
   return (
-    <svg viewBox="0 0 400 200" style={{ width: '100%', height: '100%', display: 'block' }}>
+    <svg viewBox="0 0 400 200" className="w-full h-full block">
       <defs>
         <filter id="rev-12-sh"><feDropShadow dx="4" dy="8" stdDeviation="8" floodColor="rgba(0,0,0,0.9)" /></filter>
         <filter id="rev-12-glow"><feGaussianBlur stdDeviation="16" /></filter>

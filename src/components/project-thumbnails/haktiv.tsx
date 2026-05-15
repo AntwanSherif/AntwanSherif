@@ -2,7 +2,7 @@ import { DotGrid } from './dot-grid';
 
 export function HaktivThumbnail() {
   return (
-    <svg viewBox="0 0 400 200" style={{ width: '100%', height: '100%', display: 'block' }}>
+    <svg viewBox="0 0 400 200" className="w-full h-full block">
       <defs>
         <radialGradient id="rev-h-glow" cx="22%" cy="50%" r="38%">
           <stop offset="0%" stopColor="#F0C542" stopOpacity="0.18" />

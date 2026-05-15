@@ -2,7 +2,7 @@ import { DotGrid } from './dot-grid';
 
 export function TwentyOneFarmerThumbnail() {
   return (
-    <svg viewBox="0 0 400 200" style={{ width: '100%', height: '100%', display: 'block' }}>
+    <svg viewBox="0 0 400 200" className="w-full h-full block">
       <defs>
         <radialGradient id="rev-f-glow" cx="50%" cy="50%" r="55%">
           <stop offset="0%" stopColor="#22c55e" stopOpacity="0.16" />
@@ -77,7 +77,7 @@ export function TwentyOneFarmerThumbnail() {
       <rect x="208" y="22" width="172" height="156" rx="4"
         fill="rgba(248,248,248,0.03)" stroke="rgba(248,248,248,0.12)" strokeWidth="1" filter="url(#rev-f-sh)" />
       <text x="216" y="36" fill="rgba(34,197,94,0.6)" fontSize="8" fontFamily="monospace">LIVE · SENSOR DATA</text>
-      <circle cx="370" cy="33" r="2.8" fill="#22c55e" />
+      <circle cx="370" cy="33" r="2.8" fill="#22c55e" className="sensor-pulse" />
       <line x1="208" y1="42" x2="380" y2="42" stroke="rgba(248,248,248,0.08)" />
       {[
         { l: 'Soil', v: 0.75, y: 52 },
