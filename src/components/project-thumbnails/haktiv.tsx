@@ -12,7 +12,7 @@ export function HaktivThumbnail() {
           <feDropShadow dx="2" dy="4" stdDeviation="5" floodColor="rgba(0,0,0,0.6)" />
         </filter>
       </defs>
-      <rect width="400" height="200" fill="#0A0A0F" />
+      <rect width="400" height="200" fill="#0c0d14" />
       <rect width="400" height="200" fill="url(#rev-h-glow)" />
       <DotGrid />
       <g transform="translate(86, 100)" filter="url(#rev-h-sh)">

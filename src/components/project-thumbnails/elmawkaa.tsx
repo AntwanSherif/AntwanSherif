@@ -5,7 +5,7 @@ export function ElmawkaaThumbnail() {
         <clipPath id="rev-em-glass"><rect width="68" height="54" rx="6" /></clipPath>
         <clipPath id="rev-em-brick"><rect width="68" height="54" rx="6" /></clipPath>
       </defs>
-      <rect width="400" height="200" fill="#0A0A0F" />
+      <rect width="400" height="200" fill="#0c0d14" />
       <g transform="translate(135, 38)">
         {[0, 1, 2, 3, 4, 5, 6].map(i => (
           <polygon key={i} points={`${10 + i * 17},0 ${4 + i * 17},14 ${16 + i * 17},14`}

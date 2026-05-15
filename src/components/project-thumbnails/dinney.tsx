@@ -3,7 +3,7 @@ import { DotGrid } from './dot-grid';
 export function DinneyThumbnail() {
   return (
     <svg viewBox="0 0 400 200" className="w-full h-full block">
-      <rect width="400" height="200" fill="#0A0A0F" />
+      <rect width="400" height="200" fill="#0c0d14" />
       <DotGrid />
       <rect x="20" y="22" width="190" height="156" fill="none" stroke="rgba(248,248,248,0.2)" strokeWidth="1.2" />
       {[
