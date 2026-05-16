@@ -55,7 +55,14 @@ html {
 
 :root {
   --radius: 0.625rem;
-  --spotlight-rgb: 8 145 178; /* accent-2 light */
+  /* Deep gold — pale gold washes out on the light surface, so light
+     mode uses a darker, more saturated gold at full alpha for contrast */
+  --spotlight-rgb: 161 98 7;
+  --spotlight-fill-alpha: 0.24;
+  --spotlight-border-alpha: 1;
+  --spotlight-fill-stop: 41%;
+  --spotlight-border-stop: 58%;
+  --spotlight-border-pad: 1px;
   /* Light palette */
   --background: #f8f8f8;
   --surface: #ffffff;
@@ -120,7 +127,12 @@ html {
   --accent-1: #f0c542;
   --accent-2: #4dd0e1;
   --accent-ai: #7c3aed;
-  --spotlight-rgb: 77 208 225; /* accent-2 dark */
+  --spotlight-rgb: 251 211 91; /* bright gold */
+  --spotlight-fill-alpha: 0.12;
+  --spotlight-border-alpha: 1;
+  --spotlight-fill-stop: 41%;
+  --spotlight-border-stop: 58%;
+  --spotlight-border-pad: 1px;
   --chart-1: oklch(0.488 0.243 264.376);
   --chart-2: oklch(0.696 0.17 162.48);
   --chart-3: oklch(0.769 0.188 70.08);
@@ -260,35 +272,19 @@ html {
 
 }
 
-/* ── Spotlight hover effect ─────────────────────────────── */
-.spotlight-card {
-  transition: border-color 300ms;
-}
+/* ── Spotlight hover effect ─────────────────────────────────────────
+   Structure (absolute fill, opacity, group-hover) lives in Tailwind on
+   the overlay elements. These rules only carry the cursor-tracked
+   gradient + border mask, which Tailwind can't express cleanly.
+   Color/intensity come from theme tokens so the same effect works in
+   both light and dark mode. */
 
-.spotlight-card:hover {
-  border-color: color-mix(in srgb, var(--accent-2) 40%, transparent);
-}
-
-.spotlight-overlay {
-  pointer-events: none;
-  position: absolute;
-  inset: 0;
-  z-index: 10;
-  opacity: 0;
-  transition: opacity 300ms;
-  will-change: opacity;
-}
-
-.spotlight-card:hover .spotlight-overlay {
-  opacity: 1;
-}
-
-/* Large fill — project & talk cards */
+/* Soft interior wash — project & talk cards */
 .spotlight-fill {
   background: radial-gradient(
-    600px circle at var(--mx, 50%) var(--my, 50%),
-    rgb(var(--spotlight-rgb) / 0.07) 0%,
-    transparent 50%
+    circle at var(--mx, 50%) var(--my, 50%),
+    rgb(var(--spotlight-rgb) / var(--spotlight-fill-alpha)) 0%,
+    transparent var(--spotlight-fill-stop, 52%)
   );
 }
 
@@ -296,29 +292,26 @@ html {
 .spotlight-fill-sm {
   background: radial-gradient(
     80px circle at var(--mx, 50%) var(--my, 50%),
-    rgb(var(--spotlight-rgb) / 0.12) 0%,
+    rgb(var(--spotlight-rgb) / calc(var(--spotlight-fill-alpha) + 0.06)) 0%,
     transparent 70%
   );
 }
 
-/* Border-only glow using mask */
+/* Localized border arc that tracks the cursor — bright center with a
+   tight falloff so only the portion of the border near the pointer
+   lights up. Masked to a 1px ring via xor/exclude compositing. */
 .spotlight-border {
   border-radius: inherit;
+  padding: var(--spotlight-border-pad, 1px);
   background: radial-gradient(
-    400px circle at var(--mx, 50%) var(--my, 50%),
-    rgb(var(--spotlight-rgb) / 0.15) 0%,
-    transparent 40%
+    circle at var(--mx, 50%) var(--my, 50%),
+    rgb(var(--spotlight-rgb) / var(--spotlight-border-alpha)) 0%,
+    transparent var(--spotlight-border-stop, 60%)
   );
-  mask-image: linear-gradient(black, black), linear-gradient(black, black);
-  -webkit-mask-image: linear-gradient(black, black), linear-gradient(black, black);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   mask-composite: exclude;
   -webkit-mask-composite: xor;
-  mask-size: calc(100% - 2px) calc(100% - 2px), 100% 100%;
-  -webkit-mask-size: calc(100% - 2px) calc(100% - 2px), 100% 100%;
-  mask-position: 1px 1px, 0 0;
-  -webkit-mask-position: 1px 1px, 0 0;
-  mask-repeat: no-repeat;
-  -webkit-mask-repeat: no-repeat;
 }
 
 /* ── Thumbnail animations (always-on, RSC-safe, additive) ───────── */
@@ -397,5 +390,9 @@ html {
   .thumb-freddie, .thumb-beam, .thumb-wave, .thumb-live, .thumb-signal, .thumb-bar,
   .thumb-trophy, .thumb-shine, .thumb-gleam, .thumb-lb, .thumb-book, .thumb-plate {
     animation: none !important;
+  }
+
+  .spotlight-fill, .spotlight-fill-sm, .spotlight-border {
+    transition: none;
   }
 }

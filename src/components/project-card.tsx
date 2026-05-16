@@ -53,12 +53,12 @@ export function ProjectCard({ title, href, description, dates, tags, link, image
       ref={cardRef}
       onMouseMove={handleMouseMove}
       className={cn(
-        'spotlight-card relative flex flex-col h-full border border-border rounded-xl overflow-hidden cursor-pointer',
+        'group relative flex flex-col h-full border border-border rounded-xl overflow-hidden cursor-pointer',
         className
       )}
     >
-      <div className='spotlight-overlay spotlight-fill' />
-      <div className='spotlight-overlay spotlight-border' />
+      <div className='spotlight-fill pointer-events-none absolute inset-0 z-10 opacity-0 transition-opacity duration-300 will-change-[opacity] group-hover:opacity-100' />
+      <div className='spotlight-border pointer-events-none absolute inset-0 z-10 opacity-0 transition-opacity duration-300 will-change-[opacity] group-hover:opacity-100' />
       <div className='relative shrink-0'>
         {href ? (
           <Link href={href} target='_blank' rel='noopener noreferrer' className='block'>

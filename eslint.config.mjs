@@ -10,6 +10,8 @@ const eslintConfig = defineConfig([
         'out/**',
         'build/**',
         'next-env.d.ts',
+        // Disposable agent worktree snapshots — not part of the app.
+        '.claude/**',
     ]),
 ])
 

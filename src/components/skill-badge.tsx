@@ -25,11 +25,11 @@ export function SkillBadge({ name, icon, className }: Props) {
       ref={ref}
       onMouseMove={handleMouseMove}
       className={cn(
-        'spotlight-card relative border bg-background border-border ring-2 ring-border/20 rounded-xl h-8 w-fit px-4 flex items-center gap-2 cursor-default overflow-hidden',
+        'group relative border bg-background border-border ring-2 ring-border/20 rounded-xl h-8 w-fit px-4 flex items-center gap-2 cursor-default overflow-hidden',
         className
       )}
     >
-      <div className='spotlight-overlay spotlight-fill-sm' />
+      <div className='spotlight-fill-sm pointer-events-none absolute inset-0 z-10 opacity-0 transition-opacity duration-300 will-change-[opacity] group-hover:opacity-100' />
       {icon && <span className='relative z-10 flex items-center'>{icon}</span>}
       <span className='text-foreground text-sm font-medium relative z-10'>{name}</span>
     </div>

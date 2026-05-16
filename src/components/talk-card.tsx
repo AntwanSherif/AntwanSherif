@@ -23,10 +23,10 @@ export function TalkCard({ talk, delay }: { talk: (typeof DATA.talks)[number]; d
       <div
         ref={ref}
         onMouseMove={handleMouseMove}
-        className='spotlight-card relative rounded-2xl border border-border bg-card overflow-hidden'
+        className='group relative rounded-2xl border border-border bg-card overflow-hidden'
       >
-        <div className='spotlight-overlay spotlight-fill' />
-        <div className='spotlight-overlay spotlight-border' />
+        <div className='spotlight-fill pointer-events-none absolute inset-0 z-10 opacity-0 transition-opacity duration-300 will-change-[opacity] group-hover:opacity-100' />
+        <div className='spotlight-border pointer-events-none absolute inset-0 z-10 opacity-0 transition-opacity duration-300 will-change-[opacity] group-hover:opacity-100' />
 
         {talk.images.length > 0 && (
           <div className='flex gap-2 overflow-x-auto p-3 scrollbar-none'>
