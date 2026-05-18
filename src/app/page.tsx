@@ -37,7 +37,9 @@ export default function Page() {
           </BlurFade>
 
           <BlurFade delay={BLUR_FADE_DELAY * 3}>
-            <p className='text-lg sm:text-xl text-muted-foreground max-w-md'>{DATA.description}</p>
+            <p className='text-base sm:text-lg lg:text-xl text-muted-foreground text-pretty leading-relaxed'>
+              {DATA.description}
+            </p>
           </BlurFade>
 
           <BlurFade delay={BLUR_FADE_DELAY * 4}>
