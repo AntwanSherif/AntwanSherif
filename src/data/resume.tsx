@@ -1,5 +1,7 @@
 import { Icons } from '@/components/icons';
-import { HomeIcon, NotebookIcon } from 'lucide-react';
+import { HomeIcon } from 'lucide-react';
+// NotebookIcon: re-add when the Blog nav entry below is restored
+// import { NotebookIcon } from 'lucide-react';
 import { ReactLight } from '@/components/ui/svgs/reactLight';
 import { NextjsIconDark } from '@/components/ui/svgs/nextjsIconDark';
 import { Typescript } from '@/components/ui/svgs/typescript';
@@ -50,8 +52,10 @@ export const DATA = {
     { name: 'CI/CD', icon: undefined }
   ],
   navbar: [
-    { href: '/', icon: HomeIcon, label: 'Home' },
-    { href: '/blog', icon: NotebookIcon, label: 'Blog' }
+    { href: '/', icon: HomeIcon, label: 'Home' }
+    // Blog hidden until real articles are published — restore this entry
+    // (and the NotebookIcon import above) to bring back the quick-nav icon:
+    // { href: '/blog', icon: NotebookIcon, label: 'Blog' }
   ],
   contact: {
     email: 'antwansherif@gmail.com',
