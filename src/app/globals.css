@@ -51,6 +51,17 @@ html {
   --color-accent-ai: var(--accent-ai);
   --color-surface: var(--surface);
   --font-bricolage: var(--font-bricolage), sans-serif;
+  /* Fluid type scale — clamp() with rem floor/ceiling so browser zoom and
+     user font-size preferences are still respected (no raw vw). Slopes
+     interpolate between a 320px floor and a ~1280px ceiling. */
+  --text-display: clamp(2.25rem, 1.5rem + 3.75vw, 4.5rem);
+  --text-display--line-height: 1;
+  --text-heading: clamp(1.875rem, 1.5rem + 1.875vw, 3rem);
+  --text-heading--line-height: 1.1;
+  --text-section: clamp(1.25rem, 1.125rem + 0.625vw, 1.625rem);
+  --text-section--line-height: 1.2;
+  --text-lead: clamp(1rem, 0.917rem + 0.417vw, 1.25rem);
+  --text-lead--line-height: 1.6;
 }
 
 :root {
