@@ -8,6 +8,8 @@ export type StarStory = {
   result: string;
 };
 
+export type UiSection = { title: string; placeholderCount: number };
+
 export type Story = {
   slug: string;
   company: string;
@@ -19,6 +21,7 @@ export type Story = {
   techTags: string[];
   problem: string;
   architectureFlow?: FlowStep[];
+  uiSections?: UiSection[];
   features?: Feature[];
   bulkUploadFlow?: FlowStep[];
   challenges?: string[];
@@ -141,14 +144,43 @@ export const stories: Story[] = [
     company: "Flink",
     role: "Senior Software Engineer",
     period: "Sep 2023 – Dec 2023",
-    initiative: "Maximum Discount Quantity (MDQ)",
+    initiative: "Maximum Discounted Quantity (MDQ)",
     tagline: "Introduced a per-item discount cap to stop bulk order abuse — units beyond the limit revert to full price, driving +5% average order value.",
     metrics: [
       { value: "+5% AOV", label: "avg order value" },
       { value: "4-yr-old", label: "cart code refactored" },
     ],
     techTags: ["React", "Next.js", "TypeScript"],
-    problem: "Customers were exploiting unlimited-quantity promotions to bulk-buy heavily discounted items, eroding margins. Fixing it required splitting a single cart product instance into two — a discounted portion and a full-price remainder — in a 4-year-old cart codebase that had never been designed for split instances, and with no dedicated QA team to catch regressions.",
+    problem:
+      "Flink offers a variety of promotions to boost customer retention. While effective at driving sales, the strategy faced challenges when customers placed large bulk orders of discounted products — straining the promotional budget and daily order management. To mitigate this while maintaining promotional value, we introduced Maximum Discounted Quantity (MDQ): a per-item limit on how many units in a cart are eligible for the promotional discount. Any units beyond the threshold revert to regular price.",
+    architectureFlow: [
+      { label: "Backoffice", sublabel: "MDQ config per promotion" },
+      { label: "Promotions Service", sublabel: "Stores MDQ limits" },
+      { label: "Cart Service", sublabel: "Splits item instances" },
+      { label: "Client", sublabel: "Shows discounted + full-price" },
+    ],
+    uiSections: [
+      { title: "Backoffice", placeholderCount: 3 },
+      { title: "Client", placeholderCount: 2 },
+    ],
+    challenges: [
+      "Defining the customer-facing experience without a dedicated designer — worked with the PM to design MDQ limits that felt intuitive and lightweight, ensuring users understood the cap without introducing entirely new patterns.",
+      "Replacing the raw-text MDQ config format (${productSKU}:${MDQvalue}) with a structured tabular interface — pushing back on the initial spec to prevent misconfiguration by non-technical Marketing & Commercial teams.",
+      "Critical path with high uncertainty — cart logic hadn't been touched in 4+ years, with little documentation. Even small changes risked ripple effects on core user flows and revenue.",
+      "Legacy single-instance cart design — the cart was built to handle one instance per product. MDQ required restructuring to support two instances (discounted + full-price) for the same item while preserving seamless UX.",
+      "App-wide impact — all dependent client-side logic (subtotals, product counts, validations) had to be adapted to the new two-instance model.",
+      "No QA team, minimal test coverage — proceeded cautiously with extensive manual regression testing at every step.",
+      "Cross-domain ownership — as part of the Pricing & Promotions team, stepped into Cart code for the first time to deliver the initiative end-to-end.",
+    ],
+    star: {
+      situation:
+        "Flink's promotions had no per-quantity cap — customers were bulk-buying discounted items and eroding margins. The fix required modifying the cart's core data model, a codebase no one on the Pricing & Promotions team had touched in 4+ years, with no QA safety net.",
+      task: "Own MDQ end-to-end — design the backoffice configuration interface, implement cart-side enforcement, and coordinate with backend to introduce the MDQ field in the promotions schema.",
+      action:
+        "I pushed back on the proposed raw-text config format and designed a structured tabular interface for the backoffice. On the cart side, I restructured the product instance model to support discounted + full-price splits, then manually regression tested all downstream logic — subtotals, counts, validations — to avoid revenue-impacting bugs.",
+      result:
+        "MDQ shipped across DE, NL, and FR with zero regressions on the critical cart path. The feature drove +5% AOV and gave the commercial team precise control over promotional budget exposure.",
+    },
   },
   {
     slug: "vendor-analytics-migration",

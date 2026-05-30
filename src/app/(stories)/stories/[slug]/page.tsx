@@ -98,7 +98,36 @@ export default async function StoryDetailPage({
         </section>
       )}
 
-      {/* ── Section 3: Features ─────────────────────────────────── */}
+      {/* ── Section 3: UI/UX ────────────────────────────────────── */}
+      {story.uiSections && story.uiSections.length > 0 && (
+        <section className="flex flex-col gap-6">
+          <BlurFade delay={BLUR_FADE_DELAY * 8} inView>
+            <h2 className="text-2xl font-bold tracking-tight text-foreground">UI / UX</h2>
+          </BlurFade>
+          {story.uiSections.map((section, si) => (
+            <BlurFade key={section.title} delay={BLUR_FADE_DELAY * (9 + si)} inView>
+              <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground/50 mb-3">
+                {section.title}
+              </p>
+              <div
+                className="grid gap-3"
+                style={{ gridTemplateColumns: `repeat(${Math.min(section.placeholderCount, 3)}, 1fr)` }}
+              >
+                {Array.from({ length: section.placeholderCount }).map((_, i) => (
+                  <div
+                    key={i}
+                    className="aspect-video rounded-xl bg-muted border border-border flex items-center justify-center"
+                  >
+                    <span className="text-xs text-muted-foreground/40">screenshot</span>
+                  </div>
+                ))}
+              </div>
+            </BlurFade>
+          ))}
+        </section>
+      )}
+
+      {/* ── Section 5: Features ─────────────────────────────────── */}
       {story.features && story.features.length > 0 && (
         <section className="flex flex-col gap-6">
           <BlurFade delay={BLUR_FADE_DELAY * 8} inView>
@@ -133,7 +162,7 @@ export default async function StoryDetailPage({
         </section>
       )}
 
-      {/* ── Section 4: Challenges & STAR ────────────────────────── */}
+      {/* ── Section 6: Challenges & STAR ────────────────────────── */}
       {(story.challenges || story.star) && (
         <section className="flex flex-col gap-8">
           {story.challenges && (
