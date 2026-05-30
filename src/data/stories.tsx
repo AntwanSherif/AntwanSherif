@@ -18,11 +18,11 @@ export type Story = {
   metrics: Metric[];
   techTags: string[];
   problem: string;
-  architectureFlow: FlowStep[];
-  features: Feature[];
-  bulkUploadFlow: FlowStep[];
-  challenges: string[];
-  star: StarStory;
+  architectureFlow?: FlowStep[];
+  features?: Feature[];
+  bulkUploadFlow?: FlowStep[];
+  challenges?: string[];
+  star?: StarStory;
 };
 
 export const stories: Story[] = [
@@ -121,5 +121,60 @@ export const stories: Story[] = [
       result:
         "Deployment time dropped from ~2 days to ~2 hours. The commercial team became fully self-serve, handling 500K–1M+ promotions per day without engineering involvement. Segment Promotions drove +12% add-to-cart and Range Promotions drove +18% AOV.",
     },
+  },
+  {
+    slug: "range-promotions",
+    company: "Flink",
+    role: "Senior Software Engineer",
+    period: "Jan 2024 – Jun 2024",
+    initiative: "Range Promotions",
+    tagline: "Enabled multi-SKU bundle promotions (e.g. add Pepsi + Red Bull + Fanta, get 20% off) — shipped across DE, NL, and FR, driving +18% average order value.",
+    metrics: [
+      { value: "+18% AOV", label: "avg order value" },
+      { value: "3 markets", label: "DE · NL · FR" },
+    ],
+    techTags: ["React", "Next.js", "TypeScript", "TanStack Query"],
+    problem: "Flink's promotions system only supported single-product discounts. Commercial teams wanted cross-category bundle offers — buy products from different brands, unlock a discount — but the backend schema had no concept of multi-SKU rules. The feature required coordinating across frontend, backend, and the promotions engine with no shared contract.",
+  },
+  {
+    slug: "mdq",
+    company: "Flink",
+    role: "Senior Software Engineer",
+    period: "Sep 2023 – Dec 2023",
+    initiative: "Maximum Discount Quantity (MDQ)",
+    tagline: "Introduced a per-item discount cap to stop bulk order abuse — units beyond the limit revert to full price, driving +5% average order value.",
+    metrics: [
+      { value: "+5% AOV", label: "avg order value" },
+      { value: "4-yr-old", label: "cart code refactored" },
+    ],
+    techTags: ["React", "Next.js", "TypeScript"],
+    problem: "Customers were exploiting unlimited-quantity promotions to bulk-buy heavily discounted items, eroding margins. Fixing it required splitting a single cart product instance into two — a discounted portion and a full-price remainder — in a 4-year-old cart codebase that had never been designed for split instances, and with no dedicated QA team to catch regressions.",
+  },
+  {
+    slug: "vendor-analytics-migration",
+    company: "Trade Republic",
+    role: "Senior Software Engineer",
+    period: "2022 – 2023",
+    initiative: "Vendor Analytics Migration",
+    tagline: "GDPR-compliant analytics migration replacing a €1M/year vendor contract with an org-wide standard SDK.",
+    metrics: [
+      { value: "€1M/yr", label: "cost saved" },
+      { value: "17 markets", label: "migrated" },
+    ],
+    techTags: ["TypeScript", "Vercel AI SDK", "Node.js"],
+    problem: "",
+  },
+  {
+    slug: "micro-frontend-migration",
+    company: "Shore",
+    role: "Senior Frontend Engineer",
+    period: "2021 – 2022",
+    initiative: "Micro-Frontend Migration",
+    tagline: "Migrated legacy Elm micro-frontends to React/TypeScript, reducing initial load from 5s to 400ms and introducing E2E test coverage.",
+    metrics: [
+      { value: "5s → 400ms", label: "page load" },
+    ],
+    techTags: ["React", "TypeScript", "Cypress", "Elm"],
+    problem: "",
   },
 ];
