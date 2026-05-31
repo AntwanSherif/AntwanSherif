@@ -334,17 +334,4 @@ export const stories: Story[] = [
         "Delivered a production-ready GDPR-compliant analytics SDK replacing a €1M/year vendor contract. 5 web projects confirmed safe to migrate. The package is ready for rollout pending the backend collector endpoint.",
     },
   },
-  {
-    slug: "micro-frontend-migration",
-    company: "Shore",
-    role: "Senior Frontend Engineer",
-    period: "2021 – 2022",
-    initiative: "Micro-Frontend Migration",
-    tagline: "Migrated legacy Elm micro-frontends to React/TypeScript, reducing initial load from 5s to 400ms and introducing E2E test coverage.",
-    metrics: [
-      { value: "5s → 400ms", label: "page load" },
-    ],
-    techTags: ["React", "TypeScript", "Cypress", "Elm"],
-    problem: "",
-  },
 ];

@@ -192,9 +192,111 @@ function RangeThumbCartB() {
   );
 }
 
+function CoreObsThumb() {
+  const issues = [
+    { type: "TypeError",      msg: "Cannot read properties of undefined", events: "847", users: "23", y: 44 },
+    { type: "ReferenceError", msg: "handleCheckout is not defined",        events: "94",  users: "11", y: 106 },
+  ];
+  return (
+    <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+      <style>{`
+        @keyframes coResolve{0%,50%{opacity:1}70%,100%{opacity:0.25}}
+        @keyframes coGreen{0%,55%{opacity:0}75%,100%{opacity:1}}
+        @keyframes coCount{0%,50%{opacity:1}70%,100%{opacity:0}}
+        @keyframes coZero{0%,55%{opacity:0}75%,100%{opacity:1}}
+        @keyframes coIn{0%{opacity:0;transform:translateX(-6px)}100%{opacity:1;transform:translateX(0)}}
+        .co-card1{animation:coResolve 2.5s ease-in-out infinite}
+        .co-green{animation:coGreen 2.5s ease-in-out infinite}
+        .co-cnt{animation:coCount 2.5s ease-in-out infinite}
+        .co-zero{animation:coZero 2.5s ease-in-out infinite}
+        .co-in{transform-box:fill-box;transform-origin:left center;animation:coIn 0.4s ease-out forwards;opacity:0}
+      `}</style>
+      <rect width="400" height="200" fill="currentColor" className="fill-muted"/>
+      {issues.map((iss, i) => (
+        <g key={i} className={i === 1 ? "co-card1" : "co-in"} style={i === 0 ? {animationDelay:"0s"} : {}}>
+          <rect x="14" y={iss.y} width="372" height="52" rx="7" fill="currentColor" className="fill-foreground" fillOpacity=".05"/>
+          <rect x="14" y={iss.y} width="372" height="52" rx="7" fill="none" stroke="currentColor" className="stroke-foreground" strokeOpacity=".1" strokeWidth="1"/>
+          <circle cx="30" cy={iss.y+26} r="5" fill={i===0?"#ef4444":"#f97316"} opacity=".8"/>
+          <text x="44" y={iss.y+20} fontSize="8" fontWeight="700" fill="currentColor" className="fill-foreground" opacity=".8" fontFamily="monospace">{iss.type}</text>
+          <text x="44" y={iss.y+33} fontSize="7.5" fill="currentColor" className="fill-muted-foreground" opacity=".45" fontFamily="monospace">{iss.msg}</text>
+          {i===1 ? (
+            <>
+              <text x="320" y={iss.y+22} fontSize="9" fontWeight="700" textAnchor="middle" fill="#ef4444" opacity=".7" fontFamily="monospace" className="co-cnt">{iss.events}</text>
+              <text x="320" y={iss.y+22} fontSize="9" fontWeight="700" textAnchor="middle" fill="#22c55e" opacity=".9" fontFamily="monospace" className="co-zero">0</text>
+            </>
+          ) : (
+            <text x="320" y={iss.y+22} fontSize="9" fontWeight="700" textAnchor="middle" fill="currentColor" className="fill-muted-foreground" opacity=".4" fontFamily="monospace">{iss.events}</text>
+          )}
+          <text x="320" y={iss.y+35} fontSize="6.5" textAnchor="middle" fill="currentColor" className="fill-muted-foreground" opacity=".25" fontFamily="monospace">{iss.users} users</text>
+          {i===1 && (
+            <g className="co-green">
+              <rect x="338" y={iss.y+14} width="42" height="16" rx="4" fill="#22c55e" fillOpacity=".15"/>
+              <text x="359" y={iss.y+25} fontSize="7" fontWeight="700" textAnchor="middle" fill="#22c55e" fontFamily="system-ui">resolved</text>
+            </g>
+          )}
+        </g>
+      ))}
+    </svg>
+  );
+}
+
+function CoreAnalyticsThumb() {
+  const cx = 184; const barH = 40; const gap = 12; const startY = 28;
+  const y1 = startY;
+  const y2 = startY + barH + gap;
+  const y3 = startY + 2 * (barH + gap);
+  return (
+    <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+      <style>{`
+        @keyframes caBreathe{0%,100%{transform:scaleX(0.88)}35%,65%{transform:scaleX(1)}}
+        @keyframes caGrow{0%,100%{transform:scaleX(0.33)}25%,70%{transform:scaleX(1)}}
+        @keyframes caN0{0%,3%{opacity:.7}16%,100%{opacity:0}}
+        @keyframes caN1{0%,10%{opacity:0}14%,22%{opacity:.6}28%,100%{opacity:0}}
+        @keyframes caN2{0%,24%{opacity:0}30%,70%{opacity:.9}78%,100%{opacity:0}}
+        .ca-fill1{transform-box:fill-box;transform-origin:left center;animation:caBreathe 9s ease-in-out infinite}
+        .ca-fill2{transform-box:fill-box;transform-origin:left center;animation:caGrow 9s ease-in-out infinite}
+        .ca-fill3{transform-box:fill-box;transform-origin:left center;animation:caGrow 9s ease-in-out infinite}
+        .ca-n0{animation:caN0 9s ease-in-out infinite}
+        .ca-n1{animation:caN1 9s ease-in-out infinite}
+        .ca-n2{animation:caN2 9s ease-in-out infinite}
+      `}</style>
+      <rect width="400" height="200" fill="currentColor" className="fill-muted"/>
+      {/* Bar 1: Screenview — gentle breathe */}
+      <rect x={cx-150} y={y1} width="300" height={barH} rx="9" fill="currentColor" className="fill-foreground" fillOpacity=".04"/>
+      <rect x={cx-150} y={y1} width="300" height={barH} rx="9" fill="none" stroke="var(--accent-ai)" strokeOpacity=".35" strokeWidth="1"/>
+      <rect x={cx-150} y={y1} width="300" height={barH} rx="9" fill="var(--accent-ai)" fillOpacity=".18" className="ca-fill1"/>
+      <text x={cx} y={y1+barH/2-3} fontSize="7.5" fontWeight="600" textAnchor="middle" fill="currentColor" className="fill-foreground" opacity=".6" fontFamily="system-ui">Screenview</text>
+      <text x={cx} y={y1+barH/2+10} fontSize="12" fontWeight="800" textAnchor="middle" fill="var(--accent-ai)" opacity=".9" fontFamily="monospace">100%</text>
+      <text x="392" y={y1+barH/2+4} fontSize="8" textAnchor="end" fill="currentColor" className="fill-muted-foreground" opacity=".3" fontFamily="monospace">18,420</text>
+      <line x1={cx} y1={y1+barH} x2={cx} y2={y2} stroke="currentColor" className="stroke-foreground" strokeOpacity=".1" strokeWidth="1" strokeDasharray="3 2"/>
+      {/* Bar 2: Add to Cart — animated */}
+      <rect x={cx-87} y={y2} width="174" height={barH} rx="9" fill="currentColor" className="fill-foreground" fillOpacity=".04"/>
+      <rect x={cx-87} y={y2} width="174" height={barH} rx="9" fill="none" stroke="var(--accent-ai)" strokeOpacity=".35" strokeWidth="1"/>
+      <rect x={cx-87} y={y2} width="174" height={barH} rx="9" fill="var(--accent-ai)" fillOpacity=".22" className="ca-fill2"/>
+      <text x={cx} y={y2+barH/2-3} fontSize="7.5" fontWeight="600" textAnchor="middle" fill="currentColor" className="fill-foreground" opacity=".6" fontFamily="system-ui">Add to Cart</text>
+      <text x={cx} y={y2+barH/2+10} fontSize="12" fontWeight="800" textAnchor="middle" fill="var(--accent-ai)" fontFamily="monospace" className="ca-n0">30%</text>
+      <text x={cx} y={y2+barH/2+10} fontSize="12" fontWeight="800" textAnchor="middle" fill="var(--accent-ai)" fontFamily="monospace" className="ca-n1">36%</text>
+      <text x={cx} y={y2+barH/2+10} fontSize="12" fontWeight="800" textAnchor="middle" fill="var(--accent-ai)" fontFamily="monospace" className="ca-n2">43%</text>
+      <text x="392" y={y2+barH/2+4} fontSize="8" textAnchor="end" fill="currentColor" className="fill-muted-foreground" opacity=".3" fontFamily="monospace">7,921</text>
+      <line x1={cx} y1={y2+barH} x2={cx} y2={y3} stroke="currentColor" className="stroke-foreground" strokeOpacity=".1" strokeWidth="1" strokeDasharray="3 2"/>
+      {/* Bar 3: Purchase — animated, in sync */}
+      <rect x={cx-37} y={y3} width="74" height={barH} rx="9" fill="currentColor" className="fill-foreground" fillOpacity=".04"/>
+      <rect x={cx-37} y={y3} width="74" height={barH} rx="9" fill="none" stroke="#22c55e" strokeOpacity=".35" strokeWidth="1"/>
+      <rect x={cx-37} y={y3} width="74" height={barH} rx="9" fill="#22c55e" fillOpacity=".25" className="ca-fill3"/>
+      <text x={cx} y={y3+barH/2-3} fontSize="7.5" fontWeight="600" textAnchor="middle" fill="currentColor" className="fill-foreground" opacity=".6" fontFamily="system-ui">Purchase</text>
+      <text x={cx} y={y3+barH/2+10} fontSize="12" fontWeight="800" textAnchor="middle" fill="#22c55e" fontFamily="monospace" className="ca-n0">7%</text>
+      <text x={cx} y={y3+barH/2+10} fontSize="12" fontWeight="800" textAnchor="middle" fill="#22c55e" fontFamily="monospace" className="ca-n1">10%</text>
+      <text x={cx} y={y3+barH/2+10} fontSize="12" fontWeight="800" textAnchor="middle" fill="#22c55e" fontFamily="monospace" className="ca-n2">12%</text>
+      <text x="392" y={y3+barH/2+4} fontSize="8" textAnchor="end" fill="currentColor" className="fill-muted-foreground" opacity=".3" fontFamily="monospace">2,210</text>
+    </svg>
+  );
+}
+
 export function StoryThumbnail({ slug }: { slug: string }) {
   if (slug === "prism") return <PrismThumbB3 />;
   if (slug === "range-promotions") return <RangeThumbCartB />;
   if (slug === "mdq") return <MdqThumbA2 />;
+  if (slug === "core-observability") return <CoreObsThumb />;
+  if (slug === "core-analytics") return <CoreAnalyticsThumb />;
   return null;
 }
