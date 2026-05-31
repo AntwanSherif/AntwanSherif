@@ -183,18 +183,156 @@ export const stories: Story[] = [
     },
   },
   {
-    slug: "vendor-analytics-migration",
+    slug: "core-observability",
     company: "Trade Republic",
     role: "Senior Software Engineer",
-    period: "2022 – 2023",
-    initiative: "Vendor Analytics Migration",
-    tagline: "GDPR-compliant analytics migration replacing a €1M/year vendor contract with an org-wide standard SDK.",
+    period: "Dec 2025 – Mar 2026",
+    initiative: "core-observability",
+    tagline:
+      "RFC to production in a new domain, week one. 3/5 web teams adopted. The LGTM migration RFC built on top of it.",
     metrics: [
-      { value: "€1M/yr", label: "cost saved" },
-      { value: "17 markets", label: "migrated" },
+      { value: "3 / 5", label: "web teams adopted" },
+      { value: "Week 1", label: "assigned at TR" },
     ],
-    techTags: ["TypeScript", "Vercel AI SDK", "Node.js"],
-    problem: "",
+    techTags: ["TypeScript", "Vue 3", "Vite", "Sentry SDK"],
+    problem:
+      "Trade Republic's web teams each instrumented observability independently — different Sentry configurations, inconsistent tagging, no shared error classification or PII scrubbing standards. Production issues were slow to diagnose, and teams had no reliable way to measure the health impact of new releases. Direct Sentry SDK usage across every repo also created migration risk ahead of a planned LGTM stack transition.",
+    architectureFlow: [
+      { label: "Web App", sublabel: "Vue 3 or browser" },
+      { label: "core-observability", sublabel: "Vendor-agnostic wrapper" },
+      { label: "Sentry", sublabel: "Current backend" },
+      { label: "LGTM Stack", sublabel: "Future migration target" },
+    ],
+    features: [
+      {
+        name: "Core Web Vitals Monitoring",
+        description:
+          "Automatic performance monitoring across all routes, with manual span tracking for key user journeys via a startSpan API — available in both Vue and browser adapters.",
+      },
+      {
+        name: "PII Scrubbing",
+        description:
+          "Automatic stripping of sensitive user data before it leaves the browser — a hard requirement for a regulated financial product.",
+      },
+      {
+        name: "Source Map Upload (Vite Plugin)",
+        description:
+          "Vite plugin that automatically uploads source maps during CI builds, enabling readable stack traces in Sentry without any manual steps from consuming teams.",
+      },
+      {
+        name: "Built-in Error Filtering",
+        description:
+          "Noise-error filtering internalised into the package after observing Web-Trading's workaround — so all future consumers get this out of the box without extra boilerplate.",
+      },
+      {
+        name: "MCP Server",
+        description:
+          "A dedicated MCP server shipped alongside the package from day one — giving teams AI-assisted integration guidance rather than static codemod scripts.",
+      },
+      {
+        name: "Sentry Dashboard Template",
+        description:
+          "A reusable Sentry dashboard template so new projects can skip setup and start monitoring immediately.",
+      },
+      {
+        name: "Migration Guide",
+        description:
+          "1-to-1 mapping from direct Sentry SDK usage to the new package API, reducing adoption friction for teams already using Sentry directly.",
+      },
+    ],
+    challenges: [
+      "Assigned week one with no prior context on how observability was set up across the company — required proactive discovery into existing practices before being able to design a credible solution.",
+      "No prior Sentry experience or frontend observability background — required deep self-study into Sentry's APIs, platform capabilities, and frontend-specific best practices before writing RFC-011.",
+      "Technology scope decision — collected feedback from POs, TL, and teams to determine which environments to support first. Outcome: Vue 3 and browser (vanilla JS/TS), covering the two primary web surfaces at Trade Republic.",
+      "Single-package architecture — designed sub-path exports so host applications only bundle what they import (full tree-shaking), while keeping setup simple with one package regardless of stack.",
+      "Managed breaking changes across multiple consumer repos — absorbed the Vue plugin signature fix across both packages and opened migration PRs directly in consumer repos rather than delegating.",
+      "When Web-Trading added a noise-error workaround to their integration PR, pulled it natively into the package rather than accepting it as a per-team concern — aligning with all parties that this would also be supported post-LGTM migration.",
+    ],
+    star: {
+      situation:
+        "I joined Trade Republic in December 2025 and was assigned a cross-org technical initiative in my first week — in a domain I had no depth in. No Sentry experience, no frontend observability background, and still mapping how the org worked.",
+      task: "Author RFC-011 and deliver a production-ready observability package that could become the org-wide standard — covering error tracking, performance monitoring, and PII scrubbing for all Trade Republic web applications.",
+      action:
+        "I proactively discovered existing observability practices across the company, studied Sentry's platform from scratch, and ran stakeholder conversations with TLs and POs to make defensible scope decisions. I rejected OpenTelemetry in favour of a custom Sentry wrapper after a documented tradeoff analysis, shipped the package with an MCP server, runbook, and dashboard template from day one. When the pilot team (Web-Trading) added a noise-error workaround in their integration PR, I pulled it natively into the package so every future team gets it automatically.",
+      result:
+        "3 of 5 web teams adopted the package before I left. The LGTM migration RFC — owned by a colleague — was already building on the foundation I laid. Web-Trading, the company's highest-priority web project, used it as their observability standard for their April release.",
+    },
+  },
+  {
+    slug: "core-analytics",
+    company: "Trade Republic",
+    role: "Senior Software Engineer",
+    period: "Feb 2026 – Mar 2026",
+    initiative: "core-analytics",
+    tagline:
+      "Replaced a €1M/year vendor contract with a consent-first, GDPR-compliant analytics SDK — adopted across Trade Republic's entire web platform.",
+    metrics: [
+      { value: "€1M/yr", label: "vendor cost eliminated" },
+      { value: "5 projects", label: "audited safe to migrate" },
+    ],
+    techTags: ["TypeScript", "Vue 3", "Snowplow", "Vite"],
+    problem:
+      "mParticle's costs became unsustainable following their acquisition by Rokt. A company-wide decision was made to replace the vendor — Mobile Platform led the discovery and selected Snowplow. I was assigned to own the Web side: design, build, and deliver the `core-analytics` package as Trade Republic's new standard for web analytics. With Mobile and Data teams already mid-RFC when I was brought in, I needed to onboard fast enough to contribute meaningfully to cross-platform decisions — not just implement a spec someone else had written.",
+    architectureFlow: [
+      { label: "Web App", sublabel: "Vue 3 or browser" },
+      { label: "core-analytics", sublabel: "Consent-first wrapper" },
+      { label: "Snowplow Collector", sublabel: "Event ingestion" },
+      { label: "Kafka / Data Pipeline", sublabel: "Analytics processing" },
+    ],
+    features: [
+      {
+        name: "Consent-First Design",
+        description:
+          "No events are enqueued or sent until user consent is granted. Queued events are purged if consent is withdrawn. Runtime consent state updates are supported — covering flows where preferences change after the app has loaded.",
+      },
+      {
+        name: "Automatic PII Scrubbing",
+        description:
+          "Sensitive user data is automatically redacted before events leave the browser — a non-negotiable requirement for a regulated financial product operating across EU markets.",
+      },
+      {
+        name: "Offline Queuing, Batching & Retry",
+        description:
+          "Snowplow's built-in offline queuing, event batching, and automatic retry are exposed through the package — ensuring no event loss under intermittent connectivity without custom implementation.",
+      },
+      {
+        name: "Automatic Screenview Tracking",
+        description:
+          "Vue plugin tracks screenview events out of the box, with support for custom metadata per event — reducing instrumentation boilerplate for every consuming team.",
+      },
+      {
+        name: "Global Identity Context",
+        description:
+          "Host apps can attach auth_account_id to all events via Snowplow's global context API — user identity is automatically associated with every event without per-call instrumentation.",
+      },
+      {
+        name: "Session Management Parity",
+        description:
+          "Snowplow session management configured to replicate mParticle's session behaviour — ensuring data continuity and a clean migration with no gaps in session-level attribution.",
+      },
+      {
+        name: "MCP Server",
+        description:
+          "Dedicated MCP server shipped alongside the package, enabling AI-assisted integration guidance for consuming teams.",
+      },
+    ],
+    challenges: [
+      "Joined the initiative with Mobile and Data teams already mid-RFC — reviewed 6–8 Mobile Platform RFCs before drafting RFC-014 to ensure Web aligned with cross-platform decisions rather than designing in isolation.",
+      "Consent-first as a hard requirement — no events sent before consent is granted, queued events purged on withdrawal, runtime updates supported. Designed enforcement at the package level so no consuming team can accidentally bypass it.",
+      "Validated the full data pipeline before committing to implementation — ran an end-to-end POC verifying Snowplow JS SDK integration with the collector, viewing live events in Kafka UI before writing a line of production code.",
+      "Proactively surfaced reliability risks (CORS configuration, batch/payload sizing, event drops) before integration — preventing data loss at scale from becoming a production incident.",
+      "Conducted a full mParticle deprecation impact analysis across all 5 web projects — concluded shutdown was safe with no production risk, directly unblocking the org-wide migration without emergency coordination.",
+      "Dropped dual-write in favour of a clean cutover — aligned with POs and TLs that continuing mParticle tracking during migration added complexity with no benefit, enabling a direct switch to Snowplow.",
+    ],
+    star: {
+      situation:
+        "mParticle's costs became unsustainable after their acquisition by Rokt. A company-wide migration to Snowplow was already in motion — Mobile and Data teams had RFCs and POCs in flight when I was assigned to own the Web platform's side of the migration.",
+      task: "Design and deliver `core-analytics` as the Web standard for analytics — RFC authoring, implementation, consent-first GDPR compliance, and cross-platform alignment with Mobile, Backend, and Data teams.",
+      action:
+        "I reviewed 6–8 Mobile Platform RFCs before writing a line of RFC-014 to avoid designing in isolation. I ran an end-to-end POC verifying the Snowplow pipeline before committing to the implementation. I designed consent enforcement and PII scrubbing at the package level — not left to each team — and conducted a full mParticle deprecation impact analysis across all 5 web projects, concluding that shutdown was safe and unblocking the migration.",
+      result:
+        "Delivered a production-ready GDPR-compliant analytics SDK replacing a €1M/year vendor contract. 5 web projects confirmed safe to migrate. The package is ready for rollout pending the backend collector endpoint.",
+    },
   },
   {
     slug: "micro-frontend-migration",
