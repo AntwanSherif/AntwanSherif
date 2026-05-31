@@ -1,21 +1,48 @@
 "use client";
 
+// 7s unified cycle — all timing baked into per-item keyframes, no delays needed.
+// Items start upright from upper-left (translate + rotate 0), fall into cart and
+// land tilted (~15–22 deg). Badge only appears after the last item settles (46%).
 const RANGE_STYLE = `
-  @keyframes rtDrop{0%,100%{opacity:0;transform:translateY(-76px)}14%,83%{opacity:1;transform:translateY(0)}}
-  @keyframes rtBadge{0%,38%,100%{opacity:0;transform:scale(0.4)}50%{opacity:1;transform:scale(1.1)}62%,85%{opacity:1;transform:scale(1)}}
-  @keyframes rtGlow{0%,34%,100%{opacity:0}50%,83%{opacity:1}}
-  .rt-p1{transform-box:fill-box;transform-origin:center;animation:rtDrop 5.2s ease-in-out infinite}
-  .rt-p2{transform-box:fill-box;transform-origin:center;animation:rtDrop 5.2s ease-in-out infinite 0.5s}
-  .rt-p3{transform-box:fill-box;transform-origin:center;animation:rtDrop 5.2s ease-in-out infinite 1s}
-  .rt-badge{transform-box:fill-box;transform-origin:center;animation:rtBadge 5.2s ease-in-out infinite 1.5s}
-  .rt-cglow{animation:rtGlow 5.2s ease-in-out infinite}
+  @keyframes rtFall1{
+    0%,100%{opacity:0;transform:translate(-100px,-90px) rotate(0deg)}
+    7%{opacity:1;transform:translate(-100px,-90px) rotate(0deg)}
+    22%,72%{opacity:1;transform:translate(0,0) rotate(18deg)}
+    82%{opacity:0;transform:translate(0,0) rotate(18deg)}
+  }
+  @keyframes rtFall2{
+    0%,11%,100%{opacity:0;transform:translate(-120px,-88px) rotate(0deg)}
+    18%{opacity:1;transform:translate(-120px,-88px) rotate(0deg)}
+    33%,72%{opacity:1;transform:translate(0,0) rotate(-12deg)}
+    82%{opacity:0;transform:translate(0,0) rotate(-12deg)}
+  }
+  @keyframes rtFall3{
+    0%,21%,100%{opacity:0;transform:translate(-140px,-90px) rotate(0deg)}
+    28%{opacity:1;transform:translate(-140px,-90px) rotate(0deg)}
+    43%,72%{opacity:1;transform:translate(0,0) rotate(22deg)}
+    82%{opacity:0;transform:translate(0,0) rotate(22deg)}
+  }
+  @keyframes rtBadge{
+    0%,46%,100%{opacity:0;transform:scale(0.3)}
+    52%{opacity:1;transform:scale(1.15)}
+    58%,72%{opacity:1;transform:scale(1)}
+    82%{opacity:0;transform:scale(0.3)}
+  }
+  @keyframes rtGlow{0%,40%,100%{opacity:0}52%,72%{opacity:1}}
+  .rt-p1{transform-box:fill-box;transform-origin:center;animation:rtFall1 7s ease-in-out infinite}
+  .rt-p2{transform-box:fill-box;transform-origin:center;animation:rtFall2 7s ease-in-out infinite}
+  .rt-p3{transform-box:fill-box;transform-origin:center;animation:rtFall3 7s ease-in-out infinite}
+  .rt-badge{transform-box:fill-box;transform-origin:center;animation:rtBadge 7s ease-in-out infinite}
+  .rt-cglow{animation:rtGlow 7s ease-in-out infinite}
 `;
 
+// Items positioned lower in the cart bowl (y≈134) so they sit inside visually.
+// Resting rotation is baked into the keyframe end state.
 function RangeProducts() {
   return <>
-    <g className="rt-p1"><image href="/illustrations/pepsi-bottle.png"    x="159" y="105" width="20" height="60"/></g>
-    <g className="rt-p2"><image href="/illustrations/coca-cola-bottle.png" x="204" y="113" width="20" height="60"/></g>
-    <g className="rt-p3"><image href="/illustrations/redbull-can.png"      x="244" y="105" width="19" height="62"/></g>
+    <g className="rt-p1"><image href="/illustrations/pepsi-bottle.png"    x="156" y="134" width="20" height="60"/></g>
+    <g className="rt-p2"><image href="/illustrations/coca-cola-bottle.png" x="193" y="132" width="20" height="60"/></g>
+    <g className="rt-p3"><image href="/illustrations/redbull-can.png"      x="228" y="134" width="19" height="62"/></g>
   </>;
 }
 

@@ -2,7 +2,10 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import BlurFade from "@/components/magicui/blur-fade";
 import { FlowChain } from "@/components/flow-chain";
+import { StoryThumbnail } from "@/components/story-thumbnails";
 import { stories } from "@/data/stories";
+
+const THUMB_SLUGS = ["prism", "range-promotions", "mdq", "core-observability", "core-analytics"];
 
 const BLUR_FADE_DELAY = 0.04;
 
@@ -43,6 +46,14 @@ export default async function StoryDetailPage({
             {story.initiative}
           </h1>
         </BlurFade>
+
+        {THUMB_SLUGS.includes(story.slug) && (
+          <BlurFade delay={BLUR_FADE_DELAY * 3.5}>
+            <div className="w-full aspect-[2/1] rounded-xl overflow-hidden">
+              <StoryThumbnail slug={story.slug} />
+            </div>
+          </BlurFade>
+        )}
 
         <BlurFade delay={BLUR_FADE_DELAY * 4}>
           <p className="text-base text-muted-foreground leading-relaxed max-w-prose">

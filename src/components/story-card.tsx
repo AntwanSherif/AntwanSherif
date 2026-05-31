@@ -22,7 +22,7 @@ export function StoryCard({ story, className }: StoryCardProps) {
     el.style.setProperty("--my", `${e.clientY - top}px`);
   };
 
-  const hasThumb = ["prism", "range-promotions", "mdq"].includes(story.slug);
+  const hasThumb = ["prism", "range-promotions", "mdq", "core-observability", "core-analytics"].includes(story.slug);
 
   return (
     <Link href={`/stories/${story.slug}`} className="block h-full">
