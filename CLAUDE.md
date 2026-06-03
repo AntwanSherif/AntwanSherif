@@ -1,5 +1,18 @@
 # Portfolio Build — Claude Instructions
 
+## Intent Layer
+
+**Before modifying code in a subdirectory, read its AGENTS.md first** to understand local patterns and invariants.
+
+- **Components**: `src/components/AGENTS.md` - Shared UI components, section layout, animation primitives
+
+### Global Invariants
+
+- All personal content lives in `src/data/resume.tsx` — never hardcode content in components
+- Server components by default; add `'use client'` only for interactivity/hooks
+- Use `cn()` from `src/lib/utils.ts` for all conditional classnames
+- Package manager is **pnpm**
+
 ## Plan Reference
 
 Full build plan is at `~/.claude/plans/antwan-portfolio.md`. Always read it before starting a session to know current phase and pending tasks.
