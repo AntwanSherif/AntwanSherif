@@ -1,9 +1,14 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import BlurFade from "@/components/magicui/blur-fade";
 import { FlowChain } from "@/components/flow-chain";
 import { StoryThumbnail } from "@/components/story-thumbnails";
 import { stories } from "@/data/stories";
+
+export const metadata: Metadata = {
+  robots: { index: false, follow: false },
+};
 
 const THUMB_SLUGS = ["prism", "range-promotions", "mdq", "core-observability", "core-analytics"];
 
