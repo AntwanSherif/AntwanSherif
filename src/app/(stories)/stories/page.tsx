@@ -13,7 +13,7 @@ export default function StoriesPage() {
         </BlurFade>
         <BlurFade delay={BLUR_FADE_DELAY * 2}>
           <p className="text-sm text-muted-foreground max-w-prose">
-            Initiative deep-dives — the problems I owned, how I approached them, and what shipped.
+            Not a list of technologies. A few of the initiatives I owned — the ones worth telling properly. Real problems, real decisions, real outcomes.
           </p>
         </BlurFade>
       </section>
