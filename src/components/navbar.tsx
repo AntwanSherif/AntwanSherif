@@ -14,7 +14,11 @@ import { DATA } from "@/data/resume";
 import { cn } from "@/lib/utils";
 
 const dockIconBase =
-  "rounded-3xl cursor-pointer size-full bg-background p-0 hover:text-foreground hover:bg-muted backdrop-blur-3xl border border-border transition-colors";
+  "rounded-3xl cursor-pointer size-full p-0 backdrop-blur-3xl border transition-colors";
+const dockIconInactive =
+  "bg-background text-muted-foreground hover:text-foreground hover:bg-muted border-border";
+const dockIconActive =
+  "text-[var(--accent-1)] bg-[#f0c54218] border-[var(--accent-1)]";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -38,7 +42,7 @@ export default function Navbar() {
                   target={isExternal ? "_blank" : undefined}
                   rel={isExternal ? "noopener noreferrer" : undefined}
                 >
-                  <DockIcon className={cn(dockIconBase, active ? "text-foreground" : "text-muted-foreground")}>
+                  <DockIcon className={cn(dockIconBase, active ? dockIconActive : dockIconInactive)}>
                     <item.icon className="size-full rounded-sm overflow-hidden object-contain" />
                   </DockIcon>
                 </a>
@@ -71,7 +75,7 @@ export default function Navbar() {
                     target={isExternal ? "_blank" : undefined}
                     rel={isExternal ? "noopener noreferrer" : undefined}
                   >
-                    <DockIcon className={cn(dockIconBase, "text-muted-foreground")}>
+                    <DockIcon className={cn(dockIconBase, dockIconInactive)}>
                       <IconComponent className="size-full rounded-sm overflow-hidden object-contain" />
                     </DockIcon>
                   </a>
@@ -93,7 +97,7 @@ export default function Navbar() {
         />
         <Tooltip>
           <TooltipTrigger asChild>
-            <DockIcon className={cn(dockIconBase, "text-muted-foreground")}>
+            <DockIcon className={cn(dockIconBase, dockIconInactive)}>
               <ModeToggle className="size-full cursor-pointer" />
             </DockIcon>
           </TooltipTrigger>
