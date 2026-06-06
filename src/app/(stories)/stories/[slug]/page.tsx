@@ -86,7 +86,7 @@ export default async function StoryDetailPage({
       {(story.problem || story.architectureFlow) && (
         <section className="flex flex-col gap-8">
           {story.problem && (
-            <BlurFade delay={BLUR_FADE_DELAY * 6} inView>
+            <BlurFade delay={BLUR_FADE_DELAY * 6}>
               <h2 className="text-2xl font-bold tracking-tight text-foreground">
                 The Problem
               </h2>
@@ -97,7 +97,7 @@ export default async function StoryDetailPage({
           )}
 
           {story.architectureFlow && (
-            <BlurFade delay={BLUR_FADE_DELAY * 7} inView>
+            <BlurFade delay={BLUR_FADE_DELAY * 7}>
               <h2 className="text-2xl font-bold tracking-tight text-foreground">
                 Architecture
               </h2>
@@ -112,11 +112,11 @@ export default async function StoryDetailPage({
       {/* ── Section 3: UI/UX ────────────────────────────────────── */}
       {story.uiSections && story.uiSections.length > 0 && (
         <section className="flex flex-col gap-6">
-          <BlurFade delay={BLUR_FADE_DELAY * 8} inView>
+          <BlurFade delay={BLUR_FADE_DELAY * 8}>
             <h2 className="text-2xl font-bold tracking-tight text-foreground">UI / UX</h2>
           </BlurFade>
           {story.uiSections.map((section, si) => (
-            <BlurFade key={section.title} delay={BLUR_FADE_DELAY * (9 + si)} inView>
+            <BlurFade key={section.title} delay={BLUR_FADE_DELAY * (9 + si)}>
               <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground/50 mb-3">
                 {section.title}
               </p>
@@ -141,7 +141,7 @@ export default async function StoryDetailPage({
       {/* ── Section 5: Features ─────────────────────────────────── */}
       {story.features && story.features.length > 0 && (
         <section className="flex flex-col gap-6">
-          <BlurFade delay={BLUR_FADE_DELAY * 8} inView>
+          <BlurFade delay={BLUR_FADE_DELAY * 8}>
             <h2 className="text-2xl font-bold tracking-tight text-foreground">
               What We Built
             </h2>
@@ -149,7 +149,7 @@ export default async function StoryDetailPage({
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {story.features.map((feature, i) => (
-              <BlurFade key={feature.name} delay={BLUR_FADE_DELAY * (9 + i)} inView>
+              <BlurFade key={feature.name} delay={BLUR_FADE_DELAY * (9 + i)}>
                 <div className="rounded-xl border border-border bg-card p-4 h-full">
                   <h3 className="text-sm font-semibold text-foreground">{feature.name}</h3>
                   <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
@@ -161,7 +161,7 @@ export default async function StoryDetailPage({
           </div>
 
           {story.bulkUploadFlow && (
-            <BlurFade delay={BLUR_FADE_DELAY * 20} inView>
+            <BlurFade delay={BLUR_FADE_DELAY * 20}>
               <div className="rounded-xl border border-border bg-muted/30 p-5">
                 <h3 className="text-sm font-semibold text-foreground mb-3">
                   Bulk Upload — Pipeline
@@ -177,7 +177,7 @@ export default async function StoryDetailPage({
       {(story.challenges || story.star) && (
         <section className="flex flex-col gap-8">
           {story.challenges && (
-            <BlurFade delay={BLUR_FADE_DELAY * 21} inView>
+            <BlurFade delay={BLUR_FADE_DELAY * 21}>
               <h2 className="text-2xl font-bold tracking-tight text-foreground">
                 Challenges
               </h2>
@@ -193,7 +193,7 @@ export default async function StoryDetailPage({
           )}
 
           {story.star && (
-            <BlurFade delay={BLUR_FADE_DELAY * 22} inView>
+            <BlurFade delay={BLUR_FADE_DELAY * 22}>
               <h2 className="text-2xl font-bold tracking-tight text-foreground">
                 A Story
               </h2>
