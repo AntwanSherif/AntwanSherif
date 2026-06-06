@@ -1,5 +1,5 @@
 import { Icons } from '@/components/icons';
-import { HomeIcon, BookOpenIcon } from 'lucide-react';
+import { HomeIcon, StarIcon } from 'lucide-react';
 // NotebookIcon: re-add when the Blog nav entry below is restored
 // import { NotebookIcon } from 'lucide-react';
 import { ReactLight } from '@/components/ui/svgs/reactLight';
@@ -53,7 +53,7 @@ export const DATA = {
   ],
   navbar: [
     { href: '/', icon: HomeIcon, label: 'Home' },
-    { href: '/stories', icon: BookOpenIcon, label: 'Stories' }
+    { href: '/stories', icon: StarIcon, label: 'Stories' }
     // Blog hidden until real articles are published — restore this entry
     // (and the NotebookIcon import above) to bring back the quick-nav icon:
     // { href: '/blog', icon: NotebookIcon, label: 'Blog' }
