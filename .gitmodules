@@ -1,0 +1,3 @@
+[submodule "src/data/stories-private"]
+	path = src/data/stories-private
+	url = https://github.com/AntwanSherif/AntwanSherif-stories.git
