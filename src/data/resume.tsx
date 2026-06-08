@@ -165,7 +165,7 @@ export const DATA = {
   ],
   projects: [
     {
-      title: 'Insta Super Edit',
+      title: 'EncoreShot',
       href: '',
       dates: 'Apr 2026 - Present',
       active: false,
