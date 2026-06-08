@@ -5,9 +5,11 @@ created: 2026-06-08
 tags: [nextjs, security, git, vercel, edge, rsc]
 ---
 
-> **Draft / idea.** Captured from the session where I actually built this. Three arcs now —
-> the submodule, the derived password, and the RSC leak I nearly shipped. Needs a tighter
-> intro (the leak might be the better hook), maybe a diagram, and a read for voice.
+> **Draft / idea.** Captured from the session where I actually built this (now live on
+> Vercel). Four arcs: the submodule, the derived password, the RSC leak I nearly shipped, and
+> the back-button history wart. The last two share a spine — *framework defaults biting at a
+> trust/navigation boundary* — which might be the strongest hook of all. Needs a tighter
+> intro, maybe a diagram, and a read for voice.
 
 ## The setup
 
@@ -151,6 +153,34 @@ The public list page literally cannot leak what it never imports. And I added a 
 fails if the public card data ever grows a private field again — so the next careless
 `...spread` can't quietly re-open the hole.
 
+## Part 4 — the back button that wouldn't let go
+
+I shipped it. Then I noticed one more wart: enter the password, land on the story, hit the
+browser back button… and you're staring at the password page again instead of the listing
+you came from.
+
+This was, once again, a **framework default doing the wrong thing at a boundary I cared
+about.** Next.js `redirect()` defaults to `replace` almost everywhere — *except inside
+Server Actions, where it defaults to `push`.* My unlock action redirected to the story after
+a successful login, which quietly stacked the password page into browser history. Back
+button → straight back to the gate.
+
+The fix is one argument:
+
+```ts
+redirect(destination, RedirectType.replace);  // not the server-action default of push
+```
+
+Now the unlock page replaces itself with the destination — it never enters history at all,
+so back lands on the listing. (I kept a small belt-and-suspenders guard too: an already
+-authenticated visit to the unlock page just redirects to the listing.)
+
+Notice the pattern across Parts 3 and 4: both bugs were *framework defaults*, not my logic.
+RSC serializes whole props across the client boundary; server actions push instead of
+replace. Both defaults are reasonable for the common case — and both were wrong for mine.
+The meta-lesson: with RSC and Server Actions, **read what the default actually does at every
+boundary that carries trust or navigation.** The happy path hides them.
+
 ## Aside: Vercel doesn't deploy private submodules
 
 A practical gotcha worth the warning. Vercel's docs are explicit: it can build public
@@ -164,7 +194,7 @@ git clone --depth 1 https://x-access-token:$STORIES_REPO_TOKEN@github.com/me/pri
 ```
 
 It clones the private repo into the submodule's path before the build runs — sidestepping
-the submodule machinery entirely.
+the submodule machinery entirely. (This is what's actually serving the site in production.)
 
 ## What it cost
 
@@ -180,11 +210,14 @@ work.
 
 ## Open threads for the final draft
 
+- **Possible reframe:** lead with the spine "the framework defaults were the real adversary"
+  (Parts 3 + 4), and make the submodule + password the *setup* that earns those two payoffs.
+  Right now they read as four separate arcs; the through-line could make it one argument.
 - A diagram of the submodule pointer + the HMAC derivation would carry a lot here.
-- The Part 3 RSC-serialization gotcha might deserve to be the *opening* hook — it's the most
-  surprising and broadly useful lesson; the password machinery could come second.
 - Worth a sentence on the cookie: it stores the validated password and is re-checked every
   request, so access lapses automatically when the password rotates out.
 - Maybe a short "things I rejected and why" box (Vercel cron, TOTP, random+notify).
 - "Verify by grepping your build output / curling your own routes" is a reusable discipline
-  worth pulling into its own callout.
+  worth pulling into its own callout — it's how both framework-default bugs got caught.
+- Decide on title: the current one sells the password; a "framework defaults" angle might
+  land harder. Maybe a subtitle that names both.
