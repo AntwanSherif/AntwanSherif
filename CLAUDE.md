@@ -5,7 +5,7 @@
 **Before modifying code in a subdirectory, read its AGENTS.md first** to understand local patterns and invariants.
 
 - **Components**: `src/components/AGENTS.md` - Shared UI components, section layout, animation primitives
-- **Data**: `src/data/AGENTS.md` - Content source of truth + the public/private story split (read before touching `stories.tsx` or `stories-private/`)
+- **Data**: `src/data/AGENTS.md` - Content source of truth + the public/private story split (read before touching `story-cards.tsx`, `story-details.tsx`, or `stories-private/`)
 
 ### Global Invariants
 
@@ -20,10 +20,12 @@ This repo is **public** (it's the GitHub profile repo). Work-story content is se
 into a **private git submodule**. Full details + workflow live in `src/data/AGENTS.md` — read that before
 editing any story content. Quick orientation:
 
-- **Public repo** (`AntwanSherif/AntwanSherif`): everything except story content. `src/data/stories.tsx`
-  is a 3-line re-export wrapper, not content.
-- **Private repo** (`AntwanSherif/AntwanSherif-stories`): the real story content, mounted as a submodule
-  at `src/data/stories-private/`.
+- **Public repo** (`AntwanSherif/AntwanSherif`): everything except the story narrative — including the
+  PUBLIC teaser data (`src/data/story-cards.tsx`) shown on the un-gated `/stories` list.
+- **Private repo** (`AntwanSherif/AntwanSherif-stories`): the story narrative (`details.tsx`), mounted as a
+  submodule at `src/data/stories-private/` and rendered only on the gated `/stories/[slug]` pages.
+
+See `src/data/AGENTS.md` for the public/private field boundary (and the leak it prevents).
 
 ### How submodules work (one-paragraph primer)
 
@@ -36,7 +38,7 @@ deliberate, so the public build is always reproducible.
 ### Editing story content (edit-in-place)
 
 ```bash
-$EDITOR src/data/stories-private/stories.tsx
+$EDITOR src/data/stories-private/details.tsx   # narrative (private); teaser -> src/data/story-cards.tsx
 pnpm stories:publish "edit: ..."     # pushes private repo, then bumps public pointer (right order)
 ```
 `pnpm stories:publish` wraps the two-step dance safely; `pnpm stories:status` shows if the pointer is

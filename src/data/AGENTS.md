@@ -5,28 +5,32 @@ Owns: resume data, work-story content. Does NOT own: UI rendering (`src/componen
 
 ## The public/private split
 
-Content here lives in **two repos** because this portfolio repo is **public** (it doubles as the
-GitHub profile repo, `AntwanSherif/AntwanSherif`), but the work-story details are sensitive.
+This portfolio repo is **public** (it doubles as the GitHub profile repo, `AntwanSherif/AntwanSherif`).
+Story data is split into **two tiers** so the un-gated `/stories` list can show teasers while the
+sensitive narrative stays private and gated:
 
 | File / path | Repo | Visibility | Contents |
 |-------------|------|-----------|----------|
 | `resume.tsx` | `AntwanSherif` | public | Name, bio, jobs, projects, skills (the `DATA` export) |
-| `stories.tsx` | `AntwanSherif` | public | **3-line re-export wrapper only — no content** |
-| `stories-private/` | `AntwanSherif-stories` | **private** | Real story content + `admin.ts` password generator (git submodule) |
+| `story-types.ts` | `AntwanSherif` | public | Shared types: `Metric`, `StoryCardData`, `StoryDetail`, `FlowStep`, … |
+| `story-cards.tsx` | `AntwanSherif` | public | **PUBLIC teaser data** (`storyCards`): slug, company, initiative, tagline, metrics, techTags |
+| `story-details.tsx` | `AntwanSherif` | public | Thin wrapper: `export * from "./stories-private/details"` |
+| `stories-private/` | `AntwanSherif-stories` | **private** | `details.tsx` (the narrative) + `admin.ts` generator + `companies.txt` (git submodule) |
 
-`stories-private/` is a **git submodule** — a separate private repo (`AntwanSherif/AntwanSherif-stories`)
-mounted at this path. The public repo stores only a pinned commit pointer to it, not the files.
-See root CLAUDE.md → "Story Content Split" for how submodules work.
+`stories-private/` is a **git submodule** — a separate private repo mounted at this path. The public repo
+stores only a pinned commit pointer. See root CLAUDE.md → "Story Content Split" for how submodules work.
 
 ## Contracts & Invariants
 
-- **`stories.tsx` must never contain story content.** It stays a thin `export * from "./stories-private/stories"`.
-  Putting content back in it would leak it into the public repo. The wrapper exists so consumers keep
-  importing `@/data/stories` unchanged.
-- **The public import path is `@/data/stories`** — four consumers depend on it (stories pages,
-  `flow-chain.tsx`, `story-card.tsx`). Never change the path; change content inside the submodule.
-- **The submodule's exports must match what consumers expect**: types `Metric`, `FlowStep`, `Feature`,
-  `StarStory`, `UiSection`, `Story`, and the `stories: Story[]` array. The wrapper re-exports all of them.
+- **The public `/stories` list page is NOT gated.** It must import **only** `storyCards` from
+  `@/data/story-cards`. **Never** import `@/data/story-details` (or `storyDetails`) into the list page or
+  any un-gated/client component — that re-leaks the narrative onto a public page. Guarded by
+  `story-cards.test.ts` (asserts `storyCards` carries no private fields).
+- **`storyCards` (public) holds teaser fields only**: `slug`, `company`, `initiative`, `tagline`,
+  `metrics`, `techTags`. No `problem`/`star`/`challenges`/etc.
+- **`storyDetails` (private, keyed by slug)** holds the narrative: `role`, `period`, `problem`,
+  `architectureFlow?`, `uiSections?`, `features?`, `bulkUploadFlow?`, `challenges?`, `star?`. Imported
+  **only** by the gated `/stories/[slug]` page (via `@/data/story-details`), which merges card + detail.
 - **A `pnpm build` clone needs the submodule.** Vercel does NOT support private submodules — the build
   fetches the content via a token instead (see root CLAUDE.md → "Story Content Split" → Vercel).
 
@@ -34,8 +38,9 @@ See root CLAUDE.md → "Story Content Split" for how submodules work.
 
 **Editing story content (edit-in-place workflow):**
 ```bash
-# 1. Edit inside the submodule (it's a full working clone)
-$EDITOR src/data/stories-private/stories.tsx
+# 1. Edit inside the submodule (it's a full working clone).
+#    Narrative -> details.tsx (private). Teaser (impact/tagline) -> ../story-cards.tsx (public).
+$EDITOR src/data/stories-private/details.tsx
 
 # 2. Publish — runs the two-step dance safely (push private repo, THEN bump public pointer)
 pnpm stories:publish "edit: <what changed>"
@@ -59,8 +64,10 @@ build fails.
 
 ## Anti-patterns
 
-- ❌ Pasting story content into `stories.tsx` (leaks to public repo).
-- ❌ Editing `stories-private/stories.tsx` and forgetting step 2 — the public build keeps using the old
+- ❌ Importing `@/data/story-details` / `storyDetails` into the public `/stories` list page or any client
+  component — re-leaks the narrative onto an un-gated page (the exact bug this split fixed).
+- ❌ Putting narrative fields (`problem`, `star`, …) into the public `story-cards.tsx`.
+- ❌ Editing `stories-private/details.tsx` and forgetting step 2 — the public build keeps using the old
   pinned commit until the pointer is bumped.
 - ❌ Committing the pointer bump (step 2) without first pushing the submodule (step 1) — the public repo
   would point at a commit that doesn't exist on the remote, breaking everyone else's clone and Vercel.

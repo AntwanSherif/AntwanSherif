@@ -4,7 +4,8 @@ import Link from "next/link";
 import BlurFade from "@/components/magicui/blur-fade";
 import { FlowChain } from "@/components/flow-chain";
 import { StoryThumbnail } from "@/components/story-thumbnails";
-import { stories } from "@/data/stories";
+import { storyCards } from "@/data/story-cards";
+import { storyDetails } from "@/data/story-details";
 
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
@@ -15,7 +16,7 @@ const THUMB_SLUGS = ["prism", "range-promotions", "mdq", "core-observability", "
 const BLUR_FADE_DELAY = 0.04;
 
 export function generateStaticParams() {
-  return stories.map((s) => ({ slug: s.slug }));
+  return storyCards.map((s) => ({ slug: s.slug }));
 }
 
 export default async function StoryDetailPage({
@@ -24,8 +25,11 @@ export default async function StoryDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const story = stories.find((s) => s.slug === slug);
-  if (!story) notFound();
+  const card = storyCards.find((s) => s.slug === slug);
+  if (!card) notFound();
+  // Merge public card + private detail so the rest of the page reads one `story` object.
+  // The detail content is imported only here (a gated route), never on the public list.
+  const story = { ...card, ...storyDetails[card.slug] };
 
   return (
     <main className="flex flex-col min-h-[100dvh] gap-16 py-12 px-4 max-w-2xl mx-auto">

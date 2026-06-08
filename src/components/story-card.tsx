@@ -3,11 +3,11 @@
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useRef } from "react";
-import type { Story } from "@/data/stories";
+import type { StoryCardData } from "@/data/story-types";
 import { StoryThumbnail } from "@/components/story-thumbnails";
 
 interface StoryCardProps {
-  story: Story;
+  story: StoryCardData;
   className?: string;
 }
 

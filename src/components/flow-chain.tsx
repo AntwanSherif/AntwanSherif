@@ -1,4 +1,4 @@
-import type { FlowStep } from "@/data/stories";
+import type { FlowStep } from "@/data/story-types";
 
 interface FlowChainProps {
   steps: FlowStep[];

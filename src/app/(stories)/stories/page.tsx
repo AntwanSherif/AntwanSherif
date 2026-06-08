@@ -1,6 +1,6 @@
 import BlurFade from "@/components/magicui/blur-fade";
 import { StoryCard } from "@/components/story-card";
-import { stories } from "@/data/stories";
+import { storyCards } from "@/data/story-cards";
 
 const BLUR_FADE_DELAY = 0.04;
 
@@ -20,7 +20,7 @@ export default function StoriesPage() {
 
       <section>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {stories.map((story, i) => (
+          {storyCards.map((story, i) => (
             <BlurFade key={story.slug} delay={BLUR_FADE_DELAY * (3 + i)} className="h-full">
               <StoryCard story={story} />
             </BlurFade>
