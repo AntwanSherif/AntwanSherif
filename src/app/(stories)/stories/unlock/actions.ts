@@ -1,27 +1,25 @@
 "use server";
 
-import { createHash } from "crypto";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { validate } from "@/lib/stories-password";
 
 const COOKIE_NAME = "stories-auth";
-
-function hashPassword(password: string): string {
-  return createHash("sha256").update(password).digest("hex");
-}
 
 export async function unlockAction(formData: FormData) {
   const input = (formData.get("password") as string) ?? "";
   const from = (formData.get("from") as string) ?? "";
   const safeTo = from.startsWith("/stories/") ? from : "/stories";
 
-  const stored = process.env.STORIES_PASSWORD ?? "";
-  if (!stored || hashPassword(input) !== hashPassword(stored)) {
+  const seed = process.env.STORIES_SEED ?? "";
+  if (!(await validate(seed, input.trim()))) {
     redirect(`/stories/unlock?from=${encodeURIComponent(safeTo)}&error=1`);
   }
 
+  // Store the validated password itself; the proxy re-validates it on every
+  // request, so access lapses automatically when the password rotates out.
   const cookieStore = await cookies();
-  cookieStore.set(COOKIE_NAME, hashPassword(stored), {
+  cookieStore.set(COOKIE_NAME, input.trim(), {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",

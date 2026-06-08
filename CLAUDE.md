@@ -55,6 +55,26 @@ at submodule-clone time. Add it: repo → Settings → Deploy keys (or follow
 <https://vercel.com/docs/deployments/git/private-submodules>). **Not yet configured** — required before the
 first deploy.
 
+## Story Gate (password)
+
+`/stories/*` is password-protected by `src/proxy.ts` (Next 16 middleware, edge runtime).
+Passwords are **per-company and rotate monthly**, derived from one secret:
+
+```
+password = Company-<10 base62>   e.g.  Acme-7f3k9x2qph
+code      = base62(HMAC-SHA256(STORIES_SEED, "<slug>|<YYYY-MM>"))[:10]
+```
+
+- **Validation** lives in `src/lib/stories-password.ts` (`validate`), used by both `proxy.ts`
+  and the unlock server action. Edge-safe (Web Crypto only). Test-covered: `*.test.ts` (`pnpm test`).
+- **Generation** is private: `src/data/stories-private/admin.ts` (in the submodule). Run
+  `node src/data/stories-private/admin.ts <Company>` to print a company's password. Don't add a
+  password generator to the public repo.
+- **The only secret is `STORIES_SEED`** — a static, high-entropy value in `.env.local` (gitignored)
+  and Vercel. Never `STORIES_PASSWORD` anymore. Rotating the seed invalidates every company at once.
+- **Grace + expiry:** the current and previous month both validate; the auth cookie also has a 7-day
+  `maxAge`. A shared password naturally dies ~1 month after the period it was issued in.
+
 ## Plan Reference
 
 Full build plan is at `~/.claude/plans/antwan-portfolio.md`. Always read it before starting a session to know current phase and pending tasks.

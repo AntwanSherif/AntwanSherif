@@ -11,6 +11,7 @@
     "start": "next start",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
+    "test": "vitest run",
     "stories:status": "git submodule status src/data/stories-private && git -C src/data/stories-private status --short",
     "stories:publish": "bash scripts/publish-stories.sh"
   },
@@ -52,6 +53,7 @@
     "eslint-config-next": "16.1.1",
     "postcss": "^8.5.6",
     "typescript": "^5.9.3",
+    "vitest": "^4.1.8",
     "zod": "^4.3.5"
   }
 }

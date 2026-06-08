@@ -12,7 +12,7 @@ GitHub profile repo, `AntwanSherif/AntwanSherif`), but the work-story details ar
 |-------------|------|-----------|----------|
 | `resume.tsx` | `AntwanSherif` | public | Name, bio, jobs, projects, skills (the `DATA` export) |
 | `stories.tsx` | `AntwanSherif` | public | **3-line re-export wrapper only — no content** |
-| `stories-private/` | `AntwanSherif-stories` | **private** | The real story content (git submodule) |
+| `stories-private/` | `AntwanSherif-stories` | **private** | Real story content + `admin.ts` password generator (git submodule) |
 
 `stories-private/` is a **git submodule** — a separate private repo (`AntwanSherif/AntwanSherif-stories`)
 mounted at this path. The public repo stores only a pinned commit pointer to it, not the files.

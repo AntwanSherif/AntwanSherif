@@ -4,16 +4,9 @@
 
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { validate } from "@/lib/stories-password";
 
 const COOKIE_NAME = "stories-auth";
-
-async function hashPassword(password: string): Promise<string> {
-  const data = new TextEncoder().encode(password);
-  const hash = await crypto.subtle.digest("SHA-256", data);
-  return Array.from(new Uint8Array(hash))
-    .map((b) => b.toString(16).padStart(2, "0"))
-    .join("");
-}
 
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -24,13 +17,11 @@ export async function proxy(request: NextRequest) {
 
   if (!isProtected) return NextResponse.next();
 
-  const password = process.env.STORIES_PASSWORD;
-  if (!password) return NextResponse.next();
+  const seed = process.env.STORIES_SEED;
+  if (!seed) return NextResponse.next();
 
   const cookie = request.cookies.get(COOKIE_NAME)?.value;
-  const expected = await hashPassword(password);
-
-  if (cookie === expected) return NextResponse.next();
+  if (cookie && (await validate(seed, cookie))) return NextResponse.next();
 
   const url = request.nextUrl.clone();
   url.pathname = "/stories/unlock";
