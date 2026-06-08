@@ -1,0 +1,4 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "installCommand": "rm -rf src/data/stories-private && git clone --depth 1 https://x-access-token:$STORIES_REPO_TOKEN@github.com/AntwanSherif/AntwanSherif-stories.git src/data/stories-private && pnpm install"
+}
