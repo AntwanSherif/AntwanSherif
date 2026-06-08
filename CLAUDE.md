@@ -5,6 +5,7 @@
 **Before modifying code in a subdirectory, read its AGENTS.md first** to understand local patterns and invariants.
 
 - **Components**: `src/components/AGENTS.md` - Shared UI components, section layout, animation primitives
+- **Data**: `src/data/AGENTS.md` - Content source of truth + the public/private story split (read before touching `stories.tsx` or `stories-private/`)
 
 ### Global Invariants
 
@@ -12,6 +13,47 @@
 - Server components by default; add `'use client'` only for interactivity/hooks
 - Use `cn()` from `src/lib/utils.ts` for all conditional classnames
 - Package manager is **pnpm**
+
+## Story Content Split (public/private)
+
+This repo is **public** (it's the GitHub profile repo). Work-story content is sensitive, so it's split out
+into a **private git submodule**. Full details + workflow live in `src/data/AGENTS.md` — read that before
+editing any story content. Quick orientation:
+
+- **Public repo** (`AntwanSherif/AntwanSherif`): everything except story content. `src/data/stories.tsx`
+  is a 3-line re-export wrapper, not content.
+- **Private repo** (`AntwanSherif/AntwanSherif-stories`): the real story content, mounted as a submodule
+  at `src/data/stories-private/`.
+
+### How submodules work (one-paragraph primer)
+
+A submodule is a nested git repo whose files the parent does NOT store — the parent stores only a **pinned
+commit pointer** (a "bookmark") plus `.gitmodules` (the URL→path map). Editing the private repo does NOT
+change the public build until you **bump the pointer** in the public repo. That's two commits for one
+logical change (commit the content in the submodule, then commit the moved pointer in the parent) — it's
+deliberate, so the public build is always reproducible.
+
+### Editing story content (edit-in-place)
+
+```bash
+$EDITOR src/data/stories-private/stories.tsx
+pnpm stories:publish "edit: ..."     # pushes private repo, then bumps public pointer (right order)
+```
+`pnpm stories:publish` wraps the two-step dance safely; `pnpm stories:status` shows if the pointer is
+stale. **Order matters** (the script enforces it): push the submodule FIRST, then bump the pointer.
+Bumping a pointer to an unpushed commit breaks every fresh clone and Vercel.
+
+### Fresh clone
+
+`git clone --recurse-submodules ...` (or `git submodule update --init` after a plain clone). Without it,
+`stories-private/` is empty and `pnpm build` fails.
+
+### Vercel
+
+The submodule is private, so Vercel needs a **deploy key** for `AntwanSherif-stories` or the build fails
+at submodule-clone time. Add it: repo → Settings → Deploy keys (or follow
+<https://vercel.com/docs/deployments/git/private-submodules>). **Not yet configured** — required before the
+first deploy.
 
 ## Plan Reference
 

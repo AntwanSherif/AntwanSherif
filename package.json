@@ -10,7 +10,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "lint:fix": "eslint --fix"
+    "lint:fix": "eslint --fix",
+    "stories:status": "git submodule status src/data/stories-private && git -C src/data/stories-private status --short",
+    "stories:publish": "bash scripts/publish-stories.sh"
   },
   "dependencies": {
     "@content-collections/mdx": "^0.2.2",
