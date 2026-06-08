@@ -1,7 +1,7 @@
 "use server";
 
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
+import { redirect, RedirectType } from "next/navigation";
 import { validate } from "@/lib/stories-password";
 
 const COOKIE_NAME = "stories-auth";
@@ -13,7 +13,8 @@ export async function unlockAction(formData: FormData) {
 
   const seed = process.env.STORIES_SEED ?? "";
   if (!(await validate(seed, input.trim()))) {
-    redirect(`/stories/unlock?from=${encodeURIComponent(safeTo)}&error=1`);
+    // replace, not push — wrong attempts shouldn't stack history entries.
+    redirect(`/stories/unlock?from=${encodeURIComponent(safeTo)}&error=1`, RedirectType.replace);
   }
 
   // Store the validated password itself; the proxy re-validates it on every
@@ -27,5 +28,7 @@ export async function unlockAction(formData: FormData) {
     path: "/stories",
   });
 
-  redirect(safeTo);
+  // replace, not push (Next defaults server-action redirects to push) — so the unlock
+  // page is removed from history and the back button lands on /stories, not the gate.
+  redirect(safeTo, RedirectType.replace);
 }
