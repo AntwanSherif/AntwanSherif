@@ -50,10 +50,20 @@ Bumping a pointer to an unpushed commit breaks every fresh clone and Vercel.
 
 ### Vercel
 
-The submodule is private, so Vercel needs a **deploy key** for `AntwanSherif-stories` or the build fails
-at submodule-clone time. Add it: repo → Settings → Deploy keys (or follow
-<https://vercel.com/docs/deployments/git/private-submodules>). **Not yet configured** — required before the
-first deploy.
+**Vercel does NOT support private git submodules** — its docs state private/SSH submodules fail during the
+build. So the build must fetch the private content itself with a token:
+
+1. Fine-grained GitHub PAT scoped to `AntwanSherif-stories`, **Contents: Read-only**.
+2. Add it to Vercel as env var `STORIES_REPO_TOKEN` (plus `STORIES_SEED`; remove `STORIES_PASSWORD`).
+3. Override the Vercel **Install Command**:
+   ```bash
+   rm -rf src/data/stories-private && \
+   git clone --depth 1 https://x-access-token:$STORIES_REPO_TOKEN@github.com/AntwanSherif/AntwanSherif-stories.git src/data/stories-private && \
+   pnpm install
+   ```
+
+This drops the real content where the wrapper expects it, bypassing submodule auth. **Not yet configured** —
+required before the first deploy.
 
 ## Story Gate (password)
 

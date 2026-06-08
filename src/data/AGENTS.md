@@ -27,8 +27,8 @@ See root CLAUDE.md → "Story Content Split" for how submodules work.
   `flow-chain.tsx`, `story-card.tsx`). Never change the path; change content inside the submodule.
 - **The submodule's exports must match what consumers expect**: types `Metric`, `FlowStep`, `Feature`,
   `StarStory`, `UiSection`, `Story`, and the `stories: Story[]` array. The wrapper re-exports all of them.
-- **A `pnpm build` clone needs the submodule.** Vercel requires a deploy key for `AntwanSherif-stories`
-  or the build fails at submodule-clone time.
+- **A `pnpm build` clone needs the submodule.** Vercel does NOT support private submodules — the build
+  fetches the content via a token instead (see root CLAUDE.md → "Story Content Split" → Vercel).
 
 ## Patterns
 
@@ -67,6 +67,6 @@ build fails.
 
 ## Related Context
 
-- How submodules work + Vercel deploy key: root CLAUDE.md → "Story Content Split"
+- How submodules work + Vercel token setup: root CLAUDE.md → "Story Content Split"
 - Story page routes: `../app/(stories)/`
 - Story UI components: `../components/story-card.tsx`, `../components/flow-chain.tsx`
