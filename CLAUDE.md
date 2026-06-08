@@ -77,8 +77,8 @@ code      = base62(HMAC-SHA256(STORIES_SEED, "<slug>|<YYYY-MM>"))[:10]
 
 - **Validation** lives in `src/lib/stories-password.ts` (`validate`), used by both `proxy.ts`
   and the unlock server action. Edge-safe (Web Crypto only). Test-covered: `*.test.ts` (`pnpm test`).
-- **Generation** is private: `src/data/stories-private/admin.mts` (in the submodule). Run
-  `node src/data/stories-private/admin.mts <Company>` for one company, or `… admin.mts list` to print
+- **Generation** is private: `src/data/stories-private/admin.ts` (in the submodule). Run
+  `node src/data/stories-private/admin.ts <Company>` for one company, or `… admin.ts list` to print
   every company in the private `companies.txt` roster. Don't add a password generator to the public repo.
 - **The only secret is `STORIES_SEED`** — a static, high-entropy value in `.env.local` (gitignored)
   and Vercel. Never `STORIES_PASSWORD` anymore. Rotating the seed invalidates every company at once.
