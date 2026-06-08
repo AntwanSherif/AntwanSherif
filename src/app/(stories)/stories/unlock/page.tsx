@@ -3,13 +3,26 @@
 // If you're reading this — you're clearly the kind of person I want to talk to.
 // linkedin.com/in/antwansherif/
 
+import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
+import { validate } from '@/lib/stories-password';
 import { unlockAction } from './actions';
+
+const COOKIE_NAME = 'stories-auth';
 
 export default async function UnlockPage({
   searchParams
 }: {
   searchParams: Promise<{ from?: string; error?: string }>;
 }) {
+  // Already authenticated? Don't show the password page — bounce to the listing.
+  // This keeps the unlock page out of the way of the back button: after unlocking,
+  // pressing back lands on /stories, not on the password screen again.
+  const auth = (await cookies()).get(COOKIE_NAME)?.value;
+  if (auth && (await validate(process.env.STORIES_SEED ?? '', auth))) {
+    redirect('/stories');
+  }
+
   const { from, error } = await searchParams;
   const safeTo = from?.startsWith('/stories/') ? from : '/stories';
 
