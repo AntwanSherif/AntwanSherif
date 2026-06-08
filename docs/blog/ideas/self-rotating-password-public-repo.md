@@ -2,11 +2,12 @@
 title: "A self-rotating password for a public repo (no backend, no cron, no database)"
 status: draft
 created: 2026-06-08
-tags: [nextjs, security, git, vercel, edge]
+tags: [nextjs, security, git, vercel, edge, rsc]
 ---
 
-> **Draft / idea.** Captured from the session where I actually built this. Needs a
-> tighter intro, maybe a diagram, and a final read for voice before publishing.
+> **Draft / idea.** Captured from the session where I actually built this. Three arcs now —
+> the submodule, the derived password, and the RSC leak I nearly shipped. Needs a tighter
+> intro (the leak might be the better hook), maybe a diagram, and a read for voice.
 
 ## The setup
 
@@ -51,8 +52,8 @@ Every consumer keeps importing `@/data/stories`. They have no idea the content m
 The part that trips everyone up: the parent pins a *frozen commit*, not "latest." Editing
 the private repo doesn't change the public build until you bump the pointer. That's two
 commits for one change — annoying at first, but it means the public build is always
-reproducible. Vercel handles private submodules natively; you just add a deploy key so its
-build can clone the private repo.
+reproducible. (Getting this to actually *deploy* had a surprise waiting — see the Vercel
+aside below.)
 
 ## Part 2 — the password, and the rabbit hole I went down
 
@@ -109,16 +110,81 @@ high-entropy `SECRET_SEED` env var, which never enters either repo. The password
 *generator* lives in the private submodule — not because it's a vulnerability if seen, but
 to keep my list of companies and the backstage tooling out of the public eye.
 
+## Part 3 — the leak I almost shipped (hiding the file wasn't enough)
+
+Here's the part that humbled me. I'd hidden the content in a private submodule and gated
+the detail pages. I thought I was done. Then I actually grepped my own build output for a
+sentence from one of the stories — and found it sitting in the **public** `/stories` list
+page, downloadable with no password.
+
+The cause is a Next.js App Router subtlety that's easy to miss. My list page was a Server
+Component that rendered a card for each story:
+
+```tsx
+// looked innocent
+{stories.map((s) => <StoryCard story={s} />)}   // StoryCard is "use client"
+```
+
+`StoryCard` only *displays* a teaser — company, title, a one-line tagline. But it's a
+**client** component, and the rule is: **when a Server Component passes a prop to a Client
+Component, React serializes the *entire* prop into the payload sent to the browser** — every
+field, not just the ones the client reads. I was handing it the whole `story` object, so the
+full narrative — `problem`, `star`, `challenges` — was serialized into a page that wasn't
+even gated.
+
+Hiding the source file had done *nothing* for this. The framework happily re-exposed the
+data at render time. A quick `curl /stories` with no cookie, piped to `grep`, confirmed it:
+the private narrative, right there in the HTML.
+
+**The lesson that stuck:** data isn't private because its *source file* is hidden. It's
+private only if it never crosses into a public render. The trust boundary is the rendered
+output, not the repo layout.
+
+The fix was to split the data into two tiers that mirror the trust boundary:
+
+- **Public teasers** (`storyCards`): slug, company, tagline, metrics, tech tags. Lives in
+  the public repo, feeds the public list page.
+- **Private details** (`storyDetails`): the narrative. Lives in the private submodule,
+  imported *only* by the gated detail page.
+
+The public list page literally cannot leak what it never imports. And I added a test that
+fails if the public card data ever grows a private field again — so the next careless
+`...spread` can't quietly re-open the hole.
+
+## Aside: Vercel doesn't deploy private submodules
+
+A practical gotcha worth the warning. Vercel's docs are explicit: it can build public
+submodules over HTTPS, but **private submodules fail at the build step.** There's no deploy
+key to add. The workaround is to fetch the content yourself in the install command, using a
+scoped read-only token:
+
+```bash
+git clone --depth 1 https://x-access-token:$STORIES_REPO_TOKEN@github.com/me/private.git \
+  src/data/stories-private && pnpm install
+```
+
+It clones the private repo into the submodule's path before the build runs — sidestepping
+the submodule machinery entirely.
+
 ## What it cost
 
-About twenty lines of edge-safe Web Crypto, a re-export wrapper, and a private CLI. No
-backend, no database, no cron, no redeploy-on-rotation. Passwords that are unguessable,
-rotate themselves monthly, expire on their own, scale to any number of companies, and leak
-nothing even though the whole mechanism is open source.
+About twenty lines of edge-safe Web Crypto, a re-export wrapper, a two-tier data split, and
+a private CLI. No backend, no database, no cron, no redeploy-on-rotation. Passwords that are
+unguessable, rotate themselves monthly, expire on their own, scale to any number of
+companies, and leak nothing even though the whole mechanism is open source.
+
+The cleverest part (the derived password) took an afternoon. The part that actually
+mattered for security — noticing the framework was serializing private data into a public
+page — took *grepping my own build output*. Worth remembering which of those two is the real
+work.
 
 ## Open threads for the final draft
 
 - A diagram of the submodule pointer + the HMAC derivation would carry a lot here.
+- The Part 3 RSC-serialization gotcha might deserve to be the *opening* hook — it's the most
+  surprising and broadly useful lesson; the password machinery could come second.
 - Worth a sentence on the cookie: it stores the validated password and is re-checked every
   request, so access lapses automatically when the password rotates out.
 - Maybe a short "things I rejected and why" box (Vercel cron, TOTP, random+notify).
+- "Verify by grepping your build output / curling your own routes" is a reusable discipline
+  worth pulling into its own callout.
