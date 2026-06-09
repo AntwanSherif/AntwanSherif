@@ -106,42 +106,56 @@ export default function ScrambleText({
     };
   }, [text, randomInterval, triggerLetter]);
 
+  const renderLetter = (char: string, idx: number) => {
+    const dir = DIRS[idx % DIRS.length];
+    return (
+      <span
+        key={`${char}-${idx}`}
+        data-letter
+        data-dir={dir}
+        data-animating="false"
+        style={{ position: "relative", display: "inline-block", overflow: "hidden" }}
+      >
+        <span className="sl-f" style={{ display: "block", transform: "translate(0%,0%)" }}>
+          {char}
+        </span>
+        <span
+          className="sl-b"
+          style={{
+            position: "absolute",
+            inset: 0,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            transform: IN_START[dir],
+            ...STRIPE_STYLE,
+          }}
+        >
+          {char}
+        </span>
+      </span>
+    );
+  };
+
+  const words = text.split(" ");
+
   return (
+    // flex-wrap so a long name wraps BETWEEN words instead of overflowing the
+    // viewport on mobile; each word is its own nowrap unit so letters never split.
     <span
       ref={containerRef}
       className={cn(className)}
       aria-label={text}
-      style={{ display: "inline-flex", alignItems: "baseline" }}
+      style={{ display: "flex", flexWrap: "wrap", alignItems: "baseline", columnGap: "0.3em" }}
     >
-      {text.split("").map((char, i) => {
-        if (char === " ")
-          return <span key={i} style={{ display: "inline-block", width: "0.3em" }} />;
-        const dir = DIRS[i % DIRS.length];
+      {words.map((word, w) => {
+        const offset = words.slice(0, w).reduce((n, ww) => n + ww.length, 0);
         return (
           <span
-            key={i}
-            data-letter
-            data-dir={dir}
-            data-animating="false"
-            style={{ position: "relative", display: "inline-block", overflow: "hidden" }}
+            key={`w-${w}`}
+            style={{ display: "inline-flex", alignItems: "baseline", whiteSpace: "nowrap" }}
           >
-            <span className="sl-f" style={{ display: "block", transform: "translate(0%,0%)" }}>
-              {char}
-            </span>
-            <span
-              className="sl-b"
-              style={{
-                position: "absolute",
-                inset: 0,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                transform: IN_START[dir],
-                ...STRIPE_STYLE,
-              }}
-            >
-              {char}
-            </span>
+            {word.split("").map((char, ci) => renderLetter(char, offset + ci))}
           </span>
         );
       })}

@@ -11,16 +11,18 @@ import WorkSection from '@/components/section/work-section';
 import { ArrowUpRight } from 'lucide-react';
 import ScrambleText from '@/components/ScrambleText';
 import MagneticButton from '@/components/MagneticButton';
-import SourceFieldClient from '@/components/SourceFieldClient';
+import HeroScrollHint from '@/components/HeroScrollHint';
 import { SkillBadge } from '@/components/skill-badge';
+import PlasmaField from '@/components/PlasmaField';
 const BLUR_FADE_DELAY = 0.04;
 
 export default function Page() {
   return (
     <main className='min-h-dvh flex flex-col gap-10 sm:gap-14 relative'>
+      {/* Animated plasma background — fixed, spans the whole page, content scrolls over it.
+          -z-10 keeps it behind the content column. */}
+      <PlasmaField className='fixed inset-0 w-screen h-screen -z-10 pointer-events-none' />
       <section id='hero' className='relative min-h-[80vh] flex items-center'>
-        {/* Particle field background — extends beyond padding edges */}
-        <SourceFieldClient className='absolute inset-y-0 -left-6 -right-6 opacity-40 pointer-events-none' />
 
         <div className='relative z-10 w-full space-y-6'>
           <BlurFade delay={BLUR_FADE_DELAY}>
@@ -59,6 +61,8 @@ export default function Page() {
             </div>
           </BlurFade>
         </div>
+
+        <HeroScrollHint targetId='about' />
       </section>
       <section id='about'>
         <div className='flex min-h-0 flex-col gap-y-4'>

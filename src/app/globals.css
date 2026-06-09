@@ -96,7 +96,8 @@ html {
   --ring: rgba(0, 0, 0, 0.2);
   /* Brand accents */
   --accent-1: #d4a017;
-  --accent-2: #0891b2;
+  /* deepened from #0891b2 (3.68:1) so cyan eyebrows/links/subtitles clear WCAG AA (~5.1:1) on the light surface */
+  --accent-2: #0e7490;
   --accent-ai: #7c3aed;
   /* Chart */
   --chart-1: oklch(0.488 0.243 264.376);
@@ -323,6 +324,16 @@ html {
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   mask-composite: exclude;
   -webkit-mask-composite: xor;
+}
+
+/* ── Hero scroll-hint chevron ───────────────────────────────────── */
+@keyframes heroScrollBounce {
+  0%, 100% { transform: translate(-50%, 0); }
+  50%      { transform: translate(-50%, 7px); }
+}
+.hero-scroll-hint { animation: heroScrollBounce 1.8s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .hero-scroll-hint { animation: none; }
 }
 
 /* ── Thumbnail animations (always-on, RSC-safe, additive) ───────── */
