@@ -39,6 +39,9 @@ yarn-error.log*
 next-env.d.ts
 .content-collections
 
+# Dev server discovery (bin/dev writes the bound port here)
+.dev/
+
 # Superpowers brainstorm scratch
 .superpowers/
 

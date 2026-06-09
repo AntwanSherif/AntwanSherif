@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+#
+# Dev server launcher: pinned-port + auto-increment + discovery.
+# Convention: ~/.config/dev-ports.md   ·   Agent contract: CLAUDE.md "Dev Server Ports"
+#
+# Single-surface Next.js app (leaf — nothing addresses it by URL, so it floats freely).
+# Tries its pin, walks up the project's 10-slot, then spills to the scratch band.
+# The actually-bound port is published to .dev/port at the repo root.
+#
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+# --- project slot (see ledger) -------------------------------------------------
+PIN=3130
+SLOT_START=3130
+SLOT_END=3139
+SCRATCH_START=8000           # throwaway / overflow band
+SCRATCH_END=8999
+
+is_free() { ! lsof -nP -iTCP:"$1" -sTCP:LISTEN >/dev/null 2>&1; }
+
+first_free() {  # first_free <start> <end> -> echoes port, or returns 1
+  local p
+  for ((p=$1; p<=$2; p++)); do is_free "$p" && { echo "$p"; return 0; }; done
+  return 1
+}
+
+PORT="$(first_free "$PIN" "$SLOT_END" \
+      || first_free "$SLOT_START" "$SLOT_END" \
+      || first_free "$SCRATCH_START" "$SCRATCH_END")" \
+  || { echo "✗ no free port in slot $SLOT_START-$SLOT_END or scratch band" >&2; exit 1; }
+
+mkdir -p "$ROOT/.dev"
+echo "$PORT" > "$ROOT/.dev/port"
+echo "▶ portfolio → http://localhost:$PORT  (pin $PIN, leaf)"
+
+exec pnpm exec next dev -p "$PORT"

@@ -87,6 +87,14 @@ code      = base62(HMAC-SHA256(STORIES_SEED, "<slug>|<YYYY-MM>"))[:10]
 - **Grace + expiry:** the current and previous month both validate; the auth cookie also has a 7-day
   `maxAge`. A shared password naturally dies ~1 month after the period it was issued in.
 
+## Dev Server Ports
+
+Start the dev server with **`pnpm dev`** (which runs `bin/dev`). This repo owns the **`3130–3139`** slot — see `~/.config/dev-ports.md`.
+
+- The app pins **`3130`** but is a **leaf** (nothing addresses it by URL), so on collision it **auto-increments** up the slot, then spills to `8000–8999`. It is never blocked.
+- **Never assume the port; never hardcode `3000`.** The *actually bound* port is written to **`.dev/port`** at the repo root — read it to find the running server.
+- **Never kill a process to free a port** (`lsof | kill`, `fuser -k`). Collisions are absorbed by auto-increment, so there's nothing to clear.
+
 ## Plan Reference
 
 Full build plan is at `~/.claude/plans/antwan-portfolio.md`. Always read it before starting a session to know current phase and pending tasks.
