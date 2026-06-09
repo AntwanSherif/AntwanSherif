@@ -6,6 +6,7 @@ import { cn } from '@/lib/utils';
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono, Bricolage_Grotesque } from 'next/font/google';
 import { FlickeringGrid } from '@/components/magicui/flickering-grid';
+import PlasmaField from '@/components/PlasmaField';
 import './globals.css';
 
 const geist = Geist({
@@ -79,6 +80,8 @@ export default function RootLayout({
       >
         <ThemeProvider attribute='class' defaultTheme='dark'>
           <TooltipProvider delayDuration={0}>
+            {/* Animated plasma background — fixed, behind every page for site-wide consistency */}
+            <PlasmaField className='fixed inset-0 w-screen h-screen -z-10 pointer-events-none' />
             <div className='absolute inset-0 top-0 left-0 right-0 h-[100px] overflow-hidden z-0'>
               <FlickeringGrid
                 className='h-full w-full'

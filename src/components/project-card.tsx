@@ -53,7 +53,7 @@ export function ProjectCard({ title, href, description, dates, tags, link, image
       ref={cardRef}
       onMouseMove={handleMouseMove}
       className={cn(
-        'group relative flex flex-col h-full border border-border rounded-xl overflow-hidden cursor-pointer',
+        'group relative flex flex-col h-full border border-border rounded-xl overflow-hidden cursor-pointer bg-card',
         className
       )}
     >

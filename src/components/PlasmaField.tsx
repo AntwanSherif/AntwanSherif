@@ -17,7 +17,9 @@ const FRAG = `
   uniform float u_time;
   uniform vec3 u_c1;
   uniform vec3 u_c2;
+  uniform vec3 u_c3;
   uniform float u_alpha;
+  uniform float u_floor;
 
   void main(){
     vec2 uv = gl_FragCoord.xy / u_res;
@@ -31,11 +33,14 @@ const FRAG = `
     v *= 0.25;
 
     float m = smoothstep(-0.2, 0.85, v);
-    vec3 col = mix(u_c1, u_c2, 0.5 + 0.5 * sin(v * 3.0));
+    // blend through a mid color: c1 -> c3 -> c2 (identical to c1->c2 when c3 is their midpoint)
+    float k = 0.5 + 0.5 * sin(v * 3.0);
+    vec3 col = k < 0.5 ? mix(u_c1, u_c3, k * 2.0) : mix(u_c3, u_c2, (k - 0.5) * 2.0);
 
-    // soft vignette: calmer through the centre, fuller toward the edges
+    // soft vignette: u_floor sets how present the centre stays (1.0 = uniform, no vignette)
     float vig = smoothstep(0.15, 1.1, length(p * vec2(0.85, 1.15)));
-    float a = m * 0.6 * mix(0.35, 1.0, vig) * u_alpha;
+    // u_alpha reaches 1.0 so the field can go fully solid (no internal cap)
+    float a = m * mix(u_floor, 1.0, vig) * u_alpha;
     gl_FragColor = vec4(col, a);
   }
 `;
@@ -81,19 +86,29 @@ export default function PlasmaField({ className }: { className?: string }) {
     const uTime = gl.getUniformLocation(prog, "u_time");
     const uC1 = gl.getUniformLocation(prog, "u_c1");
     const uC2 = gl.getUniformLocation(prog, "u_c2");
+    const uC3 = gl.getUniformLocation(prog, "u_c3");
     const uAlpha = gl.getUniformLocation(prog, "u_alpha");
+    const uFloor = gl.getUniformLocation(prog, "u_floor");
 
     const applyTheme = () => {
       const cs = getComputedStyle(document.documentElement);
-      gl.uniform3fv(uC1, hex01(cs.getPropertyValue("--accent-1") || "#f0c542"));
-      gl.uniform3fv(uC2, hex01(cs.getPropertyValue("--accent-2") || "#4dd0e1"));
+      const v = (n: string) => cs.getPropertyValue(n).trim();
       const isDark = document.documentElement.classList.contains("dark");
-      // light needs much more presence — deep ink at low alpha on near-white washes out
-      gl.uniform1f(uAlpha, isDark ? 0.6 : 0.9);
+      // plasma colors are tunable (--plasma-c1/c2/c3), falling back to the brand accents
+      const c1 = v("--plasma-c1") || v("--accent-1") || "#f0c542";
+      const c2 = v("--plasma-c2") || v("--accent-2") || "#4dd0e1";
+      gl.uniform3fv(uC1, hex01(c1));
+      gl.uniform3fv(uC2, hex01(c2));
+      gl.uniform3fv(uC3, hex01(v("--plasma-c3") || c1));
+      const pa = parseFloat(v("--plasma-alpha"));
+      gl.uniform1f(uAlpha, Number.isFinite(pa) ? pa : isDark ? 0.6 : 0.9);
+      const fl = parseFloat(v("--plasma-floor"));
+      gl.uniform1f(uFloor, Number.isFinite(fl) ? fl : 0.35);
     };
     applyTheme();
+    // observe class (theme flip) AND style (tuner overriding --plasma-alpha inline)
     const themeObs = new MutationObserver(applyTheme);
-    themeObs.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+    themeObs.observe(document.documentElement, { attributes: true, attributeFilter: ["class", "style"] });
 
     const resize = () => {
       const dpr = Math.min(window.devicePixelRatio || 1, 1.5);

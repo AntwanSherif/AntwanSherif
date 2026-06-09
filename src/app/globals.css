@@ -69,13 +69,14 @@ html {
   /* Deep gold — pale gold washes out on the light surface, so light
      mode uses a darker, more saturated gold at full alpha for contrast */
   --spotlight-rgb: 161 98 7;
-  --spotlight-fill-alpha: 0.24;
-  --spotlight-border-alpha: 1;
-  --spotlight-fill-stop: 41%;
+  --spotlight-fill-alpha: 0.3;
+  --spotlight-border-alpha: 0.85;
+  --spotlight-fill-stop: 45%;
   --spotlight-border-stop: 58%;
   --spotlight-border-pad: 1px;
   /* Light palette */
-  --background: #f8f8f8;
+  /* bg sits a touch below pure white so #fff cards/surfaces separate from it */
+  --background: #eceef2;
   --surface: #ffffff;
   --foreground: #0a0a0f;
   --card: #ffffff;
@@ -91,14 +92,24 @@ html {
   --accent: #f0f0f5;
   --accent-foreground: #0a0a0f;
   --destructive: oklch(0.704 0.191 22.216);
-  --border: rgba(0, 0, 0, 0.08);
-  --input: rgba(0, 0, 0, 0.08);
+  --border: rgba(0, 0, 0, 0.14);
+  --input: rgba(0, 0, 0, 0.14);
   --ring: rgba(0, 0, 0, 0.2);
   /* Brand accents */
   --accent-1: #d4a017;
   /* deepened from #0891b2 (3.68:1) so cyan eyebrows/links/subtitles clear WCAG AA (~5.1:1) on the light surface */
   --accent-2: #0e7490;
   --accent-ai: #7c3aed;
+  /* Hero plasma + talk-card photo overlay — tunable per theme */
+  --plasma-c1: #d4a017;
+  --plasma-c2: #0e7490;
+  --plasma-c3: #718a54; /* mid bridge color — default = midpoint of c1/c2 (no visual change) */
+  --plasma-alpha: 0.68;
+  --plasma-floor: 0.58;
+  --talk-overlay: #ffffff;
+  --talk-overlay-opacity: 1;
+  --talk-overlay-height: 66%;
+  --talk-overlay-fade: 38%;
   /* Chart */
   --chart-1: oklch(0.488 0.243 264.376);
   --chart-2: oklch(0.696 0.17 162.48);
@@ -139,6 +150,15 @@ html {
   --accent-1: #f0c542;
   --accent-2: #4dd0e1;
   --accent-ai: #7c3aed;
+  --plasma-c1: #f0c542;
+  --plasma-c2: #4dd0e1;
+  --plasma-c3: #9fcb92; /* mid bridge color — default = midpoint of c1/c2 */
+  --plasma-alpha: 0.6;
+  --plasma-floor: 0.35;
+  --talk-overlay: #13131a;
+  --talk-overlay-opacity: 1;
+  --talk-overlay-height: 66%;
+  --talk-overlay-fade: 38%;
   --spotlight-rgb: 251 211 91; /* bright gold */
   --spotlight-fill-alpha: 0.12;
   --spotlight-border-alpha: 1;
@@ -334,6 +354,20 @@ html {
 .hero-scroll-hint { animation: heroScrollBounce 1.8s ease-in-out infinite; }
 @media (prefers-reduced-motion: reduce) {
   .hero-scroll-hint { animation: none; }
+}
+
+/* Talk-card photo overlay — var-driven so it can be tuned independently of --card */
+/* Element spans the full image (inset-0); the fade EXTENT is driven by the gradient
+   stops, not the element height — percentage heights via CSS vars don't resolve
+   against a content-sized box, but gradient-stop percentages via vars do. */
+.talk-overlay-fade {
+  opacity: var(--talk-overlay-opacity, 1);
+  background: linear-gradient(
+    to top,
+    var(--talk-overlay) 0%,
+    color-mix(in srgb, var(--talk-overlay) 70%, transparent) var(--talk-overlay-fade, 38%),
+    transparent var(--talk-overlay-height, 66%)
+  );
 }
 
 /* ── Thumbnail animations (always-on, RSC-safe, additive) ───────── */

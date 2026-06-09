@@ -49,7 +49,7 @@ export function TalkCard({ talk, delay }: { talk: (typeof DATA.talks)[number]; d
                 </div>
               ))}
             </div>
-            <div className='pointer-events-none absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-card via-card/70 to-transparent' />
+            <div className='talk-overlay-fade pointer-events-none absolute inset-0' />
             <div className='absolute bottom-0 left-0 right-0 p-4 sm:p-5 flex flex-col gap-0.5'>
               <span className='text-xs font-medium text-accent-2 uppercase tracking-wide'>{talk.event}</span>
               <h3 className='font-semibold text-xl leading-snug'>{talk.title}</h3>
