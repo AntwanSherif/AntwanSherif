@@ -49,7 +49,7 @@ export function StoryCard({ story, className }: StoryCardProps) {
       </div>
 
       {/* Row 1 — thumbnail */}
-      <div className="w-full aspect-[2/1] overflow-hidden">
+      <div className="w-full aspect-2/1 overflow-hidden">
         {hasThumb ? (
           <StoryThumbnail slug={story.slug} />
         ) : (
@@ -64,6 +64,7 @@ export function StoryCard({ story, className }: StoryCardProps) {
             {story.company}
           </p>
           <h3 className="text-2xl font-extrabold leading-tight text-foreground">{story.initiative}</h3>
+          <p className="text-xs font-medium leading-snug text-accent-2">{story.subtitle}</p>
         </div>
       </div>
 

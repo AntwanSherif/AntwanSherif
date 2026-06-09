@@ -18,6 +18,7 @@ export type StoryCardData = {
   slug: string;
   company: string;
   initiative: string;
+  subtitle: string;
   tagline: string;
   metrics: Metric[];
   techTags: string[];

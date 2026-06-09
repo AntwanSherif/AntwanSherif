@@ -19,7 +19,7 @@ export default function StoriesPage() {
       </section>
 
       <section>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {storyCards.map((story, i) => (
             <BlurFade key={story.slug} delay={BLUR_FADE_DELAY * (3 + i)} className="row-span-5 grid grid-rows-subgrid">
               <StoryCard story={story} />
