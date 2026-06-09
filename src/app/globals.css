@@ -361,7 +361,7 @@ html {
 .thumb-flow { animation: connFlow 1.5s linear infinite; }
 .thumb-receive { animation: receivePulse 2.4s ease-in-out infinite; }
 
-/* Insta Super Edit */
+/* EncoreShot */
 .thumb-freddie { transform-box: fill-box; transform-origin: 50% 100%; animation: freddieSway 3.8s ease-in-out infinite; }
 .thumb-beam { transform-box: fill-box; transform-origin: 50% 0%; }
 .thumb-beam.b1 { animation: beamSweep 4.2s ease-in-out infinite, beamPulse 1.6s ease-in-out infinite; }

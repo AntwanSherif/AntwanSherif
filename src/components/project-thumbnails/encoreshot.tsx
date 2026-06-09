@@ -31,7 +31,7 @@ function IGPost({ x, y }: { x: number; y: number }) {
   );
 }
 
-export function InstaSuperEditThumbnail() {
+export function EncoreShotThumbnail() {
   return (
     <svg viewBox="0 0 400 200" className="w-full h-full block">
       <defs>
