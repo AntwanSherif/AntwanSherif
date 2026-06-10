@@ -53,7 +53,7 @@ export function ProjectCard({ title, href, description, dates, tags, link, image
       ref={cardRef}
       onMouseMove={handleMouseMove}
       className={cn(
-        'group relative flex flex-col h-full border border-border rounded-xl overflow-hidden cursor-pointer bg-card',
+        'group relative flex flex-col h-full border border-border rounded-xl overflow-hidden bg-card cursor-default select-none',
         className
       )}
     >
@@ -61,7 +61,13 @@ export function ProjectCard({ title, href, description, dates, tags, link, image
       <div className='spotlight-border pointer-events-none absolute inset-0 z-10 opacity-0 transition-opacity duration-300 will-change-[opacity] group-hover:opacity-100' />
       <div className='relative shrink-0'>
         {href ? (
-          <Link href={href} target='_blank' rel='noopener noreferrer' className='block'>
+          <Link
+            href={href}
+            target='_blank'
+            rel='noopener noreferrer'
+            aria-label={`Open ${title}`}
+            className='block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring'
+          >
             {video ? (
               <video src={video} autoPlay loop muted playsInline className='w-full aspect-[2/1] object-cover' />
             ) : thumbnailSlot ? (

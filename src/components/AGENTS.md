@@ -10,7 +10,7 @@ Does NOT own: page routing (`src/app/`), content data (`src/data/`).
 - `ui/` - shadcn/ui Radix primitives (button, card, badge, etc.)
 - `SourceField.tsx` / `SourceFieldClient.tsx` - Canvas particle background
 - `ScrambleText.tsx` - Diagonal scramble text effect
-- `MagneticButton.tsx` - Magnetic cursor CTA button
+- `CtaButton.tsx` - CTA button/link with restrained hover lift + press feedback (CSS-only, reduced-motion safe)
 
 ## Contracts & Invariants
 

@@ -10,7 +10,7 @@ import TalksSection from '@/components/section/talks-section';
 import WorkSection from '@/components/section/work-section';
 import { ArrowUpRight } from 'lucide-react';
 import ScrambleText from '@/components/ScrambleText';
-import MagneticButton from '@/components/MagneticButton';
+import CtaButton from '@/components/CtaButton';
 import HeroScrollHint from '@/components/HeroScrollHint';
 import { SkillBadge } from '@/components/skill-badge';
 const BLUR_FADE_DELAY = 0.04;
@@ -42,25 +42,25 @@ export default function Page() {
 
           <BlurFade delay={BLUR_FADE_DELAY * 4}>
             <div className='flex flex-wrap gap-3 pt-2'>
-              <MagneticButton
+              <CtaButton
                 href='#projects'
                 className='bg-[var(--accent-1)] text-[#0a0a0f] hover:bg-[var(--accent-1)]/90'
               >
                 View Work
-              </MagneticButton>
-              <MagneticButton
+              </CtaButton>
+              <CtaButton
                 href='#contact'
                 className='border border-border text-foreground hover:border-[var(--accent-2)] hover:text-[var(--accent-2)]'
               >
                 Get in Touch
-              </MagneticButton>
+              </CtaButton>
             </div>
           </BlurFade>
         </div>
 
         <HeroScrollHint targetId='about' />
       </section>
-      <section id='about'>
+      <section id='about' className='scroll-mt-24'>
         <div className='flex min-h-0 flex-col gap-y-4'>
           <BlurFade delay={BLUR_FADE_DELAY * 3}>
             <h2 className='text-section font-bold'>About</h2>
