@@ -65,6 +65,9 @@ export default async function UnlockPage({
             name='password'
             type='password'
             placeholder='Password'
+            aria-label='Password'
+            aria-invalid={!!error}
+            aria-describedby={error ? 'password-error' : undefined}
             autoFocus
             className={[
               'w-full rounded-xl border bg-card px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/50',
@@ -73,7 +76,7 @@ export default async function UnlockPage({
               error ? 'border-red-500/60 focus:ring-red-500/40' : 'border-border focus:ring-(--accent-ai)/40'
             ].join(' ')}
           />
-          {error && <p className='text-xs text-red-400 -mt-1'>Wrong password. Try again.</p>}
+          {error && <p id='password-error' className='text-xs text-red-400 -mt-1'>Wrong password. Try again.</p>}
           <button
             type='submit'
             className='w-full rounded-xl px-4 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90'

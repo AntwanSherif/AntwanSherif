@@ -27,7 +27,7 @@ export default function ContactSection() {
             href={DATA.contact.social.LinkedIn.url}
             target='_blank'
             rel='noopener noreferrer'
-            className='text-blue-500 hover:underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-sm'
+            className='text-[var(--accent-2)] hover:underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-sm'
           >
             on LinkedIn
           </Link>

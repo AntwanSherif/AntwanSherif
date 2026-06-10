@@ -145,6 +145,7 @@ export default function ScrambleText({
     <span
       ref={containerRef}
       className={cn(className)}
+      role="img"
       aria-label={text}
       style={{ display: "flex", flexWrap: "wrap", alignItems: "baseline", columnGap: "0.3em" }}
     >
@@ -153,6 +154,7 @@ export default function ScrambleText({
         return (
           <span
             key={`w-${w}`}
+            aria-hidden="true"
             style={{ display: "inline-flex", alignItems: "baseline", whiteSpace: "nowrap" }}
           >
             {word.split("").map((char, ci) => renderLetter(char, offset + ci))}

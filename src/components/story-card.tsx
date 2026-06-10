@@ -60,7 +60,7 @@ export function StoryCard({ story, className }: StoryCardProps) {
       {/* Row 2 — header */}
       <div className="px-6 pt-6">
         <div className="flex flex-col gap-1">
-          <p className="text-[10px] uppercase tracking-widest text-muted-foreground/50 leading-tight">
+          <p className="text-[10px] uppercase tracking-widest text-muted-foreground leading-tight">
             {story.company}
           </p>
           <h3 className="text-2xl font-extrabold leading-tight text-foreground">{story.initiative}</h3>
@@ -79,7 +79,7 @@ export function StoryCard({ story, className }: StoryCardProps) {
           <div className="grid grid-cols-2 gap-2">
             {story.metrics.slice(0, 2).map((m) => (
               <div key={m.label} className="border border-border rounded-lg px-3 py-1.5 text-center">
-                <div className="text-sm font-bold tabular-nums leading-tight" style={{ color: "var(--accent-ai)" }}>
+                <div className="text-sm font-bold tabular-nums leading-tight text-[#7c3aed] dark:text-[#a78bfa]">
                   {m.value}
                 </div>
                 <div className="text-[9px] text-muted-foreground mt-0.5">{m.label}</div>

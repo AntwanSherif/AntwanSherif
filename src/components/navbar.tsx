@@ -15,6 +15,8 @@ import { cn } from "@/lib/utils";
 
 const dockIconBase =
   "rounded-3xl cursor-pointer size-full p-0 backdrop-blur-3xl border transition-colors";
+const dockLinkFocus =
+  "rounded-3xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-1)] focus-visible:ring-offset-2 focus-visible:ring-offset-background";
 const dockIconInactive =
   "bg-background text-muted-foreground hover:text-foreground hover:bg-muted border-border";
 const dockIconActive =
@@ -29,7 +31,7 @@ export default function Navbar() {
   }
 
   return (
-    <div className="pointer-events-none fixed inset-x-0 z-30" style={{ bottom: 'max(1rem, env(safe-area-inset-bottom))' }}>
+    <nav aria-label="Primary" className="pointer-events-none fixed inset-x-0 z-30" style={{ bottom: 'max(1rem, env(safe-area-inset-bottom))' }}>
       <Dock className="z-50 pointer-events-auto relative h-14 p-2 w-fit mx-auto flex gap-2 border bg-card/90 backdrop-blur-3xl shadow-[0_0_10px_3px] shadow-primary/5">
         {DATA.navbar.map((item) => {
           const isExternal = item.href.startsWith("http");
@@ -39,8 +41,10 @@ export default function Navbar() {
               <TooltipTrigger asChild>
                 <a
                   href={item.href}
+                  aria-label={item.label}
                   target={isExternal ? "_blank" : undefined}
                   rel={isExternal ? "noopener noreferrer" : undefined}
+                  className={dockLinkFocus}
                 >
                   <DockIcon className={cn(dockIconBase, active ? dockIconActive : dockIconInactive)}>
                     <item.icon className="size-full rounded-sm overflow-hidden object-contain" />
@@ -72,8 +76,10 @@ export default function Navbar() {
                 <TooltipTrigger asChild>
                   <a
                     href={social.url}
+                    aria-label={name}
                     target={isExternal ? "_blank" : undefined}
                     rel={isExternal ? "noopener noreferrer" : undefined}
+                    className={dockLinkFocus}
                   >
                     <DockIcon className={cn(dockIconBase, dockIconInactive)}>
                       <IconComponent className="size-full rounded-sm overflow-hidden object-contain" />
@@ -111,6 +117,6 @@ export default function Navbar() {
           </TooltipContent>
         </Tooltip>
       </Dock>
-    </div>
+    </nav>
   );
 }

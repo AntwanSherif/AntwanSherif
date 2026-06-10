@@ -36,7 +36,7 @@ export function ElmawkaaThumbnail() {
             <circle key={`${r}-${c}`} cx={7 + c * 11} cy={7 + r * 8} r="1.7" fill="rgba(248,248,248,0.48)" />
           ))
         )}
-        <rect x="0" y="34" width="58" height="8" rx="0 0 4 4" fill="rgba(240,197,66,0.2)" />
+        <rect x="0" y="34" width="58" height="8" rx="4" fill="rgba(240,197,66,0.2)" />
         <text x="29" y="41" textAnchor="middle" fill="#F0C542" fontSize="7.5" fontFamily="monospace" fontWeight="bold">CONCRETE</text>
       </g>
       <g transform="translate(332, 30)">
@@ -44,7 +44,7 @@ export function ElmawkaaThumbnail() {
         {[12, 20, 28].map(y => (
           <line key={y} x1="8" y1={y} x2="50" y2={y} stroke="rgba(248,248,248,0.52)" strokeWidth="3.5" />
         ))}
-        <rect x="0" y="34" width="58" height="8" rx="0 0 4 4" fill="rgba(240,197,66,0.2)" />
+        <rect x="0" y="34" width="58" height="8" rx="4" fill="rgba(240,197,66,0.2)" />
         <text x="29" y="41" textAnchor="middle" fill="#F0C542" fontSize="7.5" fontFamily="monospace" fontWeight="bold">STEEL</text>
       </g>
       <g transform="translate(10, 128)">
@@ -54,7 +54,7 @@ export function ElmawkaaThumbnail() {
             <line key={x} x1={x} y1="0" x2={x + 38} y2="42" stroke="rgba(77,208,225,0.58)" strokeWidth="1.8" />
           ))}
         </g>
-        <rect x="0" y="34" width="58" height="8" rx="0 0 4 4" fill="rgba(77,208,225,0.2)" />
+        <rect x="0" y="34" width="58" height="8" rx="4" fill="rgba(77,208,225,0.2)" />
         <text x="29" y="41" textAnchor="middle" fill="#4dd0e1" fontSize="7.5" fontFamily="monospace" fontWeight="bold">GLASS</text>
       </g>
       <g transform="translate(332, 128)">
@@ -79,7 +79,7 @@ export function ElmawkaaThumbnail() {
             })
           )}
         </g>
-        <rect x="0" y="34" width="58" height="8" rx="0 0 4 4" fill="rgba(217,119,6,0.22)" />
+        <rect x="0" y="34" width="58" height="8" rx="4" fill="rgba(217,119,6,0.22)" />
         <text x="29" y="41" textAnchor="middle" fill="rgba(217,119,6,0.9)" fontSize="7.5" fontFamily="monospace" fontWeight="bold">BRICK</text>
       </g>
       <g className="thumb-flow" stroke="rgba(240,197,66,0.35)" strokeWidth="1.1" strokeDasharray="4,3" fill="none">
