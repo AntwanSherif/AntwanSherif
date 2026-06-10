@@ -50,6 +50,11 @@ html {
   --color-accent-2: var(--accent-2);
   --color-accent-ai: var(--accent-ai);
   --color-surface: var(--surface);
+  /* Elevation — single design-system shadow token. Real depth in light mode
+     (where cards need lift to separate from the surface); off in dark (where
+     borders + bg contrast already do the separating). Drives the `shadow-card`
+     utility; tune in one place via --shadow-elevation below. */
+  --shadow-card: var(--shadow-elevation);
   --font-bricolage: var(--font-bricolage), sans-serif;
   /* Fluid type scale — clamp() with rem floor/ceiling so browser zoom and
      user font-size preferences are still respected (no raw vw). Slopes
@@ -75,8 +80,10 @@ html {
   --spotlight-border-stop: 58%;
   --spotlight-border-pad: 1px;
   /* Light palette */
-  /* bg sits a touch below pure white so #fff cards/surfaces separate from it */
-  --background: #eceef2;
+  /* bg sits below pure white so #fff cards/surfaces separate from it; paired
+     with --shadow-elevation so cards read as lifted, not flat */
+  --background: #e4e7ee;
+  --shadow-elevation: 0 1px 2px rgba(16, 24, 40, 0.05), 0 6px 16px -4px rgba(16, 24, 40, 0.08);
   --surface: #ffffff;
   --foreground: #0a0a0f;
   --card: #ffffff;
@@ -101,11 +108,11 @@ html {
   --accent-2: #0e7490;
   --accent-ai: #7c3aed;
   /* Hero plasma + talk-card photo overlay — tunable per theme */
-  --plasma-c1: #d4a017;
-  --plasma-c2: #0e7490;
-  --plasma-c3: #718a54; /* mid bridge color — default = midpoint of c1/c2 (no visual change) */
-  --plasma-alpha: 0.68;
-  --plasma-floor: 0.58;
+  --plasma-c1: #dca200;
+  --plasma-c2: #0e8098;
+  --plasma-c3: #5fa08c; /* gold→teal bridge — richer light-mode plasma (was washed out) */
+  --plasma-alpha: 0.72;
+  --plasma-floor: 0.52;
   --talk-overlay: #ffffff;
   --talk-overlay-opacity: 1;
   --talk-overlay-height: 66%;
@@ -129,6 +136,7 @@ html {
 
 .dark {
   --background: #0a0a0f;
+  --shadow-elevation: none; /* dark mode separates via borders + bg contrast, not shadow */
   --surface: #13131a;
   --foreground: #f8f8f8;
   --card: #13131a;

@@ -7,6 +7,7 @@ import { ArrowUpRight } from 'lucide-react';
 import Link from 'next/link';
 import { useRef, useState } from 'react';
 import Markdown from 'react-markdown';
+import { THUMB_LIFT } from '@/components/project-thumbnails';
 
 function ProjectImage({ src, alt }: { src: string; alt: string }) {
   const [imageError, setImageError] = useState(false);
@@ -39,6 +40,7 @@ interface Props {
 
 export function ProjectCard({ title, href, description, dates, tags, link, image, video, thumbnailSlot, status, links, className }: Props) {
   const cardRef = useRef<HTMLDivElement>(null);
+  const lift = THUMB_LIFT[title];
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const el = cardRef.current;
@@ -53,7 +55,7 @@ export function ProjectCard({ title, href, description, dates, tags, link, image
       ref={cardRef}
       onMouseMove={handleMouseMove}
       className={cn(
-        'group relative flex flex-col h-full border border-border rounded-xl overflow-hidden bg-card cursor-default select-none',
+        'group relative flex flex-col h-full border border-border rounded-xl overflow-hidden bg-card shadow-card cursor-default select-none',
         className
       )}
     >
@@ -71,7 +73,16 @@ export function ProjectCard({ title, href, description, dates, tags, link, image
             {video ? (
               <video src={video} autoPlay loop muted playsInline className='w-full aspect-[2/1] object-cover' />
             ) : thumbnailSlot ? (
-              <div className='w-full aspect-[2/1] overflow-hidden'>{thumbnailSlot}</div>
+              <div className='relative w-full aspect-[2/1] overflow-hidden'>
+                {thumbnailSlot}
+                {lift && (
+                  <div
+                    aria-hidden
+                    className='pointer-events-none absolute inset-0 mix-blend-lighten dark:hidden'
+                    style={{ backgroundColor: lift }}
+                  />
+                )}
+              </div>
             ) : image ? (
               <ProjectImage src={image} alt={title} />
             ) : (
@@ -83,7 +94,16 @@ export function ProjectCard({ title, href, description, dates, tags, link, image
             {video ? (
               <video src={video} autoPlay loop muted playsInline className='w-full aspect-[2/1] object-cover' />
             ) : thumbnailSlot ? (
-              <div className='w-full aspect-[2/1] overflow-hidden'>{thumbnailSlot}</div>
+              <div className='relative w-full aspect-[2/1] overflow-hidden'>
+                {thumbnailSlot}
+                {lift && (
+                  <div
+                    aria-hidden
+                    className='pointer-events-none absolute inset-0 mix-blend-lighten dark:hidden'
+                    style={{ backgroundColor: lift }}
+                  />
+                )}
+              </div>
             ) : image ? (
               <ProjectImage src={image} alt={title} />
             ) : (

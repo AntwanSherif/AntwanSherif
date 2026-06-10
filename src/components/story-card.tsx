@@ -30,7 +30,7 @@ export function StoryCard({ story, className }: StoryCardProps) {
       href={`/stories/${story.slug}`}
       onMouseMove={handleMouseMove}
       className={cn(
-        "group relative row-span-5 grid grid-rows-subgrid border border-border rounded-xl overflow-hidden cursor-pointer select-none bg-card",
+        "group relative row-span-5 grid grid-rows-subgrid border border-border rounded-xl overflow-hidden cursor-pointer select-none bg-card shadow-card",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
         className
       )}
