@@ -2,7 +2,8 @@
 
 import { usePathname } from "next/navigation";
 import { Dock, DockIcon } from "@/components/magicui/dock";
-import { ModeToggle } from "@/components/mode-toggle";
+// Light/dark toggle hidden until light mode is polished — site is dark-only for now.
+// import { ModeToggle } from "@/components/mode-toggle";
 import { Separator } from "@/components/ui/separator";
 import {
   Tooltip,
@@ -97,6 +98,7 @@ export default function Navbar() {
               </Tooltip>
             );
           })}
+        {/* Light/dark toggle hidden until light mode is polished — dark-only for now. Restore this block (and the import above + forcedTheme in layout.tsx) to bring it back.
         <Separator
           orientation="vertical"
           className="h-2/3 m-auto w-px bg-border"
@@ -116,6 +118,7 @@ export default function Navbar() {
             <TooltipArrow className="fill-primary" />
           </TooltipContent>
         </Tooltip>
+        */}
       </Dock>
     </nav>
   );

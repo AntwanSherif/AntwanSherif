@@ -78,7 +78,8 @@ export default function RootLayout({
           bricolage.variable
         )}
       >
-        <ThemeProvider attribute='class' defaultTheme='dark'>
+        {/* forcedTheme pins the site to dark while the light-mode toggle is hidden (see navbar.tsx). Remove forcedTheme to re-enable light mode. */}
+        <ThemeProvider attribute='class' defaultTheme='dark' forcedTheme='dark'>
           <TooltipProvider delayDuration={0}>
             <a
               href='#main-content'
