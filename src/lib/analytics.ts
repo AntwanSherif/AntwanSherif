@@ -5,7 +5,7 @@ export type OutboundProps = { href: string; host: string; label?: string; contex
 
 export type AnalyticsEvent =
   | { name: "outbound"; props: OutboundProps }
-  | { name: "cv-download"; props?: undefined }
+  | { name: "cv-download"; props?: undefined } // reserved: fire when a CV/résumé download CTA is added
   | { name: "contact-click"; props: { channel: "email" | "linkedin" } }
   | { name: "scroll-depth"; props: { page: string; depth: 25 | 50 | 75 | 100 } }
   | { name: "impression"; props: { element: string; id?: string } }

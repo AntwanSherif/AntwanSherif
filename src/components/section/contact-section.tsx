@@ -1,5 +1,5 @@
-import Link from 'next/link';
 import { FlickeringGrid } from '@/components/magicui/flickering-grid';
+import { ContactLink } from '@/components/analytics/contact-link';
 import { DATA } from '@/data/resume';
 
 export default function ContactSection() {
@@ -23,14 +23,15 @@ export default function ContactSection() {
         <h2 className='text-heading font-bold tracking-tighter'>Get in Touch</h2>
         <p className='mx-auto max-w-lg text-muted-foreground text-balance'>
           Want to chat? Just shoot me a message{' '}
-          <Link
+          <ContactLink
             href={DATA.contact.social.LinkedIn.url}
+            channel='linkedin'
             target='_blank'
             rel='noopener noreferrer'
             className='text-[var(--accent-2)] hover:underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-sm'
           >
             on LinkedIn
-          </Link>
+          </ContactLink>
         </p>
       </div>
     </div>
