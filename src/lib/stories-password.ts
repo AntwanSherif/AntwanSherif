@@ -82,6 +82,19 @@ export async function passwordFor(
   return `${display}-${code}`;
 }
 
+/**
+ * Parse the company slug out of a password of the form `<slug>-<code>`.
+ * Mirrors validate()'s parsing. Returns null for malformed input.
+ * Never returns the code portion. Does NOT itself prove validity — call
+ * validate() first when authenticity matters (it always does before tracking).
+ */
+export function companyFromPassword(candidate: string): string | null {
+  const idx = candidate.lastIndexOf("-");
+  if (idx <= 0 || idx >= candidate.length - 1) return null;
+  const slug = sanitizeSlug(candidate.slice(0, idx));
+  return slug.length === 0 ? null : slug;
+}
+
 /** True if `candidate` is a valid password for any company in the current or previous period. */
 export async function validate(
   seed: string,

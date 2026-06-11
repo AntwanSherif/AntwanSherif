@@ -5,6 +5,7 @@ import {
   deriveCode,
   passwordFor,
   validate,
+  companyFromPassword,
 } from "./stories-password";
 
 const SEED = "test-seed-do-not-use-in-prod";
@@ -126,6 +127,27 @@ describe("validate", () => {
     // Acme's code under Globex's name must fail.
     const acmeCode = acme.split("-")[1];
     expect(await validate(SEED, `Globex-${acmeCode}`, JUN)).toBe(false);
+  });
+});
+
+describe("companyFromPassword", () => {
+  test("returns the company slug for a well-formed password", () => {
+    expect(companyFromPassword("Acme-7f3k9x2qph")).toBe("Acme");
+  });
+  test("returns the sanitized slug (alphanumeric only)", () => {
+    expect(companyFromPassword("Good.Game!-AB12cd34EF")).toBe("GoodGame");
+  });
+  test("returns null when there is no separator", () => {
+    expect(companyFromPassword("nodash")).toBeNull();
+  });
+  test("returns null when the slug is empty", () => {
+    expect(companyFromPassword("-abc")).toBeNull();
+  });
+  test("returns null when the code is empty", () => {
+    expect(companyFromPassword("Acme-")).toBeNull();
+  });
+  test("never returns the secret code portion", () => {
+    expect(companyFromPassword("Acme-7f3k9x2qph")).not.toContain("7f3k9x2qph");
   });
 });
 
