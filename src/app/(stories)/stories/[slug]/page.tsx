@@ -6,6 +6,7 @@ import { FlowChain } from "@/components/flow-chain";
 import { StoryThumbnail } from "@/components/story-thumbnails";
 import { storyCards } from "@/data/story-cards";
 import { storyDetails } from "@/data/story-details";
+import { ScrollDepth } from "@/components/analytics/scroll-depth";
 
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
@@ -33,6 +34,7 @@ export default async function StoryDetailPage({
 
   return (
     <main className="flex flex-col min-h-[100dvh] gap-16 py-12 px-4 max-w-2xl mx-auto">
+      <ScrollDepth page={`story:${slug}`} />
       {/* ── Section 1: Hero ─────────────────────────────────────── */}
       <section className="flex flex-col gap-6">
         <BlurFade delay={BLUR_FADE_DELAY}>

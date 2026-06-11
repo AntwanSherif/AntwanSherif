@@ -13,11 +13,13 @@ import ScrambleText from '@/components/ScrambleText';
 import CtaButton from '@/components/CtaButton';
 import HeroScrollHint from '@/components/HeroScrollHint';
 import { SkillBadge } from '@/components/skill-badge';
+import { ScrollDepth } from '@/components/analytics/scroll-depth';
 const BLUR_FADE_DELAY = 0.04;
 
 export default function Page() {
   return (
     <main className='min-h-dvh flex flex-col gap-10 sm:gap-14 relative'>
+      <ScrollDepth page="home" />
       <section id='hero' className='relative min-h-[80vh] flex items-center'>
 
         <div className='relative z-10 w-full space-y-6'>
