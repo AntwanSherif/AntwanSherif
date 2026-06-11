@@ -1,8 +1,9 @@
 "use server";
 
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { redirect, RedirectType } from "next/navigation";
-import { validate } from "@/lib/stories-password";
+import { companyFromPassword, validate } from "@/lib/stories-password";
+import { sendServerEvent } from "@/lib/umami-server";
 
 const COOKIE_NAME = "stories-auth";
 
@@ -27,6 +28,12 @@ export async function unlockAction(formData: FormData) {
     maxAge: 60 * 60 * 24 * 7,
     path: "/stories",
   });
+
+  const company = companyFromPassword(input.trim());
+  if (company) {
+    const hostname = (await headers()).get("host") ?? "antwansherif.com";
+    await sendServerEvent({ hostname, name: "story-unlock", data: { company } });
+  }
 
   // replace, not push (Next defaults server-action redirects to push) — so the unlock
   // page is removed from history and the back button lands on /stories, not the gate.
