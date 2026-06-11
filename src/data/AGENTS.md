@@ -77,3 +77,6 @@ build fails.
 - How submodules work + Vercel token setup: root CLAUDE.md → "Story Content Split"
 - Story page routes: `../app/(stories)/`
 - Story UI components: `../components/story-card.tsx`, `../components/flow-chain.tsx`
+
+## Analytics & stories
+Story opens are tracked per-company server-side (company = validated password prefix; see `src/components/analytics/AGENTS.md`). Never send the password — only the company slug.

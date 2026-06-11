@@ -40,3 +40,6 @@ Adding a client-only component:
 
 - Design system tokens: root CLAUDE.md Design System section
 - App routes: `../app/` (Next.js App Router)
+
+## Analytics
+Event tracking lives in `src/components/analytics/` — see its `AGENTS.md`. When you add or change a feature, keep events in sync (verify / enrich / create).
