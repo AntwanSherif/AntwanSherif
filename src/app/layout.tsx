@@ -7,6 +7,7 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono, Bricolage_Grotesque } from 'next/font/google';
 import { FlickeringGrid } from '@/components/magicui/flickering-grid';
 import PlasmaField from '@/components/PlasmaField';
+import { AnalyticsScripts } from '@/components/analytics/analytics-scripts';
 import './globals.css';
 
 const geist = Geist({
@@ -78,6 +79,7 @@ export default function RootLayout({
           bricolage.variable
         )}
       >
+        <AnalyticsScripts />
         {/* forcedTheme pins the site to dark while the light-mode toggle is hidden (see navbar.tsx). Remove forcedTheme to re-enable light mode. */}
         <ThemeProvider attribute='class' defaultTheme='dark' forcedTheme='dark'>
           <TooltipProvider delayDuration={0}>
