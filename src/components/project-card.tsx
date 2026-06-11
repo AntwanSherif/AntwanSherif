@@ -5,9 +5,10 @@ import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { ArrowUpRight } from 'lucide-react';
 import Link from 'next/link';
-import { useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import Markdown from 'react-markdown';
 import { THUMB_LIFT } from '@/components/project-thumbnails';
+import { useImpression } from '@/components/analytics/use-impression';
 
 function ProjectImage({ src, alt }: { src: string; alt: string }) {
   const [imageError, setImageError] = useState(false);
@@ -40,7 +41,16 @@ interface Props {
 
 export function ProjectCard({ title, href, description, dates, tags, link, image, video, thumbnailSlot, status, links, className }: Props) {
   const cardRef = useRef<HTMLDivElement>(null);
+  const impressionCb = useImpression("project", title);
   const lift = THUMB_LIFT[title];
+
+  const setCardRef = useCallback(
+    (node: HTMLDivElement | null) => {
+      cardRef.current = node;
+      impressionCb(node);
+    },
+    [impressionCb],
+  );
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const el = cardRef.current;
@@ -52,7 +62,7 @@ export function ProjectCard({ title, href, description, dates, tags, link, image
 
   return (
     <div
-      ref={cardRef}
+      ref={setCardRef}
       onMouseMove={handleMouseMove}
       className={cn(
         'group relative flex flex-col h-full border border-border rounded-xl overflow-hidden bg-card shadow-card cursor-default select-none',

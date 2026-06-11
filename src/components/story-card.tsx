@@ -2,9 +2,10 @@
 
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { useRef } from "react";
+import { useCallback, useRef } from "react";
 import type { StoryCardData } from "@/data/story-types";
 import { StoryThumbnail } from "@/components/story-thumbnails";
+import { useImpression } from "@/components/analytics/use-impression";
 
 interface StoryCardProps {
   story: StoryCardData;
@@ -13,6 +14,15 @@ interface StoryCardProps {
 
 export function StoryCard({ story, className }: StoryCardProps) {
   const cardRef = useRef<HTMLAnchorElement>(null);
+  const impressionCb = useImpression("story", story.slug);
+
+  const setCardRef = useCallback(
+    (node: HTMLAnchorElement | null) => {
+      cardRef.current = node;
+      impressionCb(node);
+    },
+    [impressionCb],
+  );
 
   const handleMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
     const el = cardRef.current;
@@ -26,7 +36,7 @@ export function StoryCard({ story, className }: StoryCardProps) {
 
   return (
     <Link
-      ref={cardRef}
+      ref={setCardRef}
       href={`/stories/${story.slug}`}
       onMouseMove={handleMouseMove}
       className={cn(
