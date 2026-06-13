@@ -5,7 +5,7 @@ import { storyCards } from "./story-cards";
 // contain ONLY the public teaser fields — never the private narrative. This test is
 // the guard that keeps detail content from ever leaking back into the public payload.
 
-const PUBLIC_KEYS = ["slug", "company", "initiative", "tagline", "metrics", "techTags"].sort();
+const PUBLIC_KEYS = ["slug", "company", "initiative", "subtitle", "tagline", "metrics", "techTags"].sort();
 const PRIVATE_KEYS = [
   "role",
   "period",
