@@ -52,6 +52,7 @@ So ②–④ never force another migration:
 
 - ① design spec: `docs/superpowers/specs/2026-06-13-analytics-event-taxonomy-design.md`
 - Identity & consent decision: `docs/adr/2026-06-13-analytics-visitor-identity.md`
+- UTM & link-tagging conventions (operational, no code): `docs/analytics-utm-conventions.md`
 - Event surface + standing rules: `src/components/analytics/AGENTS.md`
 - As-built values + runbook: `docs/analytics-operations.md`
 </content>
