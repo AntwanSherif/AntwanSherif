@@ -21,7 +21,7 @@ export function ContactLink({
       data-analytics-skip-outbound
       className={className}
       onClick={(e) => {
-        track({ name: "contact-click", props: { channel } });
+        track({ name: "contact_click", props: { content_type: "contact", channel, category: "professional" } });
         onClick?.(e);
       }}
       {...rest}

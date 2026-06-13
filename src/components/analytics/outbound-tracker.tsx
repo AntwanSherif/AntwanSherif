@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { buildOutboundEvent, track } from "@/lib/analytics";
+import type { ContentType } from "@/lib/analytics-taxonomy";
 
 /** Site-wide delegated click listener that emits a single `outbound` event per external-link click. */
 export function OutboundTracker() {
@@ -14,8 +15,9 @@ export function OutboundTracker() {
       const props = buildOutboundEvent({
         href: anchor.getAttribute("href"),
         currentHost: window.location.host,
+        contentType: (anchor.dataset.contentType as ContentType) ?? "nav",
+        contentId: anchor.dataset.contentId,
         label: anchor.dataset.analyticsLabel ?? anchor.textContent?.trim() ?? undefined,
-        context: anchor.dataset.analyticsContext,
       });
       if (props) track({ name: "outbound", props });
     }

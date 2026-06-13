@@ -2,11 +2,12 @@
 
 import { useCallback, useEffect, useRef } from "react";
 import { track } from "@/lib/analytics";
+import type { ContentType } from "@/lib/analytics-taxonomy";
 
 /** Fire `impression` once when the attached element first crosses into view.
  *  Returns a ref callback — pass it directly as `ref` on any host element.
  */
-export function useImpression(element: string, id?: string) {
+export function useImpression(contentType: ContentType, contentId?: string) {
   const firedRef = useRef(false);
   const obsRef = useRef<IntersectionObserver | null>(null);
 
@@ -20,7 +21,7 @@ export function useImpression(element: string, id?: string) {
           for (const entry of entries) {
             if (entry.isIntersecting && !firedRef.current) {
               firedRef.current = true;
-              track({ name: "impression", props: { element, id } });
+              track({ name: "impression", props: { content_type: contentType, content_id: contentId } });
               obs.disconnect();
             }
           }
@@ -30,7 +31,7 @@ export function useImpression(element: string, id?: string) {
       obsRef.current = obs;
       obs.observe(node);
     },
-    [element, id],
+    [contentType, contentId],
   );
 
   // Disconnect on unmount.

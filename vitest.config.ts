@@ -7,9 +7,8 @@ import path from "path";
 export default defineConfig({
   resolve: {
     alias: {
-      "server-only": path.resolve(
-        "./node_modules/server-only/empty.js"
-      ),
+      "server-only": path.resolve("./node_modules/server-only/empty.js"),
+      "@": path.resolve("./src"),
     },
   },
   test: {

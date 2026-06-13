@@ -3,7 +3,7 @@
 import { cookies, headers } from "next/headers";
 import { redirect, RedirectType } from "next/navigation";
 import { companyFromPassword, validate } from "@/lib/stories-password";
-import { sendServerEvent } from "@/lib/umami-server";
+import { sendServerEvent, buildGateFailData, storySlugFromPath } from "@/lib/umami-server";
 
 const COOKIE_NAME = "stories-auth";
 
@@ -14,6 +14,8 @@ export async function unlockAction(formData: FormData) {
 
   const seed = process.env.STORIES_SEED ?? "";
   if (!(await validate(seed, input.trim()))) {
+    const hostname = (await headers()).get("host") ?? "antwansherif.com";
+    await sendServerEvent({ hostname, name: "gate_fail", data: buildGateFailData(input.trim(), storySlugFromPath(safeTo)) });
     // replace, not push — wrong attempts shouldn't stack history entries.
     redirect(`/stories/unlock?from=${encodeURIComponent(safeTo)}&error=1`, RedirectType.replace);
   }
@@ -32,7 +34,7 @@ export async function unlockAction(formData: FormData) {
   const company = companyFromPassword(input.trim());
   if (company) {
     const hostname = (await headers()).get("host") ?? "antwansherif.com";
-    await sendServerEvent({ hostname, name: "story-unlock", data: { company } });
+    await sendServerEvent({ hostname, name: "story_unlock", data: { content_type: "story", content_id: storySlugFromPath(safeTo), company } });
   }
 
   // replace, not push (Next defaults server-action redirects to push) — so the unlock

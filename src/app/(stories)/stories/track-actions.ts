@@ -13,5 +13,5 @@ export async function trackStoryView(story: string): Promise<void> {
   const company = companyFromPassword(password);
   if (!company) return;
   const hostname = (await headers()).get("host") ?? "antwansherif.com";
-  await sendServerEvent({ hostname, name: "story-view", data: { company, story } });
+  await sendServerEvent({ hostname, name: "story_view", data: { content_type: "story", content_id: story, company } });
 }

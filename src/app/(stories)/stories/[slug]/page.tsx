@@ -8,6 +8,9 @@ import { storyCards } from "@/data/story-cards";
 import { storyDetails } from "@/data/story-details";
 import { ScrollDepth } from "@/components/analytics/scroll-depth";
 import { StoryViewBeacon } from "@/components/analytics/story-view-beacon";
+import { cookies } from "next/headers";
+import { companyFromPassword } from "@/lib/stories-password";
+import { VisitorIdentity } from "@/components/analytics/visitor-identity";
 
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
@@ -29,14 +32,17 @@ export default async function StoryDetailPage({
   const { slug } = await params;
   const card = storyCards.find((s) => s.slug === slug);
   if (!card) notFound();
+  const password = (await cookies()).get("stories-auth")?.value;
+  const company = password ? companyFromPassword(password) ?? undefined : undefined;
   // Merge public card + private detail so the rest of the page reads one `story` object.
   // The detail content is imported only here (a gated route), never on the public list.
   const story = { ...card, ...storyDetails[card.slug] };
 
   return (
     <main className="flex flex-col min-h-[100dvh] gap-16 py-12 px-4 max-w-2xl mx-auto">
-      <ScrollDepth page={`story:${slug}`} />
+      <ScrollDepth contentId={slug} />
       <StoryViewBeacon story={slug} />
+      <VisitorIdentity company={company} />
       {/* ── Section 1: Hero ─────────────────────────────────────── */}
       <section className="flex flex-col gap-6">
         <BlurFade delay={BLUR_FADE_DELAY}>
