@@ -6,6 +6,7 @@
 
 - **Components**: `src/components/AGENTS.md` - Shared UI components, section layout, animation primitives
 - **Data**: `src/data/AGENTS.md` - Content source of truth + the public/private story split (read before touching `story-cards.tsx`, `story-details.tsx`, or `stories-private/`)
+- **Analytics**: `src/components/analytics/AGENTS.md` - Cookieless Umami event tracking (client + server channels). Read before adding/changing tracking, swapping the analytics vendor, or debugging events. As-built values + runbook: `docs/analytics-operations.md`; decision + alternatives: `docs/adr/2026-06-13-analytics-stack-umami-self-hosted.md`.
 
 ### Global Invariants
 
