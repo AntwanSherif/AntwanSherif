@@ -1,6 +1,6 @@
 # Analytics — Intent
 
-Cookieless Umami analytics. Two channels: **client** (`src/lib/analytics.ts` → `track()`, loaded by `analytics-scripts.tsx`) for ordinary events, and **server** (`src/lib/umami-server.ts` via Server Actions) for story events (company-attributed, ad-block/prefetch-immune). Design: `docs/superpowers/specs/2026-06-11-portfolio-analytics-design.md`.
+Cookieless Umami analytics. Two channels: **client** (`src/lib/analytics.ts` → `track()`, loaded by `analytics-scripts.tsx`) for ordinary events, and **server** (`src/lib/umami-server.ts` via Server Actions) for story events (company-attributed, ad-block/prefetch-immune). Design: `docs/superpowers/specs/2026-06-11-portfolio-analytics-design.md`. Decision: `docs/adr/2026-06-13-analytics-stack-umami-self-hosted.md`. As-built values + runbook: `docs/analytics-operations.md`.
 
 ## Standing rule — when you change a feature, keep events in sync
 Do at least one of:
