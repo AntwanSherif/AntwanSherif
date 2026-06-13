@@ -4,4 +4,5 @@ Born-on-dated decision records (`YYYY-MM-DD-slug.md`). Living documents — edit
 
 | Date | Decision | Status | Area |
 | --- | --- | --- | --- |
+| 2026-06-13 | [Visitor identity & consent posture for portfolio analytics](./2026-06-13-analytics-visitor-identity.md) | accepted | analytics |
 | 2026-06-13 | [Self-hosted Umami for portfolio analytics](./2026-06-13-analytics-stack-umami-self-hosted.md) | accepted | analytics |
