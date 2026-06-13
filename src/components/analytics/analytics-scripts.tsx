@@ -11,7 +11,7 @@ export function AnalyticsScripts() {
     <Script
       src={`${host}/${scriptName}`}
       data-website-id={websiteId}
-      data-domains="antwan.me,antwansherif.com"
+      data-domains="antwan.me,www.antwan.me,antwansherif.com,www.antwansherif.com"
       data-host-url={host}
       data-performance="true"
       strategy="afterInteractive"
