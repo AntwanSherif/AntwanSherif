@@ -34,6 +34,8 @@ export default async function StoryDetailPage({
   if (!card) notFound();
   const password = (await cookies()).get("stories-auth")?.value;
   const company = password ? companyFromPassword(password) ?? undefined : undefined;
+  const adminCompanies = (process.env.ANALYTICS_ADMIN_COMPANIES ?? "").split(",").map((s) => s.trim()).filter(Boolean);
+  const isAdmin = company ? adminCompanies.includes(company) : false;
   // Merge public card + private detail so the rest of the page reads one `story` object.
   // The detail content is imported only here (a gated route), never on the public list.
   const story = { ...card, ...storyDetails[card.slug] };
@@ -42,7 +44,7 @@ export default async function StoryDetailPage({
     <main className="flex flex-col min-h-[100dvh] gap-16 py-12 px-4 max-w-2xl mx-auto">
       <ScrollDepth contentId={slug} />
       <StoryViewBeacon story={slug} />
-      <VisitorIdentity company={company} />
+      <VisitorIdentity company={company} isAdmin={isAdmin} />
       {/* ── Section 1: Hero ─────────────────────────────────────── */}
       <section className="flex flex-col gap-6">
         <BlurFade delay={BLUR_FADE_DELAY}>

@@ -10,15 +10,18 @@ let sessionCompany: string | undefined;
 
 /** Mints/loads the localStorage visitor UUID and hands it to Umami's identify().
  *  Pass `company` on gated story pages to also tag the session (company comes from the server cookie). */
-export function VisitorIdentity({ company }: { company?: string }) {
+export function VisitorIdentity({ company, isAdmin }: { company?: string; isAdmin?: boolean }) {
   useEffect(() => {
     try {
       if (company) sessionCompany = company;
       const id = getOrCreateVisitorId(window.localStorage);
-      identifyVisitor({ id, data: sessionCompany ? { company: sessionCompany } : undefined });
+      const data = sessionCompany
+        ? { company: sessionCompany, ...(isAdmin && { is_admin: true }) }
+        : undefined;
+      identifyVisitor({ id, data });
     } catch {
       /* analytics must never break the page */
     }
-  }, [company]);
+  }, [company, isAdmin]);
   return null;
 }
