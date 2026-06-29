@@ -49,6 +49,12 @@ describe("track", () => {
     track({ name: "contact_click", props: { content_type: "contact", channel: "email", category: "professional" } });
     expect(spy).toHaveBeenCalledWith("contact_click", { v: 1, content_type: "contact", channel: "email", category: "professional" });
   });
+  test("cv_view stamps v + nav/professional/source props", () => {
+    const spy = vi.fn();
+    (globalThis as any).window = { umami: { track: spy } };
+    track({ name: "cv_view", props: { content_type: "nav", category: "professional", source: "navbar" } });
+    expect(spy).toHaveBeenCalledWith("cv_view", { v: 1, content_type: "nav", category: "professional", source: "navbar" });
+  });
   test("no-ops (no throw) when umami is absent", () => {
     (globalThis as any).window = {};
     expect(() => track({ name: "impression", props: { content_type: "contact" } })).not.toThrow();

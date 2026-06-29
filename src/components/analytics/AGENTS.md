@@ -13,7 +13,7 @@ Do at least one of:
 - Named conversions mark their element `data-analytics-skip-outbound` to avoid double-counting against the generic `outbound` listener.
 
 ## Wired vs. reserved events
-**Wired now:** `pageview`, `web-vitals` (auto via `data-performance`), `outbound` (with `category` + `content_type`/`content_id`), `contact_click{channel,category}`, `section_view` (homepage section reach), `scroll_depth` (stories, with reading-velocity `value`), `impression` (project/story cards, contact section), `story_unlock`, `story_view` (both with `company` + `content_id`), `gate_fail` (failed unlock attempts). Visitor identity via `localStorage` UUID → `identify()`. All events carry the `v` taxonomy version + the `content_type` spine. Full catalog: `docs/superpowers/specs/2026-06-13-analytics-event-taxonomy-design.md`.
+**Wired now:** `pageview`, `web-vitals` (auto via `data-performance`), `outbound` (with `category` + `content_type`/`content_id`), `contact_click{channel,category}`, `section_view` (homepage section reach), `scroll_depth` (stories, with reading-velocity `value`), `impression` (project/story cards, contact section), `story_unlock`, `story_view` (both with `company` + `content_id`), `gate_fail` (failed unlock attempts), `cv_view{source}` (CV nav-link click). Visitor identity via `localStorage` UUID → `identify()`. All events carry the `v` taxonomy version + the `content_type` spine. Full catalog: `docs/superpowers/specs/2026-06-13-analytics-event-taxonomy-design.md`.
 
 **Defined in the `AnalyticsEvent` union but reserved (wire when the UI surface is built):**
 - `cv_download` — wire on a résumé/CV download link when one is added (`track({name:'cv_download'})` + `data-analytics-skip-outbound`).

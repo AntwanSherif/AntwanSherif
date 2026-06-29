@@ -12,6 +12,7 @@ export type AnalyticsEvent =
   | { name: "outbound"; props: OutboundProps }
   | { name: "contact_click"; props: { content_type: "contact"; channel: "email" | "linkedin"; category: "professional" } }
   | { name: "cv_download"; props: { content_type: ContentType; category: "professional" } } // reserved: wire on a CV CTA
+  | { name: "cv_view"; props: { content_type: "nav"; category: "professional"; source: "navbar" } }
   | { name: "section_view"; props: { content_type: "home"; content_id: HomeSection; position?: number } }
   | { name: "scroll_depth"; props: { content_type: "story"; content_id: string; depth: 25 | 50 | 75 | 100; value: number } }
   | { name: "impression"; props: { content_type: ContentType; content_id?: string; position?: number } }

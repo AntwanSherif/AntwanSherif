@@ -1,6 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import { FileText } from "lucide-react";
 import { Dock, DockIcon } from "@/components/magicui/dock";
 // Light/dark toggle hidden until light mode is polished — site is dark-only for now.
 // import { ModeToggle } from "@/components/mode-toggle";
@@ -12,6 +13,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { DATA } from "@/data/resume";
+import { track } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 
 const dockIconBase =
@@ -98,6 +100,38 @@ export default function Navbar() {
               </Tooltip>
             );
           })}
+        {/* CV — a page link, placed after the social icons per design. */}
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <a
+              href="/cv"
+              aria-label="CV"
+              className={dockLinkFocus}
+              onClick={() =>
+                track({
+                  name: "cv_view",
+                  props: {
+                    content_type: "nav",
+                    category: "professional",
+                    source: "navbar",
+                  },
+                })
+              }
+            >
+              <DockIcon className={cn(dockIconBase, isActive("/cv") ? dockIconActive : dockIconInactive)}>
+                <FileText className="size-full rounded-sm overflow-hidden object-contain" />
+              </DockIcon>
+            </a>
+          </TooltipTrigger>
+          <TooltipContent
+            side="top"
+            sideOffset={8}
+            className="rounded-xl bg-primary text-primary-foreground px-4 py-2 text-sm shadow-[0_10px_40px_-10px_rgba(0,0,0,0.3)] dark:shadow-[0_10px_40px_-10px_rgba(0,0,0,0.5)]"
+          >
+            <p>CV</p>
+            <TooltipArrow className="fill-primary" />
+          </TooltipContent>
+        </Tooltip>
         {/* Light/dark toggle hidden until light mode is polished — dark-only for now. Restore this block (and the import above + forcedTheme in layout.tsx) to bring it back.
         <Separator
           orientation="vertical"
