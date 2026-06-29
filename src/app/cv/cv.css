@@ -1,0 +1,53 @@
+/* Screen + print styling for the /cv exploration page.
+   On screen: each variant renders as an A4-ish sheet with a soft shadow.
+   On print: toolbar disappears, the active sheet fills the page, and
+   background colors are preserved (essential for the dark/navy variants). */
+
+.cv-sheet {
+  width: 210mm;
+  max-width: 100%;
+  min-height: 297mm;
+  box-shadow: 0 10px 40px -12px rgba(16, 24, 40, 0.25);
+  /* preserve variant backgrounds/accents in print + screenshots */
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  html,
+  body {
+    background: #fff !important;
+  }
+
+  .cv-stage {
+    padding: 0 !important;
+  }
+
+  .cv-sheet {
+    width: 100%;
+    min-height: auto;
+    box-shadow: none !important;
+  }
+
+  /* Page-break control: keep these blocks whole rather than slicing them
+     across two pages. The browser pushes the whole unit to the next page. */
+  .cv-exp,
+  .cv-side,
+  .cv-proj,
+  .cv-sheet li {
+    break-inside: avoid;
+    -webkit-column-break-inside: avoid; /* older WebKit */
+    page-break-inside: avoid; /* legacy alias */
+  }
+
+  /* Never strand a section heading at the bottom of a page. */
+  .cv-h {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+}
