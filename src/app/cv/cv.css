@@ -13,10 +13,62 @@
   print-color-adjust: exact;
 }
 
+/* Print-table wrapper. On screen, only the body shows — the thead (running
+   identifier bar) is print-only; the table itself is transparent layout. */
+.cv-doc {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+.cv-doc > thead > tr > td,
+.cv-doc > tbody > tr > td {
+  padding: 0;
+}
+.cv-doc thead,
+.cv-runhead {
+  display: none;
+}
+
 @media print {
   @page {
     size: A4;
     margin: 0;
+  }
+
+  /* Running identifier bar (print-only). The thead repeats at the top of every
+     printed page — the reliable way to get a running header. On page 1 the full
+     header is pulled up over the repeated thead (tbody paints over thead where
+     they overlap), so the bar visually appears only from page 2, like the
+     original CV. Keeps a loose page from being mistaken for someone else's. */
+  .cv-doc thead {
+    display: table-header-group;
+  }
+  .cv-runhead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8mm;
+    height: 9mm;
+    padding: 0 12mm;
+    background: #2251b2;
+    color: #fff;
+    font-size: 8px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .cv-runhead strong {
+    font-weight: 700;
+  }
+  /* White gap below the bar on page 2+. It lives in the reserved thead space,
+     so the page-1 header pull (below) reclaims the bar AND the gap, staying
+     flush at the top of page 1. */
+  .cv-doc > thead > tr > td {
+    padding-bottom: 5mm;
+  }
+  .cv-doc tbody td > header {
+    position: relative;
+    margin-top: -14mm; /* bar (9mm) + gap (5mm) */
   }
 
   html,
@@ -49,5 +101,16 @@
   .cv-h {
     break-after: avoid;
     page-break-after: avoid;
+  }
+
+  /* The PDF must never depend on animation state. Motion fades content in from
+     opacity:0 (and lifts it with a transform); if the user hits Cmd-P before
+     the entry animation settles, those inline styles would print half-faded or
+     shifted. Force every animated node fully visible and untransformed in print
+     (CSS !important overrides Motion's inline styles). */
+  .cv-sheet [style*="opacity"],
+  .cv-sheet [style*="transform"] {
+    opacity: 1 !important;
+    transform: none !important;
   }
 }

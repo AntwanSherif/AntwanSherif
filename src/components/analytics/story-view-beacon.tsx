@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { trackStoryView } from "@/app/(stories)/stories/track-actions";
+import { trackStoryView } from "@/app/(site)/(stories)/stories/track-actions";
 
 /** Fires the story-view Server Action exactly once per story on mount/navigation.
  *  Prefetch fetches the payload but never mounts this, so prefetch does not count as a view.

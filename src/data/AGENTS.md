@@ -75,7 +75,7 @@ build fails.
 ## Related Context
 
 - How submodules work + Vercel token setup: root CLAUDE.md → "Story Content Split"
-- Story page routes: `../app/(stories)/`
+- Story page routes: `../app/(site)/(stories)/`
 - Story UI components: `../components/story-card.tsx`, `../components/flow-chain.tsx`
 
 ## Analytics & stories

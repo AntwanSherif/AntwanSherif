@@ -137,9 +137,8 @@ export const CV: CVData = {
     "education": "Education"
   },
   "summary": [
-    "Senior engineer and React Subject Matter Expert with 10+ years building revenue-critical, user-facing systems and developer tooling across multi-market platforms — shipping monetization features (**+18% AOV**, **+12% add-to-cart**) at *Flink* and platform SDKs adopted across the web org at *Trade Republic* (**11M customers**).",
-    "AI-native by practice: builds MCP servers, custom Claude commands and skills, and eval-driven AI tooling — shipping AI products end-to-end with the *Vercel Agent Stack*.",
-    "Bridges product thinking with engineering craft — scalable frontend architecture, AI tooling, developer experience, mentorship, and translating technical decisions into business outcomes."
+    "AI-native engineer — builds and ships MCP servers and custom Claude commands & skills (adopted across teams), plus eval-driven AI pipelines built with the Vercel Agent Stack — on a 10-year foundation as a React Subject Matter Expert.",
+    "Revenue-critical, customer-facing track record — **+18% AOV** monetization at Flink, platform SDKs adopted org-wide at Trade Republic, and a **2M+ user** self-service app at Vodafone — translating technical decisions into business outcomes."
   ],
   "experience": [
     {
@@ -147,20 +146,20 @@ export const CV: CVData = {
       "role": "Senior Software Engineer (Web Platform)",
       "start": "Dec 2025",
       "end": "Apr 2026",
-      "context": "Europe's largest savings & investing platform · 11M+ customers across 18 markets",
+      "context": "Europe's largest savings & investing platform · 11M+ customers",
       "groups": [
         {
           "heading": "Platform SDKs — Vendor Abstraction & Cost Reduction",
           "bullets": [
-            "Designed and built a GDPR-compliant *Analytics SDK* to replace an unsustainable **€1M/year** vendor contract; conducted a full deprecation impact analysis across all 5 web projects confirming zero production risk, directly unblocking the migration.",
-            "Designed and delivered a vendor-agnostic *Observability SDK* setting the standard for the entire web org — with PII scrubbing, Core Web Vitals monitoring, automated source map uploads, and a dedicated MCP server; piloted with Web-Trading (the highest-priority web project) as proof of concept, then adopted across the web org."
+            "Designed and built a GDPR-compliant *Analytics SDK* replacing an unsustainable ~**€1M/year** external vendor contract; conducted a full deprecation impact analysis across all web projects confirming no breaking usages and unblocking the migration.",
+            "Designed and shipped a vendor-agnostic *Observability SDK* setting the web org standard — with PII scrubbing and Core Web Vitals monitoring."
           ]
         },
         {
           "heading": "AI Tooling & Developer Experience",
           "bullets": [
-            "Packaged the Dependabot vulnerability remediation workflow into a reusable Claude slash command — adopted across all Web teams, turning a multi-step manual remediation into a **<3-minute, one-command fix**.",
-            "Built MCP servers for both *Observability* & *Analytics* SDKs, enabling engineers to integrate without reading docs — collapsing a docs-heavy setup into same-day integration."
+            "Packaged the Dependabot vulnerability remediation workflow into a reusable Claude slash command — adopted across all web teams, turning a multi-step manual process into a **< 3-minute** fix.",
+            "Built MCP servers for both *Observability* & *Analytics* SDKs so engineers could integrate without reading docs — collapsing a doc-heavy setup into **same-day** adoption."
           ]
         }
       ]
@@ -170,25 +169,25 @@ export const CV: CVData = {
       "role": "Senior Software Engineer",
       "start": "Apr 2023",
       "end": "Nov 2025",
-      "context": "On-demand grocery delivery across Germany, the Netherlands & France",
+      "context": "On-demand grocery delivery  ·  DE · NL · FR",
       "groups": [
         {
           "heading": "Growth & Revenue",
           "bullets": [
             "Led frontend architecture and rollout of key monetization initiatives, including Range Promotions (**+18% AOV**, **+12% add-to-cart**), Max Discount Quantity (**+5% AOV**), and Next Day Delivery (**+9% AOV**).",
-            "Owned checkout and auth flows end-to-end (**25k+ web DAU**) — delivering multiple UX improvements with zero production regressions."
+            "Owned deals, auth, cart & checkout flows (**25K+ DAU**) — shipping revenue-critical features with zero production regressions."
           ]
         },
         {
           "heading": "Business & Operational Enablement",
           "bullets": [
-            "Owned and scaled *PRISM* (Pricing & Promotions Backoffice platform), cutting configuration time (**~2 days → ~2 hours**), enabling faster experimentation and in-housing key CommerceTools features."
+            "Scaled the Consumer-side Backoffice, enabling pricing & promotions experimentation, cutting configuration time **~2 days → ~2 hours,** and in-housing key features from 3rd-party services."
           ]
         },
         {
           "heading": "Mentorship & Culture",
           "bullets": [
-            "Mentored 2 engineers — improving their debugging skills and enabling independent feature ownership."
+            "Grew 2 engineers to independent feature ownership, deepening their debugging skills."
           ]
         }
       ]
@@ -198,19 +197,19 @@ export const CV: CVData = {
       "role": "Senior Frontend Engineer",
       "start": "Nov 2021",
       "end": "Nov 2022",
-      "context": "B2B SaaS digitizing local service businesses across Europe · acquired by group.one (2024)",
+      "context": "B2B SaaS digitizing local businesses across Europe · acquired by group.one",
       "groups": [
         {
           "heading": "Performance & Optimization",
           "bullets": [
-            "Led cross-functional root-cause analysis and implemented progressive loading — reducing initial page load (**5s → 400ms**), significantly improving perceived performance and scalability."
+            "Led cross-functional root-cause analysis and implemented progressive loading — reducing initial page load (FCP) **5s → 400ms**."
           ]
         },
         {
           "heading": "Modernization & Architecture",
           "bullets": [
-            "Migrated legacy Elm micro-frontends to React/TypeScript with the frontend team — having learned Elm from scratch in 5 days to build the take-home that landed the role.",
-            "Introduced Cypress E2E coverage, improving release confidence and reducing regressions."
+            "Migrated legacy Elm micro-frontends to React/TypeScript — having learned Elm in 5 days to build the take-home that landed the role.",
+            "Introduced automated E2E coverage, improving release confidence and reducing regressions."
           ]
         }
       ]
@@ -226,14 +225,14 @@ export const CV: CVData = {
           "heading": "Product & Engineering",
           "bullets": [
             "Built the *Product Selector* — a consumer self-service app used by **2M+ customers** across all Vodafone Turkey retail stores.",
-            "Modernized the legacy Vodafone Kabel DE sales-agent app to React/TypeScript.",
-            "Modernized Vodafone's global device-management app to React Native — used internally across all Vodafone markets."
+            "Modernized the legacy Vodafone DE sales-agent app to React/TS.",
+            "Rebuilt Vodafone's global device-management app in React Native."
           ]
         },
         {
           "heading": "Mentorship & Enablement",
           "bullets": [
-            "Mentored 2 engineers and ran a full-day React training workshop for 18 engineers plus an Automated Testing knowledge-sharing session — curriculum built from scratch."
+            "Mentored 4 engineers and ran a full-day React workshop for 18 engineers plus an Automated Testing knowledge-share — curriculum built from scratch."
           ]
         },
         {
@@ -253,7 +252,7 @@ export const CV: CVData = {
       "groups": [
         {
           "bullets": [
-            "Built a zero-code workflow automation platform — an early take on what tools like n8n later popularized — plus a shared component library; delivered UI/UX prototypes to speed product validation."
+            "Built a zero-code workflow automation platform — an early take on what tools like n8n later popularized."
           ]
         }
       ]
@@ -276,8 +275,9 @@ export const CV: CVData = {
     {
       "category": "AI & Developer Tooling",
       "items": [
-        "Vercel AI SDK",
+        "AI SDK",
         "AI Gateway",
+        "evals",
         "MCP servers",
         "Claude",
         "Cursor"
@@ -306,9 +306,9 @@ export const CV: CVData = {
         "Micro-frontends",
         "Monorepos",
         "CI/CD",
-        "NPM package authoring",
-        "Performance optimization",
-        "Sentry/Datadog"
+        "npm packaging",
+        "Sentry/Datadog",
+        "Performance optimizations"
       ]
     },
     {
@@ -316,25 +316,24 @@ export const CV: CVData = {
       "items": [
         "Node.js",
         "Bun",
-        "Express",
         "Hono",
         "REST",
-        "tRPC",
         "GraphQL"
       ]
     }
   ],
   "projects": [
     {
-      "name": "[EncoreShot](http://encoreshot.com/)",
+      "name": "EncoreShot",
       "role": "Solo Founder",
+      "href": "http://encoreshot.com/",
       "tag": "In development",
       "tagTone": "amber",
-      "description": "AI SaaS that scores and culls concert photos & video. Multi-provider vision pipeline (cloud + on-device) with a pre-filter that cuts video inference cost **40–60%**, plus an A/B eval harness that compares prompt and model changes head-to-head before promoting winners.",
+      "description": "Context-rich AI SaaS that scores and culls concert photos & video. Multi-provider vision pipeline (cloud + on-device) with on-device pre-filtering that cuts inference cost ~**40–60%**, plus an A/B eval harness that compares prompt and model changes head-to-head before promoting winners.",
       "tech": [
         "React",
         "Bun",
-        "Vercel AI SDK",
+        "AI SDK",
         "AI Gateway"
       ]
     },
@@ -342,7 +341,7 @@ export const CV: CVData = {
       "name": "HAKTIV",
       "role": "Freelancer",
       "href": "https://haktiv.com",
-      "description": "The first bug bounty and crowdsourced pentesting platform in MENA. Since pivoted to AI-powered GRC compliance, backed by Microsoft, Misk, and Plug and Play.",
+      "description": "Client-delivered the first bug bounty and crowdsourced pentesting platform in MENA. Later pivoted to AI-powered GRC compliance, backed by Microsoft, Misk, and Plug and Play.",
       "tech": [
         "Next.js",
         "React",
@@ -353,9 +352,9 @@ export const CV: CVData = {
     {
       "name": "El Mawkaa",
       "role": "Freelancer",
-      "tag": "Acquired ’24",
+      "tag": "Acquired 2024",
       "tagTone": "success",
-      "description": "B2B construction materials marketplace — 65K downloads, 1,300+ suppliers; a [seven-figure SAR exit](https://www.wamda.com/2024/10/ayen-acquires-elmawkaa-seven-figure-deal).",
+      "description": "Client-delivered a B2B construction materials marketplace — 65K downloads, 1,300+ suppliers; a [seven-figure SAR exit](https://www.wamda.com/2024/10/ayen-acquires-elmawkaa-seven-figure-deal).",
       "tech": [
         "React",
         "Firebase",
@@ -376,11 +375,11 @@ export const CV: CVData = {
   "leadership": [
     {
       "title": "Instructor at #CodeLikeAGirl",
-      "detail": "programming for female students aged 14–18"
+      "detail": "Programming for female students aged 14–18"
     },
     {
       "title": "Speaker at [React Cairo](https://antwansherif.com/#talks)",
-      "detail": "“Building Great User Experiences with React Query”"
+      "detail": "Building Great User Experiences with React Query"
     },
     {
       "title": "Panelist at [Minia Techies](https://antwansherif.com/#talks)",
@@ -392,7 +391,7 @@ export const CV: CVData = {
   ],
   "training": [
     {
-      "title": "[AI SDK & AI Engineering](https://www.aihero.dev/cohorts/build-your-own-ai-personal-assistant-in-typescript)",
+      "title": "[AI SDK & Agents Building](https://www.aihero.dev/cohorts/build-your-own-ai-personal-assistant-in-typescript)",
       "detail": "Matt Pocock"
     },
     {

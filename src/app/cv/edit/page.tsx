@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import CVEditor from "@/components/cv/cv-editor";
-import "../cv.css";
 
 export const metadata: Metadata = {
   title: "CV editor",

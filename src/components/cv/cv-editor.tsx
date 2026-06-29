@@ -76,10 +76,21 @@ export default function CVEditor() {
   const saveToSource = async () => {
     setSaveState("saving");
     try {
+      // Persist only known config keys, dropping any legacy localStorage
+      // leftovers (e.g. a pre-colSplit colLeft/colRight) that would otherwise
+      // land in cv-config.ts and fail the type-check.
+      const cfg = Object.fromEntries(
+        Object.keys(DEFAULT_CONFIG).map((k) => [
+          k,
+          (config as Record<string, unknown>)[k],
+        ]),
+      );
       const res = await fetch("/api/cv-save", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify(data),
+        // Persist both content and the current design dials, so the public
+        // /cv page reflects exactly what's previewed here.
+        body: JSON.stringify({ data, config: cfg }),
       });
       setSaveState(res.ok ? "saved" : "error");
     } catch {
@@ -91,11 +102,11 @@ export default function CVEditor() {
   // Avoid rendering editable content until hydrated, so server and first client
   // paint match.
   if (!hydrated) {
-    return <div className="min-h-screen bg-neutral-200/60" />;
+    return <div className="min-h-screen" />;
   }
 
   return (
-    <div className="min-h-screen bg-neutral-200/60">
+    <div className="min-h-screen">
       {/* ===== Tweak bar (hidden on print) ===== */}
       <div className="sticky top-0 z-50 border-b border-neutral-300 bg-white/90 backdrop-blur print:hidden">
         <div className="mx-auto flex max-w-[1180px] flex-wrap items-center gap-x-5 gap-y-2 px-4 py-2.5">
@@ -104,14 +115,44 @@ export default function CVEditor() {
           </span>
 
           <Slider
-            label="Main"
-            value={config.colLeft}
-            onChange={(v) => patchConfig({ colLeft: v })}
+            label="Columns"
+            value={config.colSplit}
+            min={0.5}
+            max={0.72}
+            step={0.01}
+            onChange={(v) => patchConfig({ colSplit: v })}
           />
           <Slider
-            label="Sidebar"
-            value={config.colRight}
-            onChange={(v) => patchConfig({ colRight: v })}
+            label="Name"
+            value={config.headerScale}
+            min={0.8}
+            max={1.35}
+            step={0.01}
+            onChange={(v) => patchConfig({ headerScale: v })}
+          />
+          <Slider
+            label="Header H"
+            value={config.headerPad}
+            min={0.6}
+            max={1.8}
+            step={0.01}
+            onChange={(v) => patchConfig({ headerPad: v })}
+          />
+          <Slider
+            label="Text"
+            value={config.textScale}
+            min={0.85}
+            max={1.2}
+            step={0.01}
+            onChange={(v) => patchConfig({ textScale: v })}
+          />
+          <Slider
+            label="Line"
+            value={config.lineScale}
+            min={0.85}
+            max={1.4}
+            step={0.01}
+            onChange={(v) => patchConfig({ lineScale: v })}
           />
 
           <div className="flex items-center gap-1.5">
@@ -150,10 +191,10 @@ export default function CVEditor() {
               {saveState === "saving"
                 ? "Saving…"
                 : saveState === "saved"
-                  ? "Saved to cv.ts ✓"
+                  ? "Saved ✓"
                   : saveState === "error"
                     ? "Save failed"
-                    : "Save to cv.ts"}
+                    : "Save"}
             </Action>
             <Action onClick={reset}>Reset</Action>
             <Action onClick={() => window.print()} primary>
@@ -172,7 +213,7 @@ export default function CVEditor() {
       </div>
 
       {/* ===== Live preview ===== */}
-      <div className="cv-stage px-4 py-8 print:p-0">
+      <div className="cv-stage px-4 pt-8 pb-28 print:p-0">
         <CVDocument
           data={data}
           config={config}
@@ -254,22 +295,28 @@ function Slider({
   label,
   value,
   onChange,
+  min = 0.8,
+  max = 2.6,
+  step = 0.05,
 }: {
   label: string;
   value: number;
   onChange: (v: number) => void;
+  min?: number;
+  max?: number;
+  step?: number;
 }) {
   return (
     <label className="flex items-center gap-1.5 text-[11.5px] text-neutral-600">
       <span className="font-medium">{label}</span>
       <input
         type="range"
-        min={0.8}
-        max={2.6}
-        step={0.05}
+        min={min}
+        max={max}
+        step={step}
         value={value}
         onChange={(e) => onChange(parseFloat(e.target.value))}
-        className="w-24 accent-indigo-600"
+        className="w-20 accent-indigo-600"
       />
       <span className="w-8 tabular-nums text-neutral-400">{value.toFixed(2)}</span>
     </label>

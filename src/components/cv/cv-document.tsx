@@ -8,25 +8,29 @@
 // (editing is global: titles, dates, skills, sidebar content, all of it).
 
 import { useReducedMotion, motion } from "motion/react";
-import { Github, Globe, Linkedin, Mail, MapPin, Phone } from "lucide-react";
+import { Globe, Mail, MapPin, Phone } from "lucide-react";
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import type { CVData, CVEntry } from "@/data/cv";
 import { FadeItem, Stagger } from "./_shared";
 import { Ed, EditContext } from "./edit-context";
 
-const VIOLET = "#7C3AED";
-const BLUE = "#3B5BFF";
+// One brand blue (sampled from the candidate's original CV PDF) carries the
+// header, section labels and links — a single color story rather than three
+// competing blues.
+const BLUE = "#2251b2";
 const INK = "#0F172A";
 const GRAY = "#64748B";
 const SANS = "system-ui, -apple-system, 'Segoe UI', sans-serif";
 
 // Dusk: the chosen header palette (refined indigo → royal blue, no neon).
 const DUSK = "linear-gradient(120deg, #312e81 0%, #1e40af 58%, #2563eb 100%)";
-// Solid royal blue sampled from the candidate's original CV PDF.
+// Solid royal blue band (same brand blue as BLUE above).
 const HEADER_SOLID = "#2251b2";
-// Calm body accent for headings/markers (independent of the header).
-const ACCENT = `linear-gradient(120deg, ${VIOLET} 0%, ${BLUE} 100%)`;
+// Soft brand-blue marker for bullet dots — a gentle tint of the section-label
+// blue, so bullets read as part of the blue story without competing with the
+// stronger heading dots.
+const MARKER = "#9bb0db";
 
 export type HeaderDir = 1 | 2 | 3 | 4 | 5;
 export type TechStyle = 1 | 2 | 3;
@@ -40,18 +44,30 @@ export type CVDocConfig = {
   linkStyle: LinkStyle;
   emblem: EmblemType;
   sidebarStyle: SidebarStyle;
-  colLeft: number;
-  colRight: number;
+  // Main column's share of the width (sidebar gets the rest). One dial controls
+  // the split rather than two independent fr values.
+  colSplit: number;
+  // Live design dials (1 = the tuned baseline). headerScale sizes the header
+  // band + name; textScale / lineScale multiply body font-size and line-height
+  // (scoped to the body grid via CSS vars, so columns stay fixed-width and the
+  // print logic still holds at 1).
+  headerScale: number;
+  headerPad: number;
+  textScale: number;
+  lineScale: number;
 };
 
 export const DEFAULT_CONFIG: CVDocConfig = {
   headerDir: 1,
   techStyle: 1,
   linkStyle: 1,
-  emblem: "monogram",
+  emblem: "none",
   sidebarStyle: "flow",
-  colLeft: 1.85,
-  colRight: 1.15,
+  colSplit: 0.617,
+  headerScale: 1,
+  headerPad: 1,
+  textScale: 1,
+  lineScale: 1,
 };
 
 export type CVDocumentProps = {
@@ -61,10 +77,25 @@ export type CVDocumentProps = {
   onEdit?: (path: string, value: string) => void;
 };
 
+// Filled brand glyphs for the header links — closer to the candidate's
+// original CV than Lucide's line icons. Paths from simple-icons (24×24).
+const LINKEDIN_PATH =
+  "M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z";
+const GITHUB_PATH =
+  "M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.305-5.467-1.334-5.467-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12";
+
+function BrandGlyph({ d, size }: { d: string; size: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+      <path d={d} />
+    </svg>
+  );
+}
+
 function iconFor(label: string, size = 13) {
   const l = label.toLowerCase();
-  if (l.includes("linkedin")) return <Linkedin size={size} strokeWidth={2} />;
-  if (l.includes("github")) return <Github size={size} strokeWidth={2} />;
+  if (l.includes("linkedin")) return <BrandGlyph d={LINKEDIN_PATH} size={size} />;
+  if (l.includes("github")) return <BrandGlyph d={GITHUB_PATH} size={size} />;
   return <Globe size={size} strokeWidth={2} />;
 }
 
@@ -79,26 +110,55 @@ export default function CVDocument({
   // tight so the cards don't steal column width from the content.
   const isCard = config.sidebarStyle === "card";
   const cardCls = isCard
-    ? "rounded-lg border border-[#e8ebf2] bg-white px-3 py-4 shadow-[0_1px_2px_rgba(16,24,40,0.05)]"
+    ? "rounded-lg border border-[#e8ebf2] bg-white px-3 py-4 shadow-[0_1px_2px_rgba(16,24,40,0.05)] print:px-2.5 print:py-2.5 print:shadow-none"
     : undefined;
 
   return (
     <EditContext.Provider value={{ editable, onEdit }}>
       <div
         className="cv-sheet mx-auto bg-white"
-        style={{ fontFamily: SANS, color: INK }}
+        style={{
+          fontFamily: SANS,
+          color: INK,
+          // Defaults so header text (outside the grid) ignores the body dials;
+          // the grid below overrides these with the live config values.
+          ["--cv-text" as string]: 1,
+          ["--cv-line" as string]: 1,
+        }}
       >
-        <Header data={data} config={config} reduce={!!reduce} />
+        {/* Print-table wrapper: the thead repeats on every printed page (the
+            reliable way to get a running header), so the slim identifier bar
+            shows from page 2. On page 1 the full header (pulled up over the
+            repeated thead in print) covers it. Hidden on screen. */}
+        <table className="cv-doc">
+          <thead>
+            <tr>
+              <td>
+                <div className="cv-runhead" aria-hidden>
+                  <span>
+                    <strong>{data.name}</strong> · {data.title}
+                  </span>
+                  <span>{data.email}</span>
+                </div>
+              </td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <Header data={data} config={config} reduce={!!reduce} />
 
-        <div
-          className="grid gap-0"
+                <div
+                  className="grid gap-0"
           style={{
-            gridTemplateColumns: `${config.colLeft}fr ${config.colRight}fr`,
+            gridTemplateColumns: `${config.colSplit}fr ${1 - config.colSplit}fr`,
+            ["--cv-text" as string]: config.textScale,
+            ["--cv-line" as string]: config.lineScale,
           }}
         >
           {/* ---- main column ---- */}
-          <main className="space-y-6 px-9 py-8">
-            <Stagger className="space-y-6" stagger={0.07}>
+          <main className="space-y-6 px-9 py-8 print:space-y-4 print:py-6">
+            <Stagger className="space-y-8 print:space-y-8" stagger={0.07}>
               <FadeItem>
                 <Heading path="labels.summary">{data.labels.summary}</Heading>
                 <div className="space-y-2">
@@ -107,7 +167,7 @@ export default function CVDocument({
                       key={i}
                       as="p"
                       path={`summary.${i}`}
-                      className="text-[12px] leading-relaxed"
+                      className="text-[calc(12px*var(--cv-text))] leading-[calc(1.375*var(--cv-line))]"
                       style={{ color: "#33415c" }}
                     >
                       {p}
@@ -120,13 +180,13 @@ export default function CVDocument({
                 <Heading path="labels.experience">
                   {data.labels.experience}
                 </Heading>
-                <div className="space-y-5">
+                <div className="space-y-5 print:space-y-4">
                   {data.experience.map((job, ji) => (
                     <div key={`${job.company}-${ji}`} className="cv-exp">
                       <Ed
                         as="h3"
                         path={`experience.${ji}.role`}
-                        className="text-[14px] font-bold leading-tight"
+                        className="text-[calc(14px*var(--cv-text))] font-bold leading-tight"
                         style={{ color: INK }}
                       >
                         {job.role}
@@ -134,15 +194,15 @@ export default function CVDocument({
                       <div className="mt-0.5 flex flex-wrap items-baseline gap-x-1.5 gap-y-0.5">
                         <Ed
                           path={`experience.${ji}.company`}
-                          className="text-[11.5px] font-medium"
+                          className="text-[calc(11.5px*var(--cv-text))] font-medium"
                           style={{ color: "#566374" }}
                         >
                           {job.company}
                         </Ed>
-                        <span className="text-[11px]" style={{ color: "#9aa6b8" }}>
+                        <span className="text-[calc(11px*var(--cv-text))]" style={{ color: "#9aa6b8" }}>
                           |
                         </span>
-                        <span className="text-[10.5px]" style={{ color: GRAY }}>
+                        <span className="text-[calc(10.5px*var(--cv-text))]" style={{ color: GRAY }}>
                           <Ed path={`experience.${ji}.start`}>{job.start}</Ed>
                           {" – "}
                           <Ed path={`experience.${ji}.end`}>{job.end}</Ed>
@@ -157,35 +217,35 @@ export default function CVDocument({
                         <Ed
                           as="p"
                           path={`experience.${ji}.context`}
-                          className="mt-0.5 text-[11px] italic"
+                          className="mt-0.5 text-[calc(11px*var(--cv-text))] italic"
                           style={{ color: GRAY }}
                         >
                           {job.context}
                         </Ed>
                       ) : null}
-                      <div className="mt-2.5 space-y-3">
+                      <div className="mt-2.5 space-y-3 print:mt-2 print:space-y-2">
                         {job.groups.map((grp, gi) => (
                           <div key={gi}>
                             {grp.heading ? (
                               <Ed
                                 as="p"
                                 path={`experience.${ji}.groups.${gi}.heading`}
-                                className="mb-1.5 text-[10px] font-semibold uppercase tracking-[0.1em]"
+                                className="mb-1.5 text-[calc(10px*var(--cv-text))] font-semibold uppercase tracking-[0.1em]"
                                 style={{ color: "#64748b" }}
                               >
                                 {grp.heading}
                               </Ed>
                             ) : null}
-                            <ul className="space-y-2">
+                            <ul className="space-y-2 print:space-y-1.5">
                               {grp.bullets.map((b, bi) => (
                                 <li
                                   key={bi}
-                                  className="relative pl-3.5 text-[12px] leading-relaxed"
+                                  className="relative pl-3.5 text-[calc(12px*var(--cv-text))] leading-[calc(1.375*var(--cv-line))]"
                                   style={{ color: "#33415c" }}
                                 >
                                   <span
                                     className="absolute left-0 top-[8px] h-1.5 w-1.5 rounded-full"
-                                    style={{ background: ACCENT }}
+                                    style={{ background: MARKER }}
                                   />
                                   <Ed
                                     path={`experience.${ji}.groups.${gi}.bullets.${bi}`}
@@ -207,20 +267,20 @@ export default function CVDocument({
 
           {/* ---- sidebar column ---- */}
           <aside
-            className={cn("py-8", isCard ? "px-4" : "px-7")}
+            className={cn("py-8 print:py-5", isCard ? "px-4" : "px-7")}
             style={{ borderLeft: "1px solid #eef1f6", background: "#fbfcfe" }}
           >
-            <Stagger className={isCard ? "space-y-3" : "space-y-6"} stagger={0.06}>
+            <Stagger className={isCard ? "space-y-5 print:space-y-5" : "space-y-6 print:space-y-4"} stagger={0.06}>
               <FadeItem className={cn("cv-side", cardCls)}>
                 <Heading path="labels.projects">{data.labels.projects}</Heading>
-                <div className="space-y-3.5">
+                <div className="space-y-3.5 print:space-y-2.5">
                   {data.projects.map((p, pi) => (
                     <div key={p.name} className="cv-proj">
                       <div className="flex items-start justify-between gap-2">
                         {p.href ? (
                           <a
                             href={p.href}
-                            className="text-[12px] font-semibold leading-tight underline-offset-2 hover:underline"
+                            className="text-[calc(12px*var(--cv-text))] font-semibold leading-tight underline-offset-2 hover:underline"
                             style={{ color: BLUE }}
                           >
                             <Ed path={`projects.${pi}.name`}>{p.name}</Ed>
@@ -228,7 +288,7 @@ export default function CVDocument({
                         ) : (
                           <Ed
                             path={`projects.${pi}.name`}
-                            className="text-[12px] font-semibold leading-tight"
+                            className="text-[calc(12px*var(--cv-text))] font-semibold leading-tight"
                             style={{ color: INK }}
                           >
                             {p.name}
@@ -244,7 +304,7 @@ export default function CVDocument({
                         <Ed
                           as="p"
                           path={`projects.${pi}.role`}
-                          className="text-[10.5px] font-medium"
+                          className="text-[calc(10.5px*var(--cv-text))] font-medium"
                           style={{ color: GRAY }}
                         >
                           {p.role}
@@ -253,7 +313,7 @@ export default function CVDocument({
                       <Ed
                         as="p"
                         path={`projects.${pi}.description`}
-                        className="mt-0.5 text-[11px] leading-snug"
+                        className="mt-0.5 text-[calc(11px*var(--cv-text))] leading-[calc(1.375*var(--cv-line))]"
                         style={{ color: "#33415c" }}
                       >
                         {p.description}
@@ -270,18 +330,18 @@ export default function CVDocument({
 
               <FadeItem className={cn("cv-side", cardCls)}>
                 <Heading path="labels.skills">{data.labels.skills}</Heading>
-                <div className="space-y-3">
+                <div className="space-y-4 print:space-y-2">
                   {data.skills.map((g, gi) => (
                     <div key={g.category}>
                       <Ed
                         as="p"
                         path={`skills.${gi}.category`}
-                        className="mb-1 text-[11px] font-semibold"
+                        className="mb-1 text-[calc(11px*var(--cv-text))] font-semibold"
                         style={{ color: INK }}
                       >
                         {g.category}
                       </Ed>
-                      <div className="flex flex-wrap gap-1.5">
+                      <div className="flex flex-wrap gap-1">
                         {g.items.map((it, ii) => (
                           <Pill key={it}>
                             <Ed path={`skills.${gi}.items.${ii}`}>{it}</Ed>
@@ -316,7 +376,7 @@ export default function CVDocument({
                 <Heading path="labels.languages">
                   {data.labels.languages}
                 </Heading>
-                <ul className="space-y-1 text-[11.5px]" style={{ color: GRAY }}>
+                <ul className="space-y-1 text-[calc(11.5px*var(--cv-text))]" style={{ color: GRAY }}>
                   {data.languages.map((l, li) => (
                     <li key={l.language}>
                       <Ed
@@ -343,7 +403,7 @@ export default function CVDocument({
                       <Ed
                         as="p"
                         path={`education.${ei}.title`}
-                        className="text-[12px] font-semibold"
+                        className="text-[calc(12px*var(--cv-text))] font-semibold"
                         style={{ color: INK }}
                       >
                         {e.title}
@@ -351,7 +411,7 @@ export default function CVDocument({
                       <Ed
                         as="p"
                         path={`education.${ei}.detail`}
-                        className="text-[11px]"
+                        className="text-[calc(11px*var(--cv-text))]"
                         style={{ color: GRAY }}
                       >
                         {e.detail}
@@ -362,7 +422,11 @@ export default function CVDocument({
               </FadeItem>
             </Stagger>
           </aside>
-        </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </EditContext.Provider>
   );
@@ -427,6 +491,58 @@ function Emblem({
   );
 }
 
+// Right-side header columns (Portfolio links + contact), matching the
+// candidate's original CV: a compact two-column block beside the name, which
+// keeps the header band short (vs. stacking contact rows under the name) and
+// frees vertical space on page 1.
+function HeaderLinks({ data }: { data: CVData }) {
+  const colLabel = "mb-2 text-[calc(10px*var(--cv-text))] font-bold uppercase tracking-[0.16em]";
+  const labelStyle = { color: "rgba(255,255,255,0.82)" };
+  const row =
+    "flex items-center gap-1.5 text-[calc(10.5px*var(--cv-text))] leading-[1.55] whitespace-nowrap";
+  return (
+    <div className="flex gap-7">
+      <div>
+        <p className={colLabel} style={labelStyle}>
+          Portfolio
+        </p>
+        <div className="space-y-0.5">
+          {data.links.map((l, li) => (
+            <a
+              key={l.href}
+              href={l.href}
+              className={cn(row, "underline-offset-2 hover:underline")}
+              style={{ color: "#fff" }}
+            >
+              {iconFor(l.label, 12)}
+              <Ed path={`links.${li}.display`}>{l.display}</Ed>
+            </a>
+          ))}
+        </div>
+      </div>
+      <div style={{ color: "rgba(255,255,255,0.92)" }}>
+        <p className={colLabel} style={labelStyle}>
+          Get in contact
+        </p>
+        <div className="space-y-0.5">
+          <span className={row}>
+            <Mail size={12} strokeWidth={2} />
+            <Ed path="email">{data.email}</Ed>
+          </span>
+          <span className={row}>
+            <Phone size={12} strokeWidth={2} />
+            <Ed path="phone">{data.phone}</Ed>
+          </span>
+          <span className={row}>
+            <MapPin size={12} strokeWidth={2} />
+            <Ed path="location">{data.location}</Ed>
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function Header({
   data,
   config,
@@ -453,34 +569,37 @@ function Header({
   if (config.headerDir === 1) {
     return (
       <motion.header
-        className="relative overflow-hidden px-10 py-8 text-white"
-        style={{ background: HEADER_SOLID, minHeight: 200 }}
+        className="relative overflow-hidden px-10 text-white"
+        style={{
+          background: HEADER_SOLID,
+          paddingTop: `calc(24px * ${config.headerPad})`,
+          paddingBottom: `calc(24px * ${config.headerPad})`,
+        }}
         {...anim}
       >
-        <Emblem
-          type={config.emblem}
-          initials={initials}
-          className="absolute right-9 top-8"
-        />
-        <div className="relative flex h-full flex-col justify-between gap-6">
-          <div>
+        <div className="flex items-start justify-between gap-6">
+          <div className="min-w-0">
             <Ed
               as="p"
               path="title"
-              className="text-[11px] font-semibold uppercase tracking-[0.32em]"
-              style={{ color: "rgba(255,255,255,0.75)" }}
+              className="text-[calc(10.5px*var(--cv-text))] font-semibold uppercase tracking-[0.3em]"
+              style={{ color: "rgba(255,255,255,0.72)" }}
             >
               {data.title}
             </Ed>
             <Ed
               as="h1"
               path="name"
-              className="mt-2 text-[42px] font-bold leading-none tracking-tight"
+              className="mt-1.5 whitespace-nowrap font-bold uppercase leading-tight tracking-[0.05em]"
+              style={{ fontSize: `calc(27px * ${config.headerScale})` }}
             >
               {data.name}
             </Ed>
           </div>
-          <Contact data={data} tone="light" linkStyle={config.linkStyle} />
+          <div className="flex shrink-0 items-start gap-6">
+            <HeaderLinks data={data} />
+            <Emblem type={config.emblem} initials={initials} />
+          </div>
         </div>
       </motion.header>
     );
@@ -493,7 +612,7 @@ function Header({
         <Ed
           as="h1"
           path="name"
-          className="text-[44px] font-extrabold leading-none tracking-tight"
+          className="text-[calc(44px*var(--cv-text))] font-extrabold leading-none tracking-tight"
           style={{
             background: DUSK,
             WebkitBackgroundClip: "text",
@@ -508,7 +627,7 @@ function Header({
         <Ed
           as="p"
           path="title"
-          className="mt-3 text-[15px] font-semibold"
+          className="mt-3 text-[calc(15px*var(--cv-text))] font-semibold"
           style={{ color: INK }}
         >
           {data.title}
@@ -530,7 +649,7 @@ function Header({
             <Ed
               as="h1"
               path="name"
-              className="text-[40px] font-bold leading-none tracking-tight"
+              className="text-[calc(40px*var(--cv-text))] font-bold leading-none tracking-tight"
               style={{ color: INK }}
             >
               {data.name}
@@ -538,7 +657,7 @@ function Header({
             <Ed
               as="p"
               path="title"
-              className="mt-2 text-[14px] font-semibold"
+              className="mt-2 text-[calc(14px*var(--cv-text))] font-semibold"
               style={{ color: BLUE }}
             >
               {data.title}
@@ -566,7 +685,7 @@ function Header({
           <Ed
             as="h1"
             path="name"
-            className="text-[40px] font-bold leading-[1.05] tracking-tight"
+            className="text-[calc(40px*var(--cv-text))] font-bold leading-[1.05] tracking-tight"
           >
             {data.name}
           </Ed>
@@ -575,7 +694,7 @@ function Header({
           <Ed
             as="p"
             path="title"
-            className="text-[16px] font-semibold"
+            className="text-[calc(16px*var(--cv-text))] font-semibold"
             style={{ color: INK }}
           >
             {data.title}
@@ -590,7 +709,7 @@ function Header({
   return (
     <motion.header className="flex flex-wrap items-center gap-6 px-10 pt-9 pb-7" {...anim}>
       <div
-        className="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl text-[30px] font-bold text-white"
+        className="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl text-[calc(30px*var(--cv-text))] font-bold text-white"
         style={{ background: DUSK }}
       >
         {initials}
@@ -599,7 +718,7 @@ function Header({
         <Ed
           as="h1"
           path="name"
-          className="text-[38px] font-bold leading-none tracking-tight"
+          className="text-[calc(38px*var(--cv-text))] font-bold leading-none tracking-tight"
           style={{ color: INK }}
         >
           {data.name}
@@ -607,7 +726,7 @@ function Header({
         <Ed
           as="p"
           path="title"
-          className="mt-1.5 text-[14px] font-semibold"
+          className="mt-1.5 text-[calc(14px*var(--cv-text))] font-semibold"
           style={{ color: BLUE }}
         >
           {data.title}
@@ -647,7 +766,7 @@ function Contact({
     <div className={cn("space-y-2", align === "right" && "text-right")}>
       <div
         className={cn(
-          "flex flex-wrap items-center gap-x-4 gap-y-1 text-[11.5px]",
+          "flex flex-wrap items-center gap-x-4 gap-y-1 text-[calc(11.5px*var(--cv-text))]",
           justify,
         )}
         style={{ color: txt }}
@@ -669,7 +788,7 @@ function Contact({
       {linkStyle === 1 ? (
         <div
           className={cn(
-            "flex flex-wrap items-center gap-x-4 gap-y-1 text-[11.5px]",
+            "flex flex-wrap items-center gap-x-4 gap-y-1 text-[calc(11.5px*var(--cv-text))]",
             justify,
           )}
           style={{ color: txt }}
@@ -691,14 +810,14 @@ function Contact({
       {linkStyle === 2 ? (
         <div
           className={cn(
-            "flex flex-wrap items-center gap-x-5 gap-y-1 text-[11.5px]",
+            "flex flex-wrap items-center gap-x-5 gap-y-1 text-[calc(11.5px*var(--cv-text))]",
             justify,
           )}
         >
           {data.links.map((l, li) => (
             <span key={l.href} className="flex items-baseline gap-1.5">
               <span
-                className="text-[10px] font-semibold uppercase tracking-[0.1em]"
+                className="text-[calc(10px*var(--cv-text))] font-semibold uppercase tracking-[0.1em]"
                 style={{ color: dim }}
               >
                 {l.label}
@@ -721,7 +840,7 @@ function Contact({
             <a
               key={l.href}
               href={l.href}
-              className="flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-medium"
+              className="flex items-center gap-1.5 rounded-full px-3 py-1 text-[calc(11px*var(--cv-text))] font-medium"
               style={{
                 background: pillBg,
                 color: pillText,
@@ -752,7 +871,7 @@ function ProjectTech({
   // 1 — Plain dotted text (lightest; clears the clash with the skills pills).
   if (style === 1) {
     return (
-      <p className="mt-1 text-[10.5px]" style={{ color: GRAY }}>
+      <p className="mt-1 text-[calc(10.5px*var(--cv-text))]" style={{ color: GRAY }}>
         {tech.map((t, k) => (
           <span key={k}>
             {k > 0 ? "  ·  " : ""}
@@ -766,7 +885,7 @@ function ProjectTech({
   if (style === 2) {
     return (
       <p
-        className="mt-1 text-[10px]"
+        className="mt-1 text-[calc(10px*var(--cv-text))]"
         style={{
           color: GRAY,
           fontFamily: "ui-monospace, 'SF Mono', Menlo, monospace",
@@ -788,7 +907,7 @@ function ProjectTech({
       {tech.map((t, k) => (
         <span
           key={k}
-          className="rounded px-1.5 py-px text-[9.5px] font-medium"
+          className="rounded px-1.5 py-px text-[calc(10px*var(--cv-text))] font-medium"
           style={{ color: "#5a6b8c", border: "1px solid #dde3ef" }}
         >
           <Ed path={`projects.${projectIndex}.tech.${k}`}>{t}</Ed>
@@ -803,10 +922,10 @@ function ProjectTech({
 function Heading({ path, children }: { path: string; children: ReactNode }) {
   return (
     <h2
-      className="cv-h mb-2 flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.16em]"
-      style={{ color: INK }}
+      className="cv-h mb-3 print:mb-2.5 flex items-center gap-2 text-[calc(12px*var(--cv-text))] font-bold uppercase tracking-[0.16em]"
+      style={{ color: BLUE }}
     >
-      <span className="h-2.5 w-2.5 rounded-full" style={{ background: ACCENT }} />
+      <span className="h-2.5 w-2.5 rounded-full" style={{ background: BLUE }} />
       <Ed path={path}>{children}</Ed>
     </h2>
   );
@@ -815,7 +934,7 @@ function Heading({ path, children }: { path: string; children: ReactNode }) {
 function Pill({ children }: { children: ReactNode }) {
   return (
     <span
-      className="inline-block rounded-full px-2.5 py-0.5 text-[10.5px] font-medium"
+      className="inline-block rounded-full px-2.5 py-0.5 text-[calc(10.5px*var(--cv-text))] font-medium"
       style={{ background: "#eef2fb", color: "#3a4a6b" }}
     >
       {children}
@@ -831,7 +950,7 @@ function EntryList({
   basePath: string;
 }) {
   return (
-    <ul className="space-y-1.5 text-[11.5px] leading-snug" style={{ color: GRAY }}>
+    <ul className="space-y-1.5 print:space-y-1 text-[calc(11.5px*var(--cv-text))] leading-[calc(1.375*var(--cv-line))]" style={{ color: GRAY }}>
       {entries.map((e, i) => (
         <li key={e.title}>
           <Ed
@@ -864,12 +983,12 @@ function ProjectBadge({
 }) {
   const palette = {
     neutral: { bg: "#eef1f6", color: "#475569" },
-    success: { bg: "#e7f6ee", color: "#0f7a4a" },
-    amber: { bg: "#fdf2e2", color: "#9a6711" },
+    success: { bg: "#eaf1ec", color: "#3f6b50" },
+    amber: { bg: "#f1ece1", color: "#7a6526" },
   }[tone];
   return (
     <span
-      className="shrink-0 whitespace-nowrap rounded-full px-2 py-0.5 text-[9.5px] font-semibold"
+      className="shrink-0 whitespace-nowrap rounded-full px-2 py-0.5 text-[calc(10px*var(--cv-text))] font-semibold"
       style={{ background: palette.bg, color: palette.color }}
     >
       {children}
