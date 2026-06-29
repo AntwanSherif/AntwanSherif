@@ -13,6 +13,7 @@
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "test": "vitest run",
+    "postinstall": "git config core.hooksPath .githooks 2>/dev/null || true",
     "cv:pdf": "node scripts/generate-cv-pdf.mjs",
     "stories:status": "git submodule status src/data/stories-private && git -C src/data/stories-private status --short",
     "stories:publish": "bash scripts/publish-stories.sh"

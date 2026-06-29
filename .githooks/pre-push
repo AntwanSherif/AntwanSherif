@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# Keep the downloadable public/cv.pdf in sync with the CV before it ships.
+#
+# When a push changes the CV's content/design, public/cv.pdf must be regenerated
+# (`pnpm cv:pdf`) and committed alongside — otherwise the public "Download PDF"
+# drifts from the live /cv page. This hook GUARDS that: it doesn't regenerate for
+# you, because Chrome's printToPDF isn't byte-deterministic (it stamps a creation
+# date), so an in-hook regen would always look "changed" and block every push.
+# Instead it just confirms you refreshed the PDF in the same push.
+#
+# Escape hatch: `git push --no-verify` for changes that can't affect the PDF
+# (editor logic, comments, the print:hidden download button, etc.).
+set -euo pipefail
+cd "$(git rev-parse --show-toplevel)"
+
+# Commits about to be pushed (fall back to all of HEAD if origin/main is unknown).
+range="HEAD"
+git rev-parse --verify --quiet origin/main >/dev/null && range="origin/main..HEAD"
+
+# CV inputs whose change can alter the rendered PDF.
+src_re='^(src/data/cv\.ts|src/data/cv-config\.ts|src/components/cv/cv-document\.tsx|src/app/cv/cv\.css)$'
+git diff --name-only "$range" | grep -qE "$src_re" || exit 0       # no CV change → ok
+git diff --name-only "$range" | grep -qx 'public/cv.pdf' && exit 0  # PDF refreshed too → ok
+
+echo "✋ CV source changed but public/cv.pdf wasn't regenerated in this push."
+echo "   Refresh the downloadable PDF so it matches the page:"
+echo "     pnpm dev        # if it isn't already running"
+echo "     pnpm cv:pdf && git add public/cv.pdf && git commit -m 'chore(cv): regenerate PDF'"
+echo "   Then push again — or 'git push --no-verify' if this change can't affect the PDF."
+exit 1
