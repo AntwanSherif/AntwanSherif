@@ -55,6 +55,14 @@ describe("track", () => {
     track({ name: "cv_view", props: { content_type: "nav", category: "professional", source: "navbar" } });
     expect(spy).toHaveBeenCalledWith("cv_view", { v: 1, content_type: "nav", category: "professional", source: "navbar" });
   });
+  test("cv_download and cv_print are distinct cv-spine events", () => {
+    const spy = vi.fn();
+    (globalThis as any).window = { umami: { track: spy } };
+    track({ name: "cv_download", props: { content_type: "cv", category: "professional" } });
+    track({ name: "cv_print", props: { content_type: "cv", category: "professional" } });
+    expect(spy).toHaveBeenNthCalledWith(1, "cv_download", { v: 1, content_type: "cv", category: "professional" });
+    expect(spy).toHaveBeenNthCalledWith(2, "cv_print", { v: 1, content_type: "cv", category: "professional" });
+  });
   test("no-ops (no throw) when umami is absent", () => {
     (globalThis as any).window = {};
     expect(() => track({ name: "impression", props: { content_type: "contact" } })).not.toThrow();

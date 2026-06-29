@@ -70,7 +70,8 @@ Every event carries `content_type` + `v` implicitly; the table lists *additional
 |---|---|---|---|
 | `outbound` | client | `category`, `host`, `href`, `label?` | `context` retired → `content_type`/`content_id` |
 | `contact_click` | client | `channel: email\|linkedin`, `category: professional` | named conversion |
-| `cv_download` | client | `category: professional` | reserved until a CV download CTA exists |
+| `cv_download` | client | `category: professional` | real `public/cv.pdf` download from /cv (`content_type: cv`) — **true** download signal |
+| `cv_print` | client | `category: professional` | browser print *initiated* on /cv (`content_type: cv`); intent, not a confirmed export |
 | `cv_view` | client | `category: professional`, `source: navbar` | CV nav-link click (`content_type: nav`) |
 | **`section_view`** | client | `content_id: <section>`, `position?` | **homepage section reach → churn funnel** (`hero·about·work·education·skills·talks·projects·contact`, in DOM order) |
 | `scroll_depth` | client | `depth: 25\|50\|75\|100`, **`value: <ms>`** | **stories only now**; `value` = ms-to-milestone → reading velocity |

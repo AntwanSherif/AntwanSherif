@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { CV } from "@/data/cv";
 import CVDocument from "@/components/cv/cv-document";
+import { CvDownload } from "@/components/cv/cv-download";
 import { PUBLISHED_CONFIG } from "@/data/cv-config";
 
 export const metadata: Metadata = {
@@ -15,6 +16,7 @@ export const metadata: Metadata = {
 export default function CVPage() {
   return (
     <div className="cv-stage flex min-h-screen items-start justify-center px-4 pt-10 pb-28 sm:pt-14 print:bg-white print:p-0">
+      <CvDownload />
       <CVDocument data={CV} config={PUBLISHED_CONFIG} />
     </div>
   );
