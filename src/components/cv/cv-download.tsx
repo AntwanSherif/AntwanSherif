@@ -9,18 +9,35 @@ import { track } from "@/lib/analytics";
 // download → fires `cv_download`. Separately, a browser Cmd-P fires `cv_print`
 // — a distinct, honestly-named "print initiated" signal (the browser can't
 // confirm an actual export, so we never call it a download). Hidden in print.
+// The document shows the short name ("Antwan Sherif"), but the saved/printed
+// file should carry the full formal name. Chrome's Save-as-PDF uses
+// document.title as the default filename, so swap it just for the print, then
+// restore — the tab/SEO title stays as set in the route metadata.
+const PRINT_FILENAME = "Antwan Sherif Labib - Resume";
+
 export function CvDownload() {
   useEffect(() => {
-    const onBeforePrint = () =>
+    let prevTitle = "";
+    const onBeforePrint = () => {
       track({ name: "cv_print", props: { content_type: "cv", category: "professional" } });
+      prevTitle = document.title;
+      document.title = PRINT_FILENAME;
+    };
+    const onAfterPrint = () => {
+      if (prevTitle) document.title = prevTitle;
+    };
     window.addEventListener("beforeprint", onBeforePrint);
-    return () => window.removeEventListener("beforeprint", onBeforePrint);
+    window.addEventListener("afterprint", onAfterPrint);
+    return () => {
+      window.removeEventListener("beforeprint", onBeforePrint);
+      window.removeEventListener("afterprint", onAfterPrint);
+    };
   }, []);
 
   return (
     <a
       href="/cv.pdf"
-      download="Antwan-Sherif-Labib-CV.pdf"
+      download="Antwan Sherif Labib - Resume.pdf"
       data-analytics-skip-outbound
       onClick={() =>
         track({ name: "cv_download", props: { content_type: "cv", category: "professional" } })

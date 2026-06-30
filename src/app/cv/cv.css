@@ -7,10 +7,26 @@
   width: 210mm;
   max-width: 100%;
   min-height: 297mm;
+  /* Rounded corners: the sheet reads as a card on screen (blue header band up
+     top, soft corners all round). In print (white page, margin 0) the revealed
+     corners are white on white, so the printed result stays effectively square.
+     overflow:hidden clips child backgrounds (e.g. the tinted sidebar) so the
+     bottom corners actually round; print restores overflow:visible to keep the
+     multi-page flow + running header untouched. */
+  border-radius: 18px;
+  overflow: hidden;
   box-shadow: 0 10px 40px -12px rgba(16, 24, 40, 0.25);
   /* preserve variant backgrounds/accents in print + screenshots */
   -webkit-print-color-adjust: exact;
   print-color-adjust: exact;
+}
+
+/* Screen-only: render the sheet a touch larger for comfortable on-screen
+   reading. Scoped to @media screen, so print stays exactly A4 (1:1). */
+@media screen {
+  .cv-sheet {
+    zoom: 1.12;
+  }
 }
 
 /* Print-table wrapper. On screen, only the body shows — the thead (running
@@ -26,6 +42,46 @@
 }
 .cv-doc thead,
 .cv-runhead {
+  display: none;
+}
+
+/* Work-experience timeline rail. A dotted vertical spine down the left of the
+   experience list (borrowed from the original CV PDF), with a filled brand-blue
+   node (.cv-node) per role riding the line. On screen the spine is one
+   continuous line (a ::before) that begins at the FIRST node's center — not
+   above it — and runs to the last entry. In print it's drawn per-entry (see the
+   @media print block) so it stops at each page's last entry and never paints
+   over the running-header bar. The gutter padding lives on each .cv-exp so the
+   line sits at the same x in both modes. */
+.cv-rail {
+  position: relative;
+}
+.cv-rail::before {
+  content: "";
+  position: absolute;
+  left: -0.75px;
+  top: 8.5px; /* first node's vertical center (top 4px + radius 4.5px) */
+  bottom: 0;
+  border-left: 1.5px dotted #b3c2e0;
+}
+.cv-exp {
+  position: relative;
+  padding-left: 1.15rem;
+}
+.cv-node {
+  position: absolute;
+  left: 0;
+  top: 4px;
+  width: 9px;
+  height: 9px;
+  border-radius: 9999px;
+  transform: translateX(-50%);
+  /* white halo so the spine's dots don't crowd the node */
+  box-shadow: 0 0 0 2px #fff;
+}
+
+/* Print-only full-page column background (see the @media print rule). */
+.cv-colbg {
   display: none;
 }
 
@@ -60,9 +116,11 @@
   .cv-runhead strong {
     font-weight: 700;
   }
-  /* White gap below the bar on page 2+. It lives in the reserved thead space,
-     so the page-1 header pull (below) reclaims the bar AND the gap, staying
-     flush at the top of page 1. */
+  /* Breathing room below the running bar on page 2+. The main/sidebar's own top
+     padding only lives on page 1 (one fragmented element), so this reserved
+     thead space is page 2's breathing room — and the fixed column background
+     paints it tinted, so it reads as the top of the sidebar rather than a white
+     band. The page-1 header pull reclaims the bar + this gap to stay flush. */
   .cv-doc > thead > tr > td {
     padding-bottom: 5mm;
   }
@@ -84,6 +142,45 @@
     width: 100%;
     min-height: auto;
     box-shadow: none !important;
+    /* restore normal flow for pagination + the repeating running header */
+    overflow: visible;
+    /* transparent so the fixed full-page column background shows through where
+       the sidebar's cards don't reach */
+    background: transparent !important;
+  }
+
+  /* Full-page column background, repeated on every printed page: white under the
+     main column, a hairline at the split, tint under the sidebar — edge to edge,
+     full height. The opaque header/running-bar sit above it (z-index), so the
+     tint visually begins just below the header on every page. */
+  .cv-colbg {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background: linear-gradient(
+      to right,
+      #ffffff 0,
+      #ffffff calc(var(--cv-split, 0.6) * 100%),
+      #dce2ec calc(var(--cv-split, 0.6) * 100%),
+      #dce2ec calc(var(--cv-split, 0.6) * 100% + 1.5px),
+      #fbfcfe calc(var(--cv-split, 0.6) * 100% + 1.5px),
+      #fbfcfe 100%
+    );
+  }
+  /* The sidebar's own bg would cover the fixed hairline where its cards are, so
+     in print the aside reveals the hairline through a transparent left edge
+     (padding-box clip keeps its tint from painting under it). Result: one
+     consistent divider — the fixed hairline — from behind the bar to the page
+     foot. */
+  .cv-aside {
+    border-left: 1.5px solid transparent !important;
+    background-clip: padding-box !important;
+  }
+  /* keep all real content above the fixed background */
+  .cv-doc {
+    position: relative;
+    z-index: 1;
   }
 
   /* Page-break control: keep these blocks whole rather than slicing them
@@ -101,6 +198,59 @@
   .cv-h {
     break-after: avoid;
     page-break-after: avoid;
+  }
+
+  /* Timeline rail in print: draw the spine per-entry instead of on the
+     container, so it stops at the last entry on each page (never trailing into
+     the empty space left when a break-inside:avoid entry is pushed to the next
+     page, and never painting over the running-header bar). */
+  .cv-rail::before {
+    display: none;
+  }
+  /* Connect the per-entry segments within a page: drop the inter-entry margin
+     and move that spacing inside each entry (padding-top, which the border
+     covers), so consecutive borders touch into one continuous dotted line —
+     while still ending at the page's last entry and never crossing a page
+     boundary or painting over the running header. */
+  /* Kill the Tailwind space-y gap entirely (v4 applies it as the logical
+     margin-block-end, so a physical margin-top override misses it), then put
+     the spacing back as padding inside each entry so the borders butt together
+     into one continuous line. */
+  .cv-rail > .cv-exp {
+    margin: 0 !important;
+  }
+  .cv-rail > .cv-exp + .cv-exp {
+    padding-top: 5.5mm;
+  }
+  .cv-exp {
+    border-left: 1.5px dotted #b3c2e0;
+  }
+  /* nodes on padded entries shift down with their (now-indented) content */
+  .cv-rail > .cv-exp + .cv-exp .cv-node {
+    top: calc(4mm + 4px);
+  }
+  /* Page-start entries begin their line at the node center (no connector stub
+     above): the global first entry (:first-child) and the first entry that
+     lands on page 2. That page-2 entry is :nth-child(3) — entries 1-2 (Trade
+     Republic, Flink) fill page 1. NOTE: this index is tied to the current
+     2-page pagination; if the break moves, update the nth-child value. */
+  .cv-rail > .cv-exp:first-child,
+  .cv-rail > .cv-exp:nth-child(3) {
+    border-left: none;
+    padding-top: 0;
+  }
+  /* reset the +4mm node shift for the page-2 starter (it has no padding-top) */
+  .cv-rail > .cv-exp:nth-child(3) .cv-node {
+    top: 4px;
+  }
+  .cv-rail > .cv-exp:first-child::before,
+  .cv-rail > .cv-exp:nth-child(3)::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 8.5px;
+    bottom: 0;
+    border-left: 1.5px dotted #b3c2e0;
   }
 
   /* The PDF must never depend on animation state. Motion fades content in from

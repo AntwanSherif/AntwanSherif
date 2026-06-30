@@ -40,7 +40,7 @@ export function renderInline(text: string): ReactNode {
           target="_blank"
           rel="noreferrer"
           className="underline-offset-2 hover:underline"
-          style={{ color: "#3B5BFF" }}
+          style={{ color: "#2251b2" }}
         >
           {m[1]}
         </a>

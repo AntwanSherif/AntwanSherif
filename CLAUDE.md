@@ -96,6 +96,34 @@ Start the dev server with **`pnpm dev`** (which runs `bin/dev`). This repo owns 
 - **Never assume the port; never hardcode `3000`.** The *actually bound* port is written to **`.dev/port`** at the repo root — read it to find the running server.
 - **Never kill a process to free a port** (`lsof | kill`, `fuser -k`). Collisions are absorbed by auto-increment, so there's nothing to clear.
 
+## CV page (`/cv`)
+
+Print-first 2-page CV. Source of truth: `src/data/cv.ts` (content, between the
+`CV-DATA` sentinels) + `src/data/cv-config.ts` (`PUBLISHED_CONFIG`, the design
+dials). Both are also written by the **dev-only** `/cv/edit` lab's "Save" button.
+
+**Always verify visual/print changes by looking at a screenshot before claiming
+done.** After *any* change to the CV (or its print CSS), render the PDF
+(`browse pdf` or `pnpm cv:pdf`), rasterize, and **zoom into the exact region you
+changed** — then actually Read the image. Print bugs (rail stubs, divider gaps,
+page-break trailing, page count) are invisible in the code and in a full-page
+thumbnail; only a close crop of the affected area catches them. Don't report a
+fix from the diff alone. This applies to every visual change, not just the CV.
+
+**Regenerate the downloadable PDF whenever you change the CV.** The public
+"Download PDF" serves a committed `public/cv.pdf`, rendered from the live page —
+so if you touch `cv.ts`, `cv-config.ts`, `components/cv/cv-document.tsx`, or
+`app/cv/cv.css`, it goes stale. Refresh + commit it **with** your change:
+
+```bash
+pnpm dev          # PDF is rendered from the running /cv (read .dev/port)
+pnpm cv:pdf       # → public/cv.pdf  (real Chrome via puppeteer-core)
+```
+
+A `.githooks/pre-push` guard blocks pushes that skip this (escape hatch:
+`git push --no-verify` for changes that can't affect the PDF) — but don't rely
+on it: a commit-without-push leaves a stale PDF, so regenerate proactively.
+
 ## Plan Reference
 
 Full build plan is at `~/.claude/plans/antwan-portfolio.md`. Always read it before starting a session to know current phase and pending tasks.
