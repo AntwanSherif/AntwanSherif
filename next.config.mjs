@@ -26,6 +26,13 @@ const nextConfig = {
           },
         ],
       },
+      {
+        // Keep the auto-assigned *.vercel.app deployment URL out of the index —
+        // the canonical site is antwansherif.com; this host is a duplicate.
+        source: "/:path*",
+        has: [{ type: "host", value: "antwan-sherif.vercel.app" }],
+        headers: [{ key: "X-Robots-Tag", value: "noindex" }],
+      },
     ];
   },
 };

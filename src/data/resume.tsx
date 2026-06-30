@@ -19,7 +19,7 @@ import { PlaywrightIcon } from '@/components/ui/svgs/playwright';
 export const DATA = {
   name: 'Antwan Sherif Labib',
   initials: 'AS',
-  url: 'https://antwan.me',
+  url: 'https://antwansherif.com',
   location: 'Berlin, Germany',
   locationLink: 'https://www.google.com/maps/place/berlin',
   description: 'Senior Software Engineer · React Subject Matter Expert · AI & Developer Tooling',
