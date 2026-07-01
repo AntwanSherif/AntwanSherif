@@ -1,8 +1,6 @@
 import { Icons } from '@/components/icons';
 import { encoreshotUrl } from '@/lib/encoreshot';
-import { HomeIcon, StarIcon } from 'lucide-react';
-// NotebookIcon: re-add when the Blog nav entry below is restored
-// import { NotebookIcon } from 'lucide-react';
+import { HomeIcon, StarIcon, NotebookIcon } from 'lucide-react';
 import { ReactLight } from '@/components/ui/svgs/reactLight';
 import { NextjsIconDark } from '@/components/ui/svgs/nextjsIconDark';
 import { Typescript } from '@/components/ui/svgs/typescript';
@@ -54,10 +52,8 @@ export const DATA = {
   ],
   navbar: [
     { href: '/', icon: HomeIcon, label: 'Home' },
-    { href: '/stories', icon: StarIcon, label: 'Stories' }
-    // Blog hidden until real articles are published — restore this entry
-    // (and the NotebookIcon import above) to bring back the quick-nav icon:
-    // { href: '/blog', icon: NotebookIcon, label: 'Blog' }
+    { href: '/stories', icon: StarIcon, label: 'Stories' },
+    { href: '/blog', icon: NotebookIcon, label: 'Blog' }
   ],
   contact: {
     email: 'antwansherif@gmail.com',
