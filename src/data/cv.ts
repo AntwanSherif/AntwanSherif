@@ -5,6 +5,8 @@
 // propagate to every variant. Tuned for AI / Product Engineer roles, with the
 // summary's closing paragraph aimed at customer-facing / forward-deployed work.
 
+import { encoreshotUrl } from '@/lib/encoreshot';
+
 export type CVLink = {
   label: string;
   href: string;
@@ -286,7 +288,9 @@ export const CV: CVData = {
     {
       name: 'EncoreShot',
       role: 'Solo Founder',
-      href: 'http://encoreshot.com/',
+      // Base UTM (source only); CVDocument stamps utm_medium=web|pdf per surface. See analytics utm-links.
+      // (The /cv/edit "Save to cv.ts" button JSON-serializes CV, so a save would inline this to a string.)
+      href: encoreshotUrl({ source: 'cv' }),
       tag: 'in development',
       tagTone: 'violet',
       description:

@@ -23,7 +23,10 @@ function devPort() {
   }
 }
 
-const url = process.env.CV_URL || `http://localhost:${devPort()}/cv`;
+const base = process.env.CV_URL || `http://localhost:${devPort()}/cv`;
+// surface=pdf stamps utm_medium=pdf on the EncoreShot link inside the file, so a click
+// from the downloaded résumé is attributable apart from the live /cv page (utm_medium=web).
+const url = `${base}${base.includes("?") ? "&" : "?"}surface=pdf`;
 const out = join(process.cwd(), "public", "cv.pdf");
 
 const browser = await puppeteer.launch({ executablePath: CHROME, headless: true });

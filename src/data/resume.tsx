@@ -1,4 +1,5 @@
 import { Icons } from '@/components/icons';
+import { encoreshotUrl } from '@/lib/encoreshot';
 import { HomeIcon, StarIcon } from 'lucide-react';
 // NotebookIcon: re-add when the Blog nav entry below is restored
 // import { NotebookIcon } from 'lucide-react';
@@ -166,14 +167,20 @@ export const DATA = {
   projects: [
     {
       title: 'EncoreShot',
-      href: '',
+      href: encoreshotUrl({ source: 'portfolio', medium: 'project' }),
       dates: 'Apr 2026 - Present',
       active: false,
       status: 'in-progress',
       description:
         'AI-powered content curation tool for concert photographers and videographers. After a show, you have hundreds of raw photos and clips. The tool uses AI to score and curate the best 10–20 shots, then exports them in Instagram-ready formats (Stories, Reels, Posts) turning a 2 day effort into in minutes.',
       technologies: ['AI SDK', 'AI Gateway', 'Bun', 'React', 'WebSockets', 'FFmpeg', 'TypeScript'],
-      links: [],
+      links: [
+        {
+          type: 'Website',
+          href: encoreshotUrl({ source: 'portfolio', medium: 'project' }),
+          icon: <Icons.globe className='size-3' />
+        }
+      ],
       image: '',
       video: ''
     },

@@ -12,6 +12,7 @@ import Image from 'next/image';
 import { Globe, Mail, MapPin, Phone } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { cn } from '@/lib/utils';
+import { stampSurfaceMedium } from '@/lib/encoreshot';
 import type { CVData, CVEntry } from '@/data/cv';
 import { FadeItem, Stagger } from './_shared';
 import { Ed, EditContext } from './edit-context';
@@ -71,6 +72,9 @@ export type CVDocumentProps = {
   config?: CVDocConfig;
   editable?: boolean;
   onEdit?: (path: string, value: string) => void;
+  // Which rendering of this CV: the live /cv page ('web') or the Puppeteer-printed
+  // PDF ('pdf'). Stamps utm_medium on the UTM-tagged EncoreShot link (see stampSurfaceMedium).
+  surface?: 'web' | 'pdf';
 };
 
 // Filled brand glyphs for the header links — closer to the candidate's
@@ -99,7 +103,8 @@ export default function CVDocument({
   data,
   config = DEFAULT_CONFIG,
   editable = false,
-  onEdit = () => {}
+  onEdit = () => {},
+  surface = 'web'
 }: CVDocumentProps) {
   const reduce = useReducedMotion();
   // Card sidebar A/B: each sidebar block becomes its own panel. Keep padding
@@ -284,7 +289,7 @@ export default function CVDocument({
                               <div className='flex items-start justify-between gap-2'>
                                 {p.href ? (
                                   <a
-                                    href={p.href}
+                                    href={stampSurfaceMedium(p.href, surface)}
                                     className='text-[calc(12px*var(--cv-text))] font-semibold leading-tight underline-offset-2 hover:underline'
                                     style={{ color: BLUE }}
                                   >

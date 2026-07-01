@@ -13,11 +13,18 @@ export const metadata: Metadata = {
 // /cv/edit lab and hit "Save to cv.ts" — that writes both the content (cv.ts)
 // and the design (cv-config.ts → PUBLISHED_CONFIG), so this page reflects it.
 
-export default function CVPage() {
+// `?surface=pdf` (used only by the Puppeteer PDF export) stamps utm_medium=pdf on the
+// EncoreShot link so the downloaded résumé is attributable apart from the live page (web).
+export default async function CVPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ surface?: string }>;
+}) {
+  const { surface } = await searchParams;
   return (
     <div className="cv-stage flex min-h-screen items-start justify-center px-4 pt-10 pb-28 sm:pt-14 print:bg-white print:p-0">
       <CvDownload />
-      <CVDocument data={CV} config={PUBLISHED_CONFIG} />
+      <CVDocument data={CV} config={PUBLISHED_CONFIG} surface={surface === "pdf" ? "pdf" : "web"} />
     </div>
   );
 }
