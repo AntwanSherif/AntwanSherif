@@ -12,9 +12,17 @@ The as-deployed record for the portfolio's self-hosted Umami analytics. Decision
 | Umami host (Vercel) | `umami-sepia-three.vercel.app` |
 | Umami dashboard (first-party) | **`https://stats.antwansherif.com`** |
 | Database | Neon project **Portfolio** (Postgres 18, region AWS `us-east-1`, **direct/non-pooled** connection — fine at portfolio scale) |
-| Website ID | `e38f8ab0-59e9-4719-a8ca-0f1fb834bf7c` |
+| Website ID (portfolio) | `e38f8ab0-59e9-4719-a8ca-0f1fb834bf7c` |
 | Tracker script path | `/u.js` (renamed via `TRACKER_SCRIPT_NAME`) |
 | Collect endpoint | `/api/e` (renamed via `COLLECT_API_ENDPOINT`) |
+
+> **This instance is multi-tenant.** It also hosts the **EncoreShot landing** as a *separate
+> Umami website* (own Website ID, reached via a second custom domain `stats.encoreshot.com` on the
+> same Vercel project + this Neon DB). The two properties share nothing but the instance and DB —
+> the portfolio's `data-domains` allowlist stays `antwansherif.com` + `antwan.me` only. Landing
+> as-built + rationale live in the **encoreshot repo** (`apps/landing/docs/analytics.md`,
+> `docs/adr/2026-07-01-landing-analytics-umami.md`). When updating/upgrading Umami here, remember
+> both tenants ride along.
 
 ### DNS (Cloudflare, zone `antwansherif.com`)
 ```
