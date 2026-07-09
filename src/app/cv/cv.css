@@ -129,9 +129,26 @@
     margin-top: -14mm; /* bar (9mm) + gap (5mm) */
   }
 
-  html,
+  /* Column split painted as the page canvas: white (main) | 1.5px hairline |
+     tinted (sidebar). Painting on html fills every printed page edge-to-edge
+     including the empty space below content — no position:fixed needed, so no
+     PDF form XObject that mobile viewers misrender. Values are hardcoded to
+     PUBLISHED_CONFIG.colSplit (0.617); update here if the split changes. */
+  html {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    background: linear-gradient(
+      to right,
+      #ffffff 0%,
+      #ffffff 61.7%,
+      #dce2ec 61.7%,
+      #dce2ec calc(61.7% + 1.5px),
+      #fbfcfe calc(61.7% + 1.5px),
+      #fbfcfe 100%
+    ) !important;
+  }
   body {
-    background: #fff !important;
+    background: transparent !important;
   }
 
   .cv-stage {
@@ -144,43 +161,16 @@
     box-shadow: none !important;
     /* restore normal flow for pagination + the repeating running header */
     overflow: visible;
-    /* transparent so the fixed full-page column background shows through where
-       the sidebar's cards don't reach */
     background: transparent !important;
   }
 
-  /* Full-page column background, repeated on every printed page: white under the
-     main column, a hairline at the split, tint under the sidebar — edge to edge,
-     full height. The opaque header/running-bar sit above it (z-index), so the
-     tint visually begins just below the header on every page. */
-  .cv-colbg {
-    display: block;
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    background: linear-gradient(
-      to right,
-      #ffffff 0,
-      #ffffff calc(var(--cv-split, 0.6) * 100%),
-      #dce2ec calc(var(--cv-split, 0.6) * 100%),
-      #dce2ec calc(var(--cv-split, 0.6) * 100% + 1.5px),
-      #fbfcfe calc(var(--cv-split, 0.6) * 100% + 1.5px),
-      #fbfcfe 100%
-    );
-  }
-  /* The sidebar's own bg would cover the fixed hairline where its cards are, so
+  /* The sidebar's own bg would cover the sheet hairline where its cards are, so
      in print the aside reveals the hairline through a transparent left edge
-     (padding-box clip keeps its tint from painting under it). Result: one
-     consistent divider — the fixed hairline — from behind the bar to the page
-     foot. */
+     (padding-box clip keeps its tint from painting under the border). Result:
+     one consistent divider from behind the bar to the page foot. */
   .cv-aside {
     border-left: 1.5px solid transparent !important;
     background-clip: padding-box !important;
-  }
-  /* keep all real content above the fixed background */
-  .cv-doc {
-    position: relative;
-    z-index: 1;
   }
 
   /* Page-break control: keep these blocks whole rather than slicing them
