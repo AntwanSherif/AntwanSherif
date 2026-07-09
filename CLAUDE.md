@@ -102,6 +102,11 @@ Print-first 2-page CV. Source of truth: `src/data/cv.ts` (content, between the
 `CV-DATA` sentinels) + `src/data/cv-config.ts` (`PUBLISHED_CONFIG`, the design
 dials). Both are also written by the **dev-only** `/cv/edit` lab's "Save" button.
 
+**Per-company attribution:** `/cv?co=<company>` tags own-property links with
+`utm_campaign`; the Download button then serves a company-tagged PDF via
+`/api/cv-pdf` (pdf-lib annotation patch, rate-limited at the edge). Ops runbook:
+`docs/cv-company-attribution.md`.
+
 **Always verify visual/print changes by looking at a screenshot before claiming
 done.** After *any* change to the CV (or its print CSS), render the PDF
 (`browse pdf` or `pnpm cv:pdf`), rasterize, and **zoom into the exact region you

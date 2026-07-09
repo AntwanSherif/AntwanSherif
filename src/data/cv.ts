@@ -5,7 +5,7 @@
 // propagate to every variant. Tuned for AI / Product Engineer roles, with the
 // summary's closing paragraph aimed at customer-facing / forward-deployed work.
 
-import { encoreshotUrl } from '@/lib/encoreshot';
+import { encoreshotUrl, portfolioUrl } from '@/lib/encoreshot';
 
 export type CVLink = {
   label: string;
@@ -113,7 +113,9 @@ export const CV: CVData = {
   links: [
     {
       label: 'Portfolio',
-      href: 'https://antwansherif.com',
+      // Base UTM (source only); the render surface stamps utm_medium=web|pdf and
+      // CVDocument applies utm_campaign per company. Display stays clean.
+      href: portfolioUrl({}),
       display: 'antwansherif.com'
     },
     {

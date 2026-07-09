@@ -12,7 +12,7 @@ import Image from 'next/image';
 import { Globe, Mail, MapPin, Phone } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { cn } from '@/lib/utils';
-import { stampSurfaceMedium } from '@/lib/encoreshot';
+import { resolveCvHref } from '@/lib/encoreshot';
 import type { CVData, CVEntry } from '@/data/cv';
 import { FadeItem, Stagger } from './_shared';
 import { Ed, EditContext } from './edit-context';
@@ -75,6 +75,9 @@ export type CVDocumentProps = {
   // Which rendering of this CV: the live /cv page ('web') or the Puppeteer-printed
   // PDF ('pdf'). Stamps utm_medium on the UTM-tagged EncoreShot link (see stampSurfaceMedium).
   surface?: 'web' | 'pdf';
+  // Company slug (e.g. from ?co=). When set, own-property links (antwansherif.com,
+  // encoreshot.com) gain utm_campaign=<slug>; third-party links are never tagged.
+  campaign?: string;
 };
 
 // Filled brand glyphs for the header links — closer to the candidate's
@@ -104,7 +107,8 @@ export default function CVDocument({
   config = DEFAULT_CONFIG,
   editable = false,
   onEdit = () => {},
-  surface = 'web'
+  surface = 'web',
+  campaign
 }: CVDocumentProps) {
   const reduce = useReducedMotion();
   // Card sidebar A/B: each sidebar block becomes its own panel. Keep padding
@@ -155,7 +159,7 @@ export default function CVDocument({
           <tbody>
             <tr>
               <td>
-                <Header data={data} config={config} reduce={!!reduce} />
+                <Header data={data} config={config} reduce={!!reduce} surface={surface} campaign={campaign} />
 
                 <div
                   className='grid gap-0'
@@ -289,7 +293,7 @@ export default function CVDocument({
                               <div className='flex items-start justify-between gap-2'>
                                 {p.href ? (
                                   <a
-                                    href={stampSurfaceMedium(p.href, surface)}
+                                    href={resolveCvHref(p.href, surface, campaign)}
                                     className='text-[calc(12px*var(--cv-text))] font-semibold leading-tight underline-offset-2 hover:underline'
                                     style={{ color: BLUE }}
                                   >
@@ -446,7 +450,15 @@ function Emblem({ type, className }: { type: EmblemType; className?: string }) {
 // candidate's original CV: a compact two-column block beside the name, which
 // keeps the header band short (vs. stacking contact rows under the name) and
 // frees vertical space on page 1.
-function HeaderLinks({ data }: { data: CVData }) {
+function HeaderLinks({
+  data,
+  surface,
+  campaign
+}: {
+  data: CVData;
+  surface: 'web' | 'pdf';
+  campaign?: string;
+}) {
   const colLabel = 'mb-2 text-[calc(13px*var(--cv-text))] font-bold uppercase tracking-[0.16em]';
   const labelStyle = { color: 'rgba(255,255,255,0.82)' };
   const row = 'flex items-center gap-1.5 text-[calc(10.5px*var(--cv-text))] leading-[1.55] whitespace-nowrap';
@@ -460,7 +472,7 @@ function HeaderLinks({ data }: { data: CVData }) {
           {data.links.map((l, li) => (
             <a
               key={l.href}
-              href={l.href}
+              href={resolveCvHref(l.href, surface, campaign)}
               className={cn(row, 'underline-offset-2 hover:underline')}
               style={{ color: '#fff' }}
             >
@@ -493,7 +505,19 @@ function HeaderLinks({ data }: { data: CVData }) {
   );
 }
 
-function Header({ data, config, reduce }: { data: CVData; config: CVDocConfig; reduce: boolean }) {
+function Header({
+  data,
+  config,
+  reduce,
+  surface,
+  campaign
+}: {
+  data: CVData;
+  config: CVDocConfig;
+  reduce: boolean;
+  surface: 'web' | 'pdf';
+  campaign?: string;
+}) {
   const anim = {
     initial: { opacity: 0 },
     animate: { opacity: 1 },
@@ -539,7 +563,7 @@ function Header({ data, config, reduce }: { data: CVData; config: CVDocConfig; r
       <div className='flex-1' />
       {/* HeaderLinks: bottom-right, aligned to footer of header. */}
       <div className='self-end pr-2'>
-        <HeaderLinks data={data} />
+        <HeaderLinks data={data} surface={surface} campaign={campaign} />
       </div>
     </motion.header>
   );

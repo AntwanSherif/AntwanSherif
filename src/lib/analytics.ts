@@ -11,7 +11,7 @@ export type OutboundProps = {
 export type AnalyticsEvent =
   | { name: "outbound"; props: OutboundProps }
   | { name: "contact_click"; props: { content_type: "contact"; channel: "email" | "linkedin"; category: "professional" } }
-  | { name: "cv_download"; props: { content_type: "cv"; category: "professional" } } // real PDF download (true signal)
+  | { name: "cv_download"; props: { content_type: "cv"; category: "professional"; company?: string } } // real PDF download (true signal); company = ?co= slug when company-tagged
   | { name: "cv_print"; props: { content_type: "cv"; category: "professional" } } // browser print initiated (intent, not confirmed export)
   | { name: "cv_view"; props: { content_type: "nav"; category: "professional"; source: "navbar" } }
   | { name: "section_view"; props: { content_type: "home"; content_id: HomeSection; position?: number } }
