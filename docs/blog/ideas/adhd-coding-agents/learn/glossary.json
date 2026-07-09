@@ -1,0 +1,103 @@
+{
+  "_meta": {
+    "purpose": "Single source of truth for ADHD terminology. Dual-use: (1) teach learning-reference, (2) MDX <Term> component source in the blog (dashed underline + hover/click definition).",
+    "evidenceLegend": {
+      "verified": "Passed adversarial verification against a primary/peer-reviewed source.",
+      "gathered": "From a fetched source with a pulled quote; not machine-verified. Re-check before publishing.",
+      "practitioner-framework": "Widely-used practitioner concept, NOT peer-reviewed. Frame as such — never cite as science.",
+      "needs-source": "Stub. Do not write a definition until a trusted source is attached."
+    },
+    "schemaNote": "shortDef = tooltip text (one sentence). longDef = expanded/click. agentAngle = the bridge to coding-agent workflow (series-specific)."
+  },
+  "terms": [
+    {
+      "id": "executive-function",
+      "term": "executive function",
+      "shortDef": "The brain's management system — planning, prioritizing, initiating, and switching between tasks.",
+      "longDef": "The set of top-down cognitive control processes used to plan, prioritize, start, sustain, and switch tasks. ADHD is characterized by executive dysfunction: the gap between forming a plan and executing it. Task completion is hard without externally imposed structure (e.g. deadlines).",
+      "evidence": "gathered",
+      "sources": [
+        { "label": "arXiv 2507.06864 (names EF mechanisms for knowledge work)", "url": "https://arxiv.org/html/2507.06864" },
+        { "label": "Stack Overflow — developers with ADHD", "url": "https://stackoverflow.blog/2023/06/05/what-developers-with-adhd-want-you-to-know/" }
+      ],
+      "agentAngle": "A coding agent holds and executes the chain a plan needs to survive — it fills the plan→action gap where the plan would otherwise 'evaporate'. The agent acts as externalized executive function."
+    },
+    {
+      "id": "working-memory",
+      "term": "working memory",
+      "shortDef": "The small mental scratchpad that holds information 'live' while you use it — measurably reduced in ADHD.",
+      "longDef": "The limited-capacity system for temporarily holding and manipulating information. A meta-analysis of 38 studies found moderate-magnitude working-memory deficits in adults with ADHD versus controls, across both phonological and visuospatial domains, and these persist into adulthood.",
+      "evidence": "verified",
+      "sources": [
+        { "label": "Alderson et al. — WM deficits in adult ADHD (meta-analysis, 38 studies)", "url": "https://pubmed.ncbi.nlm.nih.gov/23688211/" }
+      ],
+      "agentAngle": "The core bridge of the series: because holding state in working memory costs energy an ADHD brain can't spare, offloading it — named sessions, memory files, written plans — is externalizing working memory, not just 'being organized'."
+    },
+    {
+      "id": "context-switching-cost",
+      "term": "context-switching cost",
+      "shortDef": "The hidden tax of resuming interrupted work — and it's paid in stress, not just time.",
+      "longDef": "Field research on information workers found tasks switch roughly every ~11 minutes, and returning to an interrupted task can involve attending to ~2 other topics first. Critically: interrupted work was completed FASTER, not slower — but at significantly higher stress, frustration, and mental workload (p<.01), with as little as 20 minutes enough to spike it. (The popular '23 min 15 sec to refocus' figure has no traceable primary source — do not cite it.)",
+      "evidence": "gathered",
+      "sources": [
+        { "label": "Mark et al. 2005 — No Task Left Behind (CHI'05)", "url": "https://ics.uci.edu/~gmark/CHI2005.pdf" },
+        { "label": "Mark et al. 2008 — The Cost of Interrupted Work (CHI'08)", "url": "https://ics.uci.edu/~gmark/chi08-mark.pdf" },
+        { "label": "Oberien — '23 minutes 15 seconds' debunk", "url": "https://blog.oberien.de/2023/11/05/23-minutes-15-seconds.html" }
+      ],
+      "agentAngle": "Running N parallel agents manufactures constant self-interruption. The trap: it can make you finish faster while quietly torching your stress budget — the double-edged sword in one mechanism."
+    },
+    {
+      "id": "body-doubling",
+      "term": "body doubling",
+      "shortDef": "Working alongside another present-but-passive person to anchor focus and accountability.",
+      "longDef": "Doing a task in the presence of someone 'simply there, working on their own thing, not helping or supervising.' Functions as external executive functioning. A small VR study (n=12) found an AI body double improved focus/task performance comparably to a human one (no significant efficiency difference, p=1.000). Note: direct trial evidence overall is minimal — plausible/cheap/safe rather than proven.",
+      "evidence": "gathered",
+      "sources": [
+        { "label": "arXiv 2509.12153 — Body doubling for ADHD in VR", "url": "https://arxiv.org/html/2509.12153v1" },
+        { "label": "Cleveland Clinic — Body doubling", "url": "https://health.clevelandclinic.org/body-doubling-for-adhd" },
+        { "label": "Simply Psychology — Body doubling (evidence caveat)", "url": "https://www.simplypsychology.com/articles/body-doubling-adhd" }
+      ],
+      "agentAngle": "Pairing with an agent ≈ a digital body double: a co-present collaborator that keeps you engaged and accountable, delivering the body-doubling benefit without another human in the room."
+    },
+    {
+      "id": "hyperfocus",
+      "term": "hyperfocus",
+      "shortDef": "An intense, time-distorting absorption in a task — ADHD's double-edged gift.",
+      "longDef": "A state of intense, time-distorting concentration that enables deep work but causes loss of track of other obligations (meetings, meals, schedules). Often framed as a perk, but the time-blindness that comes with it is the cost.",
+      "evidence": "gathered",
+      "sources": [
+        { "label": "Stack Overflow — developers with ADHD", "url": "https://stackoverflow.blog/2023/06/05/what-developers-with-adhd-want-you-to-know/" }
+      ],
+      "agentAngle": "The agentic-coding era is unusually hyperfocus-friendly — but agents also make it easy to fall down ten parallel rabbit holes at once, amplifying both the gift and the chaos."
+    },
+    {
+      "id": "time-blindness",
+      "term": "time blindness",
+      "shortDef": "Difficulty perceiving and estimating the passage of time.",
+      "longDef": "STUB — a time-perception meta-analysis (27 studies) exists but skews child/adolescent; needs an adult-focused source before a confident definition ships.",
+      "evidence": "needs-source",
+      "sources": [
+        { "label": "Time perception in ADHD (meta-analysis, 27 studies) — verify adult applicability", "url": "https://pubmed.ncbi.nlm.nih.gov/33302769/" }
+      ],
+      "agentAngle": "TBD — likely relates to losing hours in an agent session; confirm with source first."
+    },
+    {
+      "id": "interest-based-nervous-system",
+      "term": "interest-based nervous system",
+      "shortDef": "Practitioner framework (Dodson): ADHD attention is driven by interest/novelty/urgency, not importance.",
+      "longDef": "STUB — a popular framing from Dr. William Dodson that ADHD motivation is gated by interest, novelty, challenge, and urgency rather than priority. NOT peer-reviewed. If used, frame explicitly as a practitioner model, never as established science.",
+      "evidence": "practitioner-framework",
+      "sources": [],
+      "agentAngle": "TBD — explains the dopamine pull of a fast agent feedback loop; find a citable primary before leaning on it."
+    },
+    {
+      "id": "cognitive-load",
+      "term": "cognitive load",
+      "shortDef": "The total mental effort a task demands of working memory at once.",
+      "longDef": "STUB — needs a trusted cognitive-load-theory source (Sweller) attached before shipping a definition; currently only referenced indirectly via the interruption/working-memory sources.",
+      "evidence": "needs-source",
+      "sources": [],
+      "agentAngle": "TBD — reading long agent output and juggling parallel sessions both spike load; confirm framing with source."
+    }
+  ]
+}

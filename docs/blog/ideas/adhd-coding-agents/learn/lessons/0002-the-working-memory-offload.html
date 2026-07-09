@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Lesson 02 · The Working-Memory Offload</title>
+<style>
+  :root {
+    --ink: #1a1a1a; --paper: #fbfaf7; --rule: #e2ddd2;
+    --accent: #8a6d3b; --pain: #a23b3b; --edge: #2f6d4f; --muted: #6b665c;
+    --maxw: 40rem;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0; background: var(--paper); color: var(--ink);
+    font: 400 19px/1.6 Georgia, "Iowan Old Style", "Palatino Linotype", serif;
+    padding: 3rem 1.25rem 6rem;
+  }
+  main { max-width: var(--maxw); margin: 0 auto; }
+  .kicker { font: 600 13px/1 ui-sans-serif, system-ui, sans-serif; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--accent); margin: 0 0 .6rem; }
+  h1 { font: 700 2.1rem/1.15 "Iowan Old Style", Georgia, serif; margin: 0 0 .4rem; letter-spacing: -.01em; }
+  .sub { color: var(--muted); font-style: italic; margin: 0 0 2rem; }
+  h2 { font: 700 1.3rem/1.2 "Iowan Old Style", Georgia, serif; margin: 2.6rem 0 .6rem; }
+  p { margin: 0 0 1.1rem; }
+  a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+  .mission { border-left: 3px solid var(--accent); padding: .1rem 0 .1rem 1rem;
+    color: var(--muted); font-size: .95rem; font-style: italic; margin: 0 0 2rem; }
+  blockquote { margin: 1.4rem 0; padding: 0 0 0 1.1rem; border-left: 3px solid var(--rule);
+    font-style: italic; color: #33302a; }
+  blockquote cite { display: block; font-style: normal; font-size: .82rem; color: var(--muted);
+    margin-top: .4rem; font-family: ui-sans-serif, system-ui, sans-serif; }
+  .fact { background: #f3efe6; border: 1px solid var(--rule); border-radius: 8px;
+    padding: 1rem 1.2rem; margin: 1.4rem 0; }
+  .fact b { color: var(--accent); }
+  .verified { font: 700 11px/1 ui-sans-serif, system-ui, sans-serif; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--edge); border: 1px solid #cfe0d6; background: #eef4f0;
+    border-radius: 999px; padding: .25rem .5rem; vertical-align: middle; }
+  .thesis { background: #eef4f0; border: 1px solid #cfe0d6; border-left: 4px solid var(--edge);
+    border-radius: 8px; padding: 1rem 1.2rem; margin: 1.6rem 0; }
+  .tactic { background: #f6f2ff; border: 1px solid #ddd3f0; border-left: 4px solid #6b4fb0;
+    border-radius: 8px; padding: 1rem 1.2rem; margin: 1.6rem 0; }
+  .tactic .tag { font: 700 12px/1 ui-sans-serif, system-ui, sans-serif; letter-spacing: .1em;
+    text-transform: uppercase; color: #6b4fb0; display: block; margin-bottom: .5rem; }
+  .quiz { border: 1px solid var(--rule); border-radius: 10px; padding: 1.3rem 1.4rem; margin: 1.6rem 0;
+    background: #fff; }
+  .quiz h3 { margin: 0 0 .3rem; font: 700 1.05rem/1.3 ui-sans-serif, system-ui, sans-serif; }
+  .quiz .q { font-family: ui-sans-serif, system-ui, sans-serif; font-size: .96rem; margin: 1.1rem 0 .5rem; font-weight: 600; }
+  .opts { list-style: none; margin: 0; padding: 0; display: grid; gap: .5rem; }
+  .opts button { font: 500 .92rem/1.3 ui-sans-serif, system-ui, sans-serif; text-align: left;
+    width: 100%; padding: .6rem .8rem; border: 1px solid var(--rule); border-radius: 7px;
+    background: var(--paper); cursor: pointer; color: var(--ink); transition: background .12s, border-color .12s; }
+  .opts button:hover { border-color: var(--accent); }
+  .opts button.correct { background: #e3f1e8; border-color: var(--edge); color: #1d4632; }
+  .opts button.wrong { background: #f7e3e3; border-color: var(--pain); color: #6e2020; }
+  .feedback { font-family: ui-sans-serif, system-ui, sans-serif; font-size: .86rem; color: var(--muted);
+    margin-top: .6rem; min-height: 1.2rem; }
+  .primary { background: #f3efe6; border-radius: 8px; padding: 1rem 1.2rem; margin: 2.2rem 0 0;
+    font-size: .95rem; }
+  .primary .tag { font: 700 12px/1 ui-sans-serif, system-ui, sans-serif; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--accent); display: block; margin-bottom: .45rem; }
+  footer { margin-top: 3rem; padding-top: 1.4rem; border-top: 1px solid var(--rule);
+    font: .85rem/1.5 ui-sans-serif, system-ui, sans-serif; color: var(--muted); }
+  footer a { color: var(--accent); }
+  .nav { display: flex; justify-content: space-between; font-family: ui-sans-serif, system-ui, sans-serif;
+    font-size: .82rem; margin-bottom: 2rem; }
+  .term { border-bottom: 1px dashed var(--accent); cursor: help; }
+</style>
+</head>
+<body>
+<main>
+  <div class="nav">
+    <span>← Lesson 01 · The Interruption Tax</span>
+    <span>Lesson 02 of the ADHD × Agents track</span>
+  </div>
+
+  <p class="kicker">Lesson 02 · Knowledge → Tactic</p>
+  <h1>The Working-Memory Offload</h1>
+  <p class="sub">Why "rename the sessions" is neuroscience, not tidiness.</p>
+
+  <p class="mission">Mission tie-in: your playbook's first tactic — externalizing state — needs to stand on evidence, not preference. This lesson turns a habit into a defensible claim.</p>
+
+  <p>Last lesson: parallel agents manufacture self-interruption, and the ADHD brain pays the stress toll early. This lesson: the first tactic that fights back — and it has a name in the literature.</p>
+
+  <p>Start, again, with a voice from the field — this time from the <span style="color:var(--edge)">edge</span>, not the pain:</p>
+  <blockquote>
+    "AI agents are external working memory. That's not a metaphor. That's literally what they do for me."
+    <cite>— Chris Wright · <a href="https://fiftyfiveandfive.com/resources/ai-for-adhd/">source</a></cite>
+  </blockquote>
+
+  <h2>What the evidence supports</h2>
+  <div class="fact">
+    <p><span class="verified">Verified</span> &nbsp;A meta-analysis of <b>38 studies</b> found moderate-magnitude <span class="term" title="The small mental scratchpad that holds info live while you use it — measurably reduced in ADHD.">working-memory</span> deficits in adults with ADHD versus controls — across <b>both</b> phonological (verbal) and visuospatial domains. The deficits <b>persist into adulthood</b>; this isn't a childhood-only story.</p>
+    <p style="margin-bottom:0">Working memory is the small scratchpad that holds information "live" while you use it. Every open thread you keep in your head — which terminal does what, where you left off, what to check next — is spending a budget that's already short.</p>
+  </div>
+
+  <div class="thesis">
+    <p style="margin-bottom:0"><b>The mechanism:</b> holding state in working memory <em>costs energy</em>. <span class="term" title="Planning, prioritizing, initiating, switching — the brain's management system.">Executive function</span> research calls the fix <b>cognitive offloading</b>: move the state out of your head and onto a durable surface, and you free the scratchpad for the actual thinking. This is a recognized executive-function intervention — not a productivity-blog trick.</p>
+  </div>
+
+  <div class="tactic">
+    <span class="tag">◆ The tactic, grounded</span>
+    <p style="margin-bottom:.5rem">So when you <b>rename each agent session by its job</b>, write the plan into a memory file, or let the agent's own context hold "where we left off" — you're not being tidy. You're <b>externalizing working memory</b>: putting the load on a surface that, unlike your scratchpad, doesn't leak.</p>
+    <p style="margin-bottom:0">The agent's superpower here is the mirror of your deficit: <em>"It didn't get distracted. It didn't forget. It didn't move on to something more interesting. It just held the thought."</em> That's the offload, working.</p>
+  </div>
+
+  <div class="quiz">
+    <h3>Retrieval practice</h3>
+    <p style="font-family:ui-sans-serif,system-ui,sans-serif; font-size:.86rem; color:var(--muted); margin:.2rem 0 0">From memory. And notice question 3 pulls Lesson 01 back in — that interleaving is deliberate.</p>
+
+    <p class="q">1. The working-memory meta-analysis found deficits that are…</p>
+    <ul class="opts" data-correct="1">
+      <li><button>Present in children but gone by adulthood</button></li>
+      <li><button>Moderate, in adults, across both memory domains</button></li>
+      <li><button>Large in verbal but absent in visual domains</button></li>
+    </ul>
+    <p class="feedback"></p>
+
+    <p class="q">2. "Rename the sessions" works because it is…</p>
+    <ul class="opts" data-correct="2">
+      <li><button>A neat habit that keeps your desktop organized</button></li>
+      <li><button>A way to type slightly fewer words per prompt</button></li>
+      <li><button>Externalizing working memory off your mental scratchpad</button></li>
+    </ul>
+    <p class="feedback"></p>
+
+    <p class="q">3. Tie it together: parallel agents tax attention (L1), so offloading state…</p>
+    <ul class="opts" data-correct="0">
+      <li><button>Frees the scarce scratchpad for the real thinking</button></li>
+      <li><button>Makes the interruption research no longer apply</button></li>
+      <li><button>Adds more live threads for your head to track</button></li>
+    </ul>
+    <p class="feedback"></p>
+  </div>
+
+  <div class="primary">
+    <span class="tag">Primary source to read</span>
+    Alderson et al. — meta-analysis of working-memory deficits in adults with ADHD (38 studies) — <a href="https://pubmed.ncbi.nlm.nih.gov/23688211/">pubmed.ncbi.nlm.nih.gov/23688211</a>. This is your <em>verified</em> anchor: quote it with confidence.
+  </div>
+
+  <footer>
+    <p><b>Glossary:</b> this lesson leans on <a href="../glossary.json">working memory</a> and <a href="../glossary.json">executive function</a> (both dashed-underlined above) — the same entries that will power the blog's <code>&lt;Term&gt;</code> tooltips.</p>
+    <p><b>Ask your teacher:</b> "what exactly is 'moderate' effect size?", "is offloading proven to help, or just plausible?", "how do I say this on a slide without sounding like a self-help book?"</p>
+    <p>Next lesson → <em>The Digital Body Double</em>: the strongest — and shakiest — evidence in your whole deck (n=12, p=1.000), and how to cite small-n honestly.</p>
+  </footer>
+</main>
+
+<script>
+  document.querySelectorAll('.opts').forEach(function (list) {
+    var correct = Number(list.getAttribute('data-correct'));
+    var fb = list.parentElement.querySelector('.feedback') || list.nextElementSibling;
+    list.querySelectorAll('button').forEach(function (btn, i) {
+      btn.addEventListener('click', function () {
+        list.querySelectorAll('button').forEach(function (b) { b.disabled = true; });
+        if (i === correct) { btn.classList.add('correct'); fb.textContent = '✓ Right. That’s the defensible version.'; }
+        else {
+          btn.classList.add('wrong');
+          list.querySelectorAll('button')[correct].classList.add('correct');
+          fb.textContent = '✕ Not quite — the highlighted answer is the one to keep.';
+        }
+      });
+    });
+  });
+</script>
+</body>
+</html>

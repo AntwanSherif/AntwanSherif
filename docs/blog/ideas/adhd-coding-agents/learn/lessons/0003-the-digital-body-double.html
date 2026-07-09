@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Lesson 03 · The Digital Body Double</title>
+<style>
+  :root {
+    --ink: #1a1a1a; --paper: #fbfaf7; --rule: #e2ddd2;
+    --accent: #8a6d3b; --pain: #a23b3b; --edge: #2f6d4f; --muted: #6b665c;
+    --maxw: 40rem;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0; background: var(--paper); color: var(--ink);
+    font: 400 19px/1.6 Georgia, "Iowan Old Style", "Palatino Linotype", serif;
+    padding: 3rem 1.25rem 6rem;
+  }
+  main { max-width: var(--maxw); margin: 0 auto; }
+  .kicker { font: 600 13px/1 ui-sans-serif, system-ui, sans-serif; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--accent); margin: 0 0 .6rem; }
+  h1 { font: 700 2.1rem/1.15 "Iowan Old Style", Georgia, serif; margin: 0 0 .4rem; letter-spacing: -.01em; }
+  .sub { color: var(--muted); font-style: italic; margin: 0 0 2rem; }
+  h2 { font: 700 1.3rem/1.2 "Iowan Old Style", Georgia, serif; margin: 2.6rem 0 .6rem; }
+  p { margin: 0 0 1.1rem; }
+  a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+  .mission { border-left: 3px solid var(--accent); padding: .1rem 0 .1rem 1rem;
+    color: var(--muted); font-size: .95rem; font-style: italic; margin: 0 0 2rem; }
+  blockquote { margin: 1.4rem 0; padding: 0 0 0 1.1rem; border-left: 3px solid var(--rule);
+    font-style: italic; color: #33302a; }
+  blockquote cite { display: block; font-style: normal; font-size: .82rem; color: var(--muted);
+    margin-top: .4rem; font-family: ui-sans-serif, system-ui, sans-serif; }
+  .fact { background: #f3efe6; border: 1px solid var(--rule); border-radius: 8px;
+    padding: 1rem 1.2rem; margin: 1.4rem 0; }
+  .fact b { color: var(--accent); }
+  .verified { font: 700 11px/1 ui-sans-serif, system-ui, sans-serif; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--edge); border: 1px solid #cfe0d6; background: #eef4f0;
+    border-radius: 999px; padding: .25rem .5rem; vertical-align: middle; }
+  .thesis { background: #eef4f0; border: 1px solid #cfe0d6; border-left: 4px solid var(--edge);
+    border-radius: 8px; padding: 1rem 1.2rem; margin: 1.6rem 0; }
+  .tactic { background: #f6f2ff; border: 1px solid #ddd3f0; border-left: 4px solid #6b4fb0;
+    border-radius: 8px; padding: 1rem 1.2rem; margin: 1.6rem 0; }
+  .tactic .tag { font: 700 12px/1 ui-sans-serif, system-ui, sans-serif; letter-spacing: .1em;
+    text-transform: uppercase; color: #6b4fb0; display: block; margin-bottom: .5rem; }
+  .landmine { background: #fdf3f3; border: 1px solid #e8c8c8; border-left: 4px solid var(--pain);
+    border-radius: 8px; padding: 1rem 1.2rem; margin: 1.6rem 0; }
+  .landmine .tag { font: 700 12px/1 ui-sans-serif, system-ui, sans-serif; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--pain); display: block; margin-bottom: .5rem; }
+  .quiz { border: 1px solid var(--rule); border-radius: 10px; padding: 1.3rem 1.4rem; margin: 1.6rem 0;
+    background: #fff; }
+  .quiz h3 { margin: 0 0 .3rem; font: 700 1.05rem/1.3 ui-sans-serif, system-ui, sans-serif; }
+  .quiz .q { font-family: ui-sans-serif, system-ui, sans-serif; font-size: .96rem; margin: 1.1rem 0 .5rem; font-weight: 600; }
+  .opts { list-style: none; margin: 0; padding: 0; display: grid; gap: .5rem; }
+  .opts button { font: 500 .92rem/1.3 ui-sans-serif, system-ui, sans-serif; text-align: left;
+    width: 100%; padding: .6rem .8rem; border: 1px solid var(--rule); border-radius: 7px;
+    background: var(--paper); cursor: pointer; color: var(--ink); transition: background .12s, border-color .12s; }
+  .opts button:hover { border-color: var(--accent); }
+  .opts button.correct { background: #e3f1e8; border-color: var(--edge); color: #1d4632; }
+  .opts button.wrong { background: #f7e3e3; border-color: var(--pain); color: #6e2020; }
+  .feedback { font-family: ui-sans-serif, system-ui, sans-serif; font-size: .86rem; color: var(--muted);
+    margin-top: .6rem; min-height: 1.2rem; }
+  .primary { background: #f3efe6; border-radius: 8px; padding: 1rem 1.2rem; margin: 2.2rem 0 0;
+    font-size: .95rem; }
+  .primary .tag { font: 700 12px/1 ui-sans-serif, system-ui, sans-serif; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--accent); display: block; margin-bottom: .45rem; }
+  footer { margin-top: 3rem; padding-top: 1.4rem; border-top: 1px solid var(--rule);
+    font: .85rem/1.5 ui-sans-serif, system-ui, sans-serif; color: var(--muted); }
+  footer a { color: var(--accent); }
+  .nav { display: flex; justify-content: space-between; font-family: ui-sans-serif, system-ui, sans-serif;
+    font-size: .82rem; margin-bottom: 2rem; }
+  .term { border-bottom: 1px dashed var(--accent); cursor: help; }
+</style>
+</head>
+<body>
+<main>
+  <div class="nav">
+    <a href="0002-the-working-memory-offload.html">← Lesson 02 · The Working-Memory Offload</a>
+    <span>Lesson 03 of the ADHD × Agents track</span>
+  </div>
+
+  <p class="kicker">Lesson 03 · Knowledge → Honest Citation</p>
+  <h1>The Digital Body Double</h1>
+  <p class="sub">The strongest — and shakiest — evidence in your deck, and how to say so out loud.</p>
+
+  <p class="mission">Mission tie-in: this is the one you'll get ambushed on. The evidence is compelling and the sample is tiny. The skill this lesson builds — citing n=12 without overclaiming or underselling — is what "handling a hostile Q&amp;A" actually looks like in practice.</p>
+
+  <p>Last lesson: the mechanism behind externalizing state — working memory, cognitive offloading, a named intervention. This lesson: a different angle on the same agent-as-cognitive-aid idea. One that has a community name, a Cleveland Clinic definition, and a twelve-person VR study that's either your best citation or your biggest vulnerability. Usually both.</p>
+
+  <p>Start with a voice from the field:</p>
+  <blockquote>
+    "It didn't get distracted. It didn't forget. It didn't move on to something more interesting. It just held the thought."
+    <cite>— Chris Wright · <a href="https://fiftyfiveandfive.com/resources/ai-for-adhd/">fiftyfiveandfive.com/resources/ai-for-adhd</a></cite>
+  </blockquote>
+
+  <p>That's not a description of working-memory offload. It's describing something else: <em>presence</em>. Someone — or something — being there with you while you work. That's body doubling.</p>
+
+  <h2>What the evidence supports</h2>
+  <div class="fact">
+    <p><b>Body doubling</b> is doing a task in the presence of another person who is <em>simply there</em> — working on their own thing, not helping or supervising. The passive presence is the mechanism, not the assistance.</p>
+    <p>The Cleveland Clinic frames it as <span class="term" title="Planning, prioritizing, initiating, switching — the brain's management system.">"external executive functioning"</span> — they liken it to <em>"having an administrative assistant follow you around all day."</em> For ADHD brains, the presence of another person seems to function as an accountability anchor that improves focus, motivation, and sustained engagement.</p>
+    <p style="margin-bottom:0"><span class="verified">Verified</span> &nbsp;A VR study (<a href="https://arxiv.org/html/2509.12153v1">arXiv 2509.12153</a>) tested an AI body double against a human one with <b>n=12 ADHD participants</b> on a bricklaying task. Human body double: 10.82 bricks/min. AI body double: 11.06 bricks/min. Efficiency difference between human and AI conditions: <b>p=1.000</b> — statistically identical. Both conditions significantly outperformed working alone.</p>
+  </div>
+
+  <div class="landmine">
+    <span class="tag">⚠ The honest-citation skill</span>
+    <p>Here's the problem: <b>n=12</b>. Twelve people. One study. A VR bricklaying task.</p>
+    <p>The direct trial evidence for body doubling — even the traditional, human kind — is minimal. A few small studies, surveys, and clinician consensus. Plausible, cheap, safe to try. <em>Not proven at scale.</em></p>
+    <p>On stage, a prepared skeptic will ask: "How many people were in that study?" If you say "twelve" while sounding like you're citing settled science, you've lost the room. If you pre-empt it, you've won credibility you didn't need to fight for.</p>
+    <p>The move is to <b>say it first</b>. Something like:</p>
+    <blockquote style="margin:.6rem 0; font-size:.97rem">
+      "A small study — twelve people — found that an AI body double improved focus comparably to a human one. That's suggestive, not settled. But it matches the mechanism, it's cheap to try, and the ADHD community has been reporting this independently for years."
+    </blockquote>
+    <p style="margin-bottom:0">That's the formula: <em>name the n</em> → <em>name the limit</em> → <em>name why it's still worth citing</em>. A skeptic can't ambush you with information you already gave the audience.</p>
+  </div>
+
+  <div class="thesis">
+    <p style="margin-bottom:0"><b>The bridge:</b> pairing with an agent ≈ a <span class="term" title="Doing a task in the presence of another person who is simply there — not helping, not supervising. The passive presence improves focus and sustained engagement.">digital body double</span>. The agent is co-present, task-focused, and patient. It delivers the functional benefit of body doubling — an external presence that anchors attention and initiates momentum — without requiring another human in the room. That's the tactic, grounded.</p>
+  </div>
+
+  <div class="quiz">
+    <h3>Retrieval practice</h3>
+    <p style="font-family:ui-sans-serif,system-ui,sans-serif; font-size:.86rem; color:var(--muted); margin:.2rem 0 0">Question 3 tests the meta-skill, not just the facts. It's the one that saves you on stage.</p>
+
+    <p class="q">1. Body doubling works through…</p>
+    <ul class="opts" data-correct="1">
+      <li><button>Active coaching and real-time guidance from another person</button></li>
+      <li><button>Passive co-presence — someone simply there, not helping</button></li>
+      <li><button>Structured accountability check-ins at fixed intervals</button></li>
+    </ul>
+    <p class="feedback"></p>
+
+    <p class="q">2. The arXiv VR study found that AI body doubles versus human ones…</p>
+    <ul class="opts" data-correct="2">
+      <li><button>Worked significantly better on all focus measures tested</button></li>
+      <li><button>Worked significantly worse for most ADHD participants</button></li>
+      <li><button>Showed no significant efficiency difference (p=1.000)</button></li>
+    </ul>
+    <p class="feedback"></p>
+
+    <p class="q">3. A skeptic asks "How many people were in that body-doubling study?" The defensible response is…</p>
+    <ul class="opts" data-correct="0">
+      <li><button>"Twelve — a small study, suggestive not settled, but it matches the mechanism"</button></li>
+      <li><button>"The exact number isn't the point; the finding is what matters"</button></li>
+      <li><button>"Enough to be statistically significant — the p-value confirms it"</button></li>
+    </ul>
+    <p class="feedback"></p>
+  </div>
+
+  <div class="primary">
+    <span class="tag">Primary source to read</span>
+    arXiv 2509.12153 — VR body-doubling study with AI and human conditions, n=12 ADHD participants — <a href="https://arxiv.org/html/2509.12153v1">arxiv.org/html/2509.12153v1</a>. Read the methods section so you know exactly what "bricklaying task" means — a skeptic will ask. Then pair it with the Cleveland Clinic definition: <a href="https://health.clevelandclinic.org/body-doubling-for-adhd">health.clevelandclinic.org/body-doubling-for-adhd</a>.
+  </div>
+
+  <footer>
+    <p><b>Glossary:</b> this lesson activates <a href="../glossary.json">body doubling</a> and <a href="../glossary.json">executive function</a> — both will power the blog's <code>&lt;Term&gt;</code> tooltips.</p>
+    <p><b>Ask your teacher:</b> "what's the difference between body doubling and Pomodoro?", "if the evidence is weak, should I even cite it?", "can I say 'the ADHD community reports this' as a source?"</p>
+    <p>Next lesson → <em>Time Blindness &amp; the Interest-Based Nervous System</em>: two widely-cited practitioner frameworks (Hallowell/Ratey, Dodson) with devoted communities and thin RCT backing. Needs a better peer-reviewed anchor before it earns a lesson — mark this one as pending a source chase.</p>
+  </footer>
+</main>
+
+<script>
+  document.querySelectorAll('.opts').forEach(function (list) {
+    var correct = Number(list.getAttribute('data-correct'));
+    var fb = list.parentElement.querySelector('.feedback') || list.nextElementSibling;
+    list.querySelectorAll('button').forEach(function (btn, i) {
+      btn.addEventListener('click', function () {
+        list.querySelectorAll('button').forEach(function (b) { b.disabled = true; });
+        if (i === correct) { btn.classList.add('correct'); fb.textContent = '✓ Right. That's the defensible version.'; }
+        else {
+          btn.classList.add('wrong');
+          list.querySelectorAll('button')[correct].classList.add('correct');
+          fb.textContent = '✕ Not quite — the highlighted answer is the one to keep.';
+        }
+      });
+    });
+  });
+</script>
+</body>
+</html>
