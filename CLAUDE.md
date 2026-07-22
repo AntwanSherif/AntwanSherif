@@ -1,5 +1,9 @@
 # Portfolio Build — Claude Instructions
 
+## Domain Model
+
+`CONTEXT.md` lives at **`AntwanSherif/CONTEXT.md`** (sibling to this file). Create it if absent; never look for it at the workspace root.
+
 ## Intent Layer
 
 Child `AGENTS.md` files hold each area's local patterns; read the relevant one before editing (global rule):

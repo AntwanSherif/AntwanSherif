@@ -148,6 +148,15 @@ export default function Page() {
               </BlurFade>
             ))}
           </div>
+          <BlurFade delay={BLUR_FADE_DELAY * 10 + DATA.skills.length * 0.05 + 0.1}>
+            <Link
+              href='/toolkit?from=skills_home'
+              className='inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors mt-1'
+            >
+              See my full toolkit
+              <ArrowUpRight className='size-3' />
+            </Link>
+          </BlurFade>
         </div>
       </section>
       <section id='talks'>

@@ -5,7 +5,7 @@
 export const TAXONOMY_VERSION = 1;
 
 /** The cross-content spine dimension present on every event. */
-export type ContentType = "home" | "project" | "story" | "talk" | "blog" | "contact" | "nav" | "cv";
+export type ContentType = "home" | "project" | "story" | "talk" | "blog" | "contact" | "nav" | "cv" | "tool";
 
 /** Destination class for outbound/contact — powers the audience (engineer vs recruiter) split. */
 export type OutboundCategory = "code" | "professional" | "social" | "content" | "other";

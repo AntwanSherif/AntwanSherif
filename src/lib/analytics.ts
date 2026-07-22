@@ -18,7 +18,12 @@ export type AnalyticsEvent =
   | { name: "scroll_depth"; props: { content_type: "story"; content_id: string; depth: 25 | 50 | 75 | 100; value: number } }
   | { name: "impression"; props: { content_type: ContentType; content_id?: string; position?: number } }
   | { name: "project_expand"; props: { content_type: "project"; content_id: string } } // reserved: wire on expand UI
-  | { name: "talk_photos"; props: { content_type: "talk"; content_id: string; action: "open" | "advance" } }; // reserved
+  | { name: "talk_photos"; props: { content_type: "talk"; content_id: string; action: "open" | "advance" } } // reserved
+  | { name: "toolkit_entry"; props: { content_type: "tool"; source: string } } // page load; source = ?from= param or "direct"
+  | { name: "tool_filter_click"; props: { content_type: "tool"; tag: string; result_count: number } } // tag filter toggled; tag="all" for reset
+  | { name: "tool_of_the_day_view"; props: { content_type: "tool"; content_id: string } } // fires on mount; content_id = tool name
+  | { name: "tool_of_the_day_next"; props: { content_type: "tool"; from_tool: string; to_tool: string } } // "show another" clicked; tracks before → after
+  | { name: "tool_of_the_day_open"; props: { content_type: "tool"; content_id: string } }; // ToTD link clicked; closes the loop
 
 declare global {
   interface Window {
