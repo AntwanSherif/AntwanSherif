@@ -30,6 +30,56 @@ CNAME   stats   →   7e32e692cf126b23.vercel-dns-017.com.   (Proxy: DNS only / 
 ```
 Grey cloud is required so Vercel can issue/renew the TLS cert. (Optional later: flip to proxied/orange for origin masking — needs Cloudflare SSL mode "Full".)
 
+## Search engine consoles — Google + Bing
+
+Separate from Umami and answering a different question. **Umami tells you what visitors did once they arrived; the search consoles tell you how they found you** (queries, impressions, click-through, crawl and index health). Neither replaces the other.
+
+| Property | Google Search Console | Bing Webmaster Tools |
+| --- | --- | --- |
+| `antwansherif.com` | ✅ verified (**predates this record** — method not captured at the time) | ✅ **imported 2026-08-01** |
+| `encoreshot.com` | ✅ verified **2026-08-01** — *Domain* property, DNS TXT | ✅ **imported 2026-08-01** |
+
+> **Like the Umami instance, these accounts are multi-tenant.** One Google account and one Bing
+> account now cover *both* the portfolio and EncoreShot. Same caveat applies: when changing anything
+> at the account level, remember both properties ride along. EncoreShot's SEO/GEO strategy and the
+> reasoning behind its verification live in the **encoreshot repo**
+> (`docs/product/seo-geo.md`, issue #253) — not here.
+
+### Bing was added on purpose, not for completeness
+
+Bing's search share undersells it: **it feeds ChatGPT search and Microsoft Copilot.** So it is a
+*GEO* channel (being cited by answer engines), not merely a second SEO channel. Import is one click
+from Google Search Console — *Import from Google Search Console* — with no second DNS record, since
+it reuses the Google verification.
+
+### The verification records are load-bearing
+
+`encoreshot.com` is verified by a DNS TXT record on the apex:
+
+```
+TXT   @   google-site-verification=9BNUEZQV0fuw6R3iKnrqmLt3m3_nHDOJV8o6B3fQxT4
+```
+
+Not a secret — it is published in public DNS by design, and its only power is proving ownership to
+someone who already controls the zone. **But do not delete it.** Google's own wording: *"To stay
+verified, don't remove the DNS record."* It is infrastructure, not setup debris — the trap is a
+future DNS tidy-up (adding SPF/DMARC, pruning stale records) that quietly sweeps it away, because a
+lapsed verification fails silently and you notice months later.
+
+Verify from a terminal:
+```bash
+dig +short TXT encoreshot.com @1.1.1.1
+```
+Query a public resolver explicitly. A local resolver that saw the domain *before* the record existed
+will serve a cached **negative** answer and report nothing — which looks exactly like a failure and
+isn't one.
+
+### Note on `encoreshot.com`
+
+It is currently `noindex` on purpose (pre-launch). **Verification is not indexing** — the property
+exists and reports nothing until that flips, which is deliberate: it means flip day is one line
+rather than a setup session, with DNS and ownership already settled.
+
 ## Environment variables
 
 Two separate Vercel projects. **Set the portfolio vars to the `Production` environment only** — Vercel builds Previews with `NODE_ENV=production`, so enabling Preview would let server-side story events leak into the data from `*.vercel.app` preview URLs.
