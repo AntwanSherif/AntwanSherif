@@ -185,3 +185,21 @@ Color tokens (dark-first gold/cyan/violet palette), typography (Cal Sans + Geist
 - **All images via `next/image`** with explicit `width`/`height` or `fill`.
 - **Animations** respect `prefers-reduced-motion` (CSS media query + Motion's `useReducedMotion()`) and are GPU-accelerated (`transform3d`, `will-change: transform`) where possible. Interaction-by-surface spec: `docs/design-system.md`.
 
+## Agent skills
+
+### Issue tracker
+
+Local markdown — `TODO.md` at the root is the backlog, `.scratch/<feature-slug>/` holds work
+in flight. **Not GitHub Issues**: Issues are enabled on this repo but unused, and only
+EncoreShot tracks on GitHub in this workspace. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+The five canonical roles, label string equal to name — `needs-triage`, `needs-info`,
+`ready-for-agent`, `ready-for-human`, `wontfix`. On a markdown board they are inline text, not
+tracker labels. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context — `CONTEXT.md` for the glossary, `docs/adr/` for decision records. Both already
+in place. See `docs/agents/domain.md`.
