@@ -5,7 +5,7 @@ import { TAXONOMY_VERSION, type ContentType, type OutboundCategory, type HomeSec
 
 export type OutboundProps = {
   content_type: ContentType; content_id?: string; category: OutboundCategory;
-  host: string; href: string; label?: string;
+  host: string; href: string; label?: string; company?: string;
 };
 
 export type AnalyticsEvent =
