@@ -1,7 +1,7 @@
 ---
 status: active
 created: 2026-06-13
-updated: 2026-06-13
+updated: 2026-09-05
 area: analytics
 tags: [analytics, utm, attribution, audience, umami]
 ---
@@ -25,7 +25,7 @@ segments. **Always lowercase, always from these lists.**
 
 | Param | Allowed values | Meaning |
 |---|---|---|
-| `utm_source` | `github` · `linkedin` · `cv` · `devto` · `x` · `email_sig` · `portfolio` (own-property hop, stamped client-side by the site-wide `?co=` mechanism) | *Where the link lives* |
+| `utm_source` | `github` · `linkedin` · `cv` · `devto` · `x` · `email_sig` · `linktree` · `portfolio` (own-property hop, stamped client-side by the site-wide `?co=` mechanism) | *Where the link lives* |
 | `utm_medium` | `profile` · `post` · `pdf` · `bio` | *What form the link takes* |
 | `utm_campaign` | optional, e.g. `job_search_2026` | *A push you want to measure as a unit* |
 
@@ -40,6 +40,7 @@ segments. **Always lowercase, always from these lists.**
 | dev.to bio / article | `https://antwansherif.com/?utm_source=devto&utm_medium=bio` |
 | X/Twitter bio | `https://antwansherif.com/?utm_source=x&utm_medium=bio` |
 | Email signature | `https://antwansherif.com/?utm_source=email_sig&utm_medium=bio` |
+| Linktree | `https://antwansherif.com/?utm_source=linktree&utm_medium=bio` |
 
 Add a campaign when relevant by appending `&utm_campaign=job_search_2026`.
 
@@ -48,7 +49,7 @@ Add a campaign when relevant by appending `&utm_campaign=job_search_2026`.
 | Source | Leans | Why |
 |---|---|---|
 | `github`, `devto` | **engineer** | dev-native surfaces; came for the code/writing |
-| `linkedin`, `cv`, `email_sig` | **recruiter / hiring** | professional outreach context |
+| `linkedin`, `cv`, `email_sig`, `linktree` | **recruiter / hiring** | professional outreach context |
 | `x` | mixed | could be either — read alongside on-site behavior |
 
 These pair with the on-site `outbound.category` (`code` → engineer-leaning, `professional` →
@@ -60,8 +61,12 @@ of it *labels* a person — it's a **directional segment**, honest under cookiel
 UTM params are captured automatically (no setup). In the dashboard they surface under
 referrers/parameters; build **saved Segments** like:
 - *Engineer-leaning*: `utm_source in (github, devto)` OR `outbound.category = code`.
-- *Recruiter-leaning*: `utm_source in (linkedin, cv, email_sig)` OR a `cv_download` / `story_unlock`.
-Then apply either segment to any funnel/journey/retention report.
+- *Recruiter-leaning*: `utm_source in (linkedin, cv, email_sig, linktree)` OR a `cv_download` / `story_unlock`.
+Apply either segment via the page's own **Filter → Segments** picker. Confirmed working on
+Overview and Retention-style reports (the denominator actually changes); confirmed **not**
+applied on Goals in this Umami version (`v3.1.0`) — the filter chip shows as active but the
+conversion denominator stays at the site-wide total regardless of which segment is selected.
+Check before relying on a segment-scoped read anywhere new.
 
 ## Hygiene rules
 
