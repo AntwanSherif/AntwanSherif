@@ -27,13 +27,21 @@ function resolveSiteCampaign(): string | undefined {
 
 /** Mints/loads the localStorage visitor UUID and hands it to Umami's identify().
  *  Pass `company` on gated story pages to also tag the session (company comes from the
- *  server cookie) — this always wins over a site-wide campaign. Absent that, falls back
+ *  server cookie) — this always wins over a site-wide campaign, and is also written to
+ *  the same sessionStorage key so OutboundTracker's outbound events stay in sync with
+ *  identify() rather than reading a stale site-wide value. Absent that, falls back
  *  to a site-wide ?co= campaign captured on any page (see site-campaign.ts). */
 export function VisitorIdentity({ company, isAdmin }: { company?: string; isAdmin?: boolean }) {
   useEffect(() => {
     try {
-      if (company) sessionCompany = company;
-      else sessionCompany = sessionCompany ?? resolveSiteCampaign();
+      if (company) {
+        sessionCompany = company;
+        try {
+          window.sessionStorage.setItem(CAMPAIGN_STORAGE_KEY, company);
+        } catch {
+          /* private browsing — outbound events fall back to the stale/no campaign */
+        }
+      } else sessionCompany = sessionCompany ?? resolveSiteCampaign();
       const id = getOrCreateVisitorId(window.localStorage);
       const data = sessionCompany
         ? { company: sessionCompany, ...(isAdmin && { is_admin: true }) }

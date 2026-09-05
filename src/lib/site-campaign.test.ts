@@ -26,33 +26,32 @@ describe('readCampaignFromLocation', () => {
 })
 
 describe('stampSiteCampaign', () => {
-  test('own-property URL with no utm_source stamps source=portfolio and campaign', () => {
-    expect(stampSiteCampaign('https://encoreshot.com/', 'zauber')).toBe(
+  test('cross-host own-property URL with no utm_source stamps source=portfolio and campaign', () => {
+    expect(stampSiteCampaign('https://encoreshot.com/', 'zauber', 'antwansherif.com')).toBe(
       'https://encoreshot.com/?utm_source=portfolio&utm_campaign=zauber'
     )
   })
-  test('antwansherif.com self-link with no utm_source stamps both', () => {
-    expect(stampSiteCampaign('https://antwansherif.com/projects', 'zauber')).toBe(
-      'https://antwansherif.com/projects?utm_source=portfolio&utm_campaign=zauber'
-    )
+  test('same-host URL is a no-op even with a campaign slug present', () => {
+    const internal = 'https://antwansherif.com/projects'
+    expect(stampSiteCampaign(internal, 'zauber', 'antwansherif.com')).toBe(internal)
   })
   test('own-property URL that already has utm_source keeps it, adds campaign', () => {
-    expect(stampSiteCampaign('https://encoreshot.com/?utm_source=cv', 'zauber')).toBe(
+    expect(stampSiteCampaign('https://encoreshot.com/?utm_source=cv', 'zauber', 'antwansherif.com')).toBe(
       'https://encoreshot.com/?utm_source=cv&utm_campaign=zauber'
     )
   })
   test('own-property URL that already has utm_campaign is a no-op', () => {
     const tagged = 'https://encoreshot.com/?utm_source=portfolio&utm_campaign=acme'
-    expect(stampSiteCampaign(tagged, 'zauber')).toBe(tagged)
+    expect(stampSiteCampaign(tagged, 'zauber', 'antwansherif.com')).toBe(tagged)
   })
   test('third-party URL is a no-op regardless of campaign', () => {
     const linkedin = 'https://linkedin.com/in/antwan'
-    expect(stampSiteCampaign(linkedin, 'zauber')).toBe(linkedin)
+    expect(stampSiteCampaign(linkedin, 'zauber', 'antwansherif.com')).toBe(linkedin)
   })
   test('empty slug is a no-op', () => {
-    expect(stampSiteCampaign('https://encoreshot.com/', '')).toBe('https://encoreshot.com/')
+    expect(stampSiteCampaign('https://encoreshot.com/', '', 'antwansherif.com')).toBe('https://encoreshot.com/')
   })
   test('unparseable URL is a no-op without throwing', () => {
-    expect(stampSiteCampaign('not-a-url', 'zauber')).toBe('not-a-url')
+    expect(stampSiteCampaign('not-a-url', 'zauber', 'antwansherif.com')).toBe('not-a-url')
   })
 })

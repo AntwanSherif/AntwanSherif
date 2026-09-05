@@ -18,10 +18,12 @@ export function readCampaignFromLocation(search: string): string | null {
 
 /** Stamp `utm_source=portfolio` (only when no utm_source is already present) and
  *  `utm_campaign=<slug>` onto an own-property URL. No-ops for third-party URLs, an
- *  empty slug, a URL that already carries utm_campaign, or an unparseable URL. Pure. */
-export function stampSiteCampaign(url: string, slug: string): string {
+ *  empty slug, a same-host URL (internal navigation is never restamped mid-session),
+ *  a URL that already carries utm_campaign, or an unparseable URL. Pure. */
+export function stampSiteCampaign(url: string, slug: string, currentHost: string): string {
   if (!slug || !isOwnPropertyUrl(url)) return url
   const parsed = new URL(url)
+  if (parsed.host === currentHost) return url
   if (parsed.searchParams.has('utm_campaign')) return url
   if (!parsed.searchParams.has('utm_source')) parsed.searchParams.set('utm_source', 'portfolio')
   parsed.searchParams.set('utm_campaign', slug)

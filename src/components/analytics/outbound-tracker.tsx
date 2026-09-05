@@ -26,7 +26,7 @@ export function OutboundTracker() {
       if (anchor.closest("[data-analytics-skip-outbound]")) return; // named conversions opt out
       const campaign = readStoredCampaign();
       if (campaign) {
-        const stamped = stampSiteCampaign(anchor.href, campaign);
+        const stamped = stampSiteCampaign(anchor.href, campaign, window.location.host);
         if (stamped !== anchor.href) anchor.href = stamped;
       }
       const props = buildOutboundEvent({
