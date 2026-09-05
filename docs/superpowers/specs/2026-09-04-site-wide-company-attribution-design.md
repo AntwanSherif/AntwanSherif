@@ -96,8 +96,8 @@ the site. Extend its handler:
 ```
 on click:
   anchor = closest a[href]
-  if own-property host (antwansherif.com | encoreshot.com) AND campaign known:
-    anchor.href = withCampaign(anchor.href-resolved-with-utm_source=cv-equivalent, campaign)
+  if campaign known:
+    anchor.href = stampSiteCampaign(anchor.href, campaign)  // no-ops for non-own-property hosts
   existing buildOutboundEvent / track(...) call, now also passing `company` prop
 ```
 
@@ -119,37 +119,45 @@ that shape are rare outside the CV; the CV's own campaign resolution already han
 them there.
 
 `withCampaign` currently requires `utm_source=cv` already present in the URL
-(`cv-campaign.ts` line 35) before it will append `utm_campaign`. Site-wide
+(`cv-campaign.ts` line 35) before it will append `utm_campaign` — that gate is also
+its only defense against stamping a campaign onto a third-party URL if ever called
+without an ownership check first (three existing unit tests pin this). Site-wide
 own-property links (e.g. an EncoreShot mention in a story or resume entry) don't
-carry `utm_source` at all today. `withCampaign` needs a small generalization: accept
-the case where `utm_source` is absent by stamping `utm_source=portfolio` (a new,
-site-wide analog of the CV's `utm_source=cv`) at the same time as `utm_campaign`,
-rather than requiring the caller to have pre-stamped `utm_source=cv`. This keeps the
-CV's own call sites (which do pre-stamp `utm_source=cv`) working unchanged, since
-`utm_source` is already present there and won't be overwritten.
+carry `utm_source` at all today, so reusing `withCampaign` as-is won't fire for them,
+and *loosening* its gate to fix that would blunt the exact protection those tests
+exist to pin.
+
+Rather than generalize `withCampaign`, add a new, separate pure function,
+`stampSiteCampaign(url, slug)`, in the new `site-campaign.ts` (not `cv-campaign.ts`,
+which stays untouched). It does its own ownership check up front (calls the existing,
+unmodified `isOwnPropertyUrl`), then stamps `utm_source=portfolio` when no
+`utm_source` is present and `utm_campaign=<slug>` when absent. `withCampaign` and its
+existing tests are unaffected; `cv-campaign.ts` has zero diff in this change.
 
 ## Components touched
 
 | File | Change |
 |---|---|
-| `src/lib/site-campaign.ts` | **New.** `readCampaignFromLocation`, pure. |
-| `src/lib/cv-campaign.ts` | Export `OWN_HOSTS` (or an `isOwnPropertyUrl`-adjacent helper reusable outside the CV surface). Generalize `withCampaign` to stamp `utm_source=portfolio` when no `utm_source` is present, instead of requiring `utm_source=cv` pre-stamped. |
+| `src/lib/site-campaign.ts` | **New.** `readCampaignFromLocation` and `stampSiteCampaign`, both pure. Imports `isOwnPropertyUrl` and `slugifyCompany` from `cv-campaign.ts`; does not modify it. |
 | `src/components/analytics/visitor-identity.tsx` | Read `?co=` / `sessionStorage` on mount when no explicit `company` prop is passed; write resolved slug to `sessionStorage`. |
-| `src/components/analytics/outbound-tracker.tsx` | Rewrite own-property anchor `href` with the persisted campaign before navigation; pass `company` into the `outbound` event props. |
+| `src/components/analytics/outbound-tracker.tsx` | Rewrite own-property anchor `href` via `stampSiteCampaign` before navigation; pass `company` into the `outbound` event props. |
 | `src/lib/analytics.ts` | Add `company?: string` to `OutboundProps`. |
+
+`src/lib/cv-campaign.ts` is **not modified** — `isOwnPropertyUrl` and
+`slugifyCompany` are reused as-is via import; `withCampaign` and its tests are
+untouched.
 
 No changes to `/cv`'s route, `cv-document.tsx`, `cv-download.tsx`, or
 `/api/cv-pdf` — that path is untouched, per Non-goals.
 
-**Fan-out note.** Five files touched, each a single-responsibility edit to an
-existing component rather than the same logic duplicated across them: one new pure
-parser, one generalized existing helper, one mount-time read added to an existing
-hook, one rewrite step added to an existing click delegate, one type union entry.
-Consolidating further would mean merging `VisitorIdentity` and `OutboundTracker` (two
-components with distinct triggers, mount vs. click) or moving campaign logic out of
-`cv-campaign.ts`, both of which would break existing boundaries for no gain. The
-fan-out is inherent to reusing three already-separate systems rather than building a
-new one.
+**Fan-out note.** Four files touched, each a single-responsibility edit to an
+existing component rather than the same logic duplicated across them: one new file
+with two pure functions, one mount-time read added to an existing hook, one rewrite
+step added to an existing click delegate, one type union entry. Consolidating further
+would mean merging `VisitorIdentity` and `OutboundTracker` (two components with
+distinct triggers, mount vs. click), which would break an existing boundary for no
+gain. The fan-out is inherent to reusing three already-separate systems rather than
+building a new one.
 
 ## Data flow
 
@@ -175,7 +183,7 @@ sequenceDiagram
     U->>Browser: clicks an EncoreShot link
     Browser->>OT: capture-phase click
     OT->>SS: read as_campaign -> "zauber"
-    OT->>OT: rewrite href += utm_source=portfolio&utm_campaign=zauber
+    OT->>OT: stampSiteCampaign(href, "zauber") -> href += utm_source=portfolio&utm_campaign=zauber
     OT->>Umami: track("outbound", { ..., company: "zauber" })
     Browser->>U: navigates to tagged EncoreShot URL
 ```
@@ -195,13 +203,13 @@ Pure helpers get unit tests, same style as `cv-campaign.test.ts` /
 
 - `readCampaignFromLocation`: missing param, empty value, punctuation-only value,
   valid value, value alongside other query params.
-- Generalized `withCampaign`: no `utm_source` present (new case, stamps both source
-  and campaign), `utm_source=cv` already present (existing CV behavior, unchanged),
-  `utm_campaign` already present (no-op, existing behavior).
+- `stampSiteCampaign`: own-property URL with no `utm_source` (stamps both source and
+  campaign), own-property URL with `utm_campaign` already present (no-op),
+  third-party URL (no-op, regardless of campaign), empty slug (no-op).
 
-`OutboundTracker`'s href-rewrite is DOM-dependent glue (per the analytics AGENTS.md
-convention, glue stays untested-thin, the logic it calls is what's tested). A
-lightweight DOM test (jsdom, simulate a click on an anchor, assert rewritten `href`
-and the `company` prop on the tracked event) is worth adding given this is new
-behavior, not just a wiring change — mirrors the bar the AGENTS.md sets for "new
-measurable user interaction."
+This repo has no DOM-test setup (no jsdom/happy-dom, `vitest.config.ts` runs
+`environment: "node"`) and no precedent for one. Extracting `stampSiteCampaign` as a
+pure, URL-in/URL-out function (rather than testing the DOM rewrite in place) means
+`OutboundTracker`'s click handler stays thin glue over an already-tested function —
+matching the analytics AGENTS.md convention that glue stays untested-thin — with no
+new test infrastructure needed.

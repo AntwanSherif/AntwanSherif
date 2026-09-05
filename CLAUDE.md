@@ -108,7 +108,9 @@ dials). Both are also written by the **dev-only** `/cv/edit` lab's "Save" button
 
 **Per-company attribution:** `/cv?co=<company>` tags own-property links with
 `utm_campaign`; the Download button then serves a company-tagged PDF via
-`/api/cv-pdf` (pdf-lib annotation patch, rate-limited at the edge). Ops runbook:
+`/api/cv-pdf` (pdf-lib annotation patch, rate-limited at the edge). `?co=` also
+works site-wide from any page (persists for the tab's session, tags the whole
+Umami session via `identify()`, no PDF tagging). Ops runbook, both mechanisms:
 `docs/cv-company-attribution.md`.
 
 **Always verify visual/print changes by looking at a screenshot before claiming

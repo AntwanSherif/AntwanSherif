@@ -68,7 +68,7 @@ Every event carries `content_type` + `v` implicitly; the table lists *additional
 
 | Event (`snake_case`) | Channel | Extra props | Notes |
 |---|---|---|---|
-| `outbound` | client | `category`, `host`, `href`, `label?` | `context` retired → `content_type`/`content_id` |
+| `outbound` | client | `category`, `host`, `href`, `label?`, `company?` | `context` retired → `content_type`/`content_id`; `company` = site-wide `?co=` slug when campaign-tagged |
 | `contact_click` | client | `channel: email\|linkedin`, `category: professional` | named conversion |
 | `cv_download` | client | `category: professional` | real `public/cv.pdf` download from /cv (`content_type: cv`) — **true** download signal |
 | `cv_print` | client | `category: professional` | browser print *initiated* on /cv (`content_type: cv`); intent, not a confirmed export |

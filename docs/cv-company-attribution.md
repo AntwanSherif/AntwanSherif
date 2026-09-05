@@ -3,6 +3,10 @@
 How the CV tags outbound links per company, how to hand a tagged CV to someone,
 and how the abuse guard is configured. Design + rationale: `docs/superpowers/specs/2026-07-09-cv-company-attribution-design.md`.
 
+This is the CV-specific mechanism. For tagging any other page on the site, see
+*Site-wide attribution* below, design + rationale:
+`docs/superpowers/specs/2026-09-04-site-wide-company-attribution-design.md`.
+
 ## What it does
 
 When you send your CV to a company, its **own-property** links (portfolio +
@@ -88,3 +92,34 @@ pnpm cv:pdf   # → public/cv.pdf
 - `src/app/cv/page.tsx` — reads `?co=`, slugifies, passes `campaign`.
 - `src/components/cv/cv-download.tsx` — company-aware Download button.
 - `src/app/api/cv-pdf/{route.ts,patch.ts}` — open edge route + pdf-lib annotation patch.
+
+## Site-wide attribution (any page, not just `/cv`)
+
+`?co=<company>` also works from any page, e.g. `antwansherif.com/?co=acme`, not
+just `/cv`. Unlike the CV mechanism above (server-rendered per request), this one
+persists for the whole browser tab and tags the visitor's Umami session, not just
+the landing pageview:
+
+1. On mount, `VisitorIdentity` reads `?co=` (or an already-set value from a prior
+   page in the same tab), slugifies it, and stores it in
+   `sessionStorage['as_campaign']`. First touch wins — a later `?co=` in the same
+   tab is ignored once one is set.
+2. That slug feeds the existing `identify()` call, so the whole Umami session
+   (not just the landing pageview) carries `company=<slug>` — segmentable the
+   same way a first/last-click Attribution report would be, but live for every
+   report, not one dedicated view.
+3. `OutboundTracker` stamps `utm_source=portfolio&utm_campaign=<slug>` onto
+   own-property links (portfolio + EncoreShot) as the visitor clicks around,
+   the same way the CV's own links are tagged, just triggered client-side. It
+   skips same-host links (no re-tagging your own internal navigation) and
+   third-party links (LinkedIn, GitHub, etc.), same rule as the CV mechanism.
+
+**What it doesn't do:** it does not touch `/cv` or `/api/cv-pdf` — a visitor who
+lands on `/?co=acme` and then navigates to `/cv` gets an attributed session, but
+an untagged CV/PDF, since those still resolve `?co=` from the URL directly. Use
+`/cv?co=<company>` (above) when you specifically want a tagged CV or PDF handed
+out.
+
+Code: `src/lib/site-campaign.ts` (`readCampaignFromLocation`,
+`stampSiteCampaign`), `src/components/analytics/visitor-identity.tsx`,
+`src/components/analytics/outbound-tracker.tsx`.
