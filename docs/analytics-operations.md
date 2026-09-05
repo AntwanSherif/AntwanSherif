@@ -8,21 +8,24 @@ The as-deployed record for the portfolio's self-hosted Umami analytics. Decision
 
 | Thing | Value |
 | --- | --- |
-| Umami code | Fork **`AntwanSherif/umami`** (default branch `master`, synced to upstream ≥ v3.1.0) |
+| Umami code | Fork **`AntwanSherif/umami`** (default branch `master`, synced to upstream ≥ v3.3.1 — fast-forwarded 2026-09-05, zero local commits, clean merge) |
 | Umami host (Vercel) | `umami-sepia-three.vercel.app` |
 | Umami dashboard (first-party) | **`https://stats.antwansherif.com`** |
 | Database | Neon project **Portfolio** (Postgres 18, region AWS `us-east-1`, **direct/non-pooled** connection — fine at portfolio scale) |
 | Website ID (portfolio) | `e38f8ab0-59e9-4719-a8ca-0f1fb834bf7c` |
 | Tracker script path | `/u.js` (renamed via `TRACKER_SCRIPT_NAME`) |
 | Collect endpoint | `/api/e` (renamed via `COLLECT_API_ENDPOINT`) |
+| Heatmaps | **Enabled**, Replay off (`src/components/analytics/analytics-scripts.tsx` loads `${host}/recorder.js`, not renamed). Decision + measured cost: `docs/superpowers/specs/2026-09-05-umami-heatmaps-design.md`. |
+| Site CSP | `next.config.mjs` sends `Content-Security-Policy: frame-ancestors 'self' https://stats.antwansherif.com` (replaces the prior `X-Frame-Options: DENY`) so the dashboard's Heatmaps page-preview iframe can render. |
 
 > **This instance is multi-tenant.** It also hosts the **EncoreShot landing** as a *separate
 > Umami website* (own Website ID, reached via a second custom domain `stats.encoreshot.com` on the
 > same Vercel project + this Neon DB). The two properties share nothing but the instance and DB —
 > the portfolio's `data-domains` allowlist stays `antwansherif.com` + `antwan.me` only. Landing
 > as-built + rationale live in the **encoreshot repo** (`apps/landing/docs/analytics.md`,
-> `docs/adr/2026-07-01-landing-analytics-umami.md`). When updating/upgrading Umami here, remember
-> both tenants ride along.
+> `docs/adr/2026-07-01-landing-analytics-umami.md`). A third property, `stats.olyachuk.com`
+> (a personal site, own Website ID, no as-built doc, not tracked in this workspace), was added
+> the same way. When updating/upgrading Umami here, remember all three tenants ride along.
 
 ### DNS (Cloudflare, zone `antwansherif.com`)
 ```

@@ -55,6 +55,10 @@ Bumping a pointer to an unpushed commit breaks every fresh clone and Vercel.
 `git clone --recurse-submodules ...` (or `git submodule update --init` after a plain clone). Without it,
 `stories-private/` is empty and `pnpm build` fails.
 
+**A new git worktree hits the same failure.** A worktree is a fresh checkout for submodule purposes —
+it does not inherit the submodule state of the checkout it was created from. Run
+`git submodule update --init` inside the worktree before the first `pnpm build` there.
+
 ### Vercel
 
 **Vercel does NOT support private git submodules** — its docs state private/SSH submodules fail during the

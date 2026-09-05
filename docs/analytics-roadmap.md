@@ -1,7 +1,7 @@
 ---
 status: active
 created: 2026-06-13
-updated: 2026-06-13
+updated: 2026-09-05
 area: analytics
 tags: [analytics, roadmap, umami, funnels, journeys, segments, cohorts, blog, core-web-vitals]
 ---
@@ -19,6 +19,13 @@ Umami v3.1 (Mar 2026) ships Funnels, Journeys, Retention, Segments, and Goals as
 **dashboard reports** defined against existing events — so most of "build the funnels" is
 *configuration*, not code. The code work is making the **event taxonomy** strong enough to
 support all of it. That ordering drives the sequencing below.
+
+The fork is now on **v3.3.1** (upgraded 2026-09-05, see `docs/analytics-operations.md`), which
+adds session identity stitching in the dashboard for the `localStorage` UUID + `identify()`
+workaround from `docs/adr/2026-06-13-analytics-visitor-identity.md` — a payoff for existing
+code, not a new workstream. Umami's built-in **Heatmaps is enabled** (Replay stays off), an
+accepted-tradeoff decision given a measured mobile INP cost; see
+`docs/superpowers/specs/2026-09-05-umami-heatmaps-design.md` for the full reasoning and numbers.
 
 ## Workstreams
 

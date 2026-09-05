@@ -48,3 +48,6 @@ next-env.d.ts
 # Claude Code worktree scratch (scoped, not all of .claude/, so real config can be tracked later)
 .claude/worktrees/
 .gstack/
+
+# Session-to-session handoffs (scratch, not the tracked docs/handoffs/ home)
+.handoffs/

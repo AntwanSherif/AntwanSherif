@@ -1,7 +1,7 @@
 ---
 status: accepted
 decided: 2026-06-13
-updated: 2026-06-13
+updated: 2026-09-05
 area: analytics
 tags: [analytics, privacy, cookieless, umami, vercel, neon, core-web-vitals]
 ---
@@ -24,7 +24,7 @@ Cloudflare's built-in analytics were rejected by experience (minimal, counts bot
 
 ## Decision
 
-Self-host **Umami** (v3.1+) as a **separate Vercel project backed by a free Neon Postgres**, served at `stats.antwansherif.com`. Tracking uses **two channels**:
+Self-host **Umami** (v3.3.1+) as a **separate Vercel project backed by a free Neon Postgres**, served at `stats.antwansherif.com`. Tracking uses **two channels**:
 
 - **Client** — the (renamed) Umami tracker script + a typed `track()` wrapper: pageviews, Core Web Vitals (`data-performance`), and ordinary interaction events. One website ID with `data-domains="antwan.me,antwansherif.com"` → aggregate view + hostname filter for the per-domain split.
 - **Server** — a Next Server Action → Umami collect API for the **story events** (`story-unlock`, `story-view`). The company is known authoritatively server-side (it's the validated password's slug prefix), and server→server sends are immune to ad blockers **and** to prefetch. The story **password is never sent — only the company slug**.

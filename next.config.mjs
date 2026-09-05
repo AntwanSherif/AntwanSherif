@@ -13,8 +13,12 @@ const nextConfig = {
             value: "nosniff",
           },
           {
-            key: "X-Frame-Options",
-            value: "DENY",
+            // Was X-Frame-Options: DENY. Replaced with the CSP equivalent so the Umami
+            // dashboard can still render its Heatmaps page-preview iframe — X-Frame-Options
+            // can override frame-ancestors in some browsers, so the two can't coexist. Blocks
+            // framing from anywhere except this site and the Umami dashboard origin.
+            key: "Content-Security-Policy",
+            value: "frame-ancestors 'self' https://stats.antwansherif.com",
           },
           {
             key: "Referrer-Policy",
