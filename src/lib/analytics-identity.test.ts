@@ -39,18 +39,18 @@ describe("identifyVisitor", () => {
 
   test("calls umami.identify with id only when no data", () => {
     const spy = vi.fn();
-    (globalThis as any).window = { umami: { identify: spy } };
+    (globalThis as any).window = { umami: { identify: spy }, localStorage: { getItem: () => null } };
     identifyVisitor({ id: "abc" });
     expect(spy).toHaveBeenCalledWith("abc");
   });
   test("calls umami.identify with id + data when data present", () => {
     const spy = vi.fn();
-    (globalThis as any).window = { umami: { identify: spy } };
+    (globalThis as any).window = { umami: { identify: spy }, localStorage: { getItem: () => null } };
     identifyVisitor({ id: "abc", data: { company: "Acme" } });
     expect(spy).toHaveBeenCalledWith("abc", { company: "Acme" });
   });
   test("no-ops (no throw) when umami never becomes available", () => {
-    (globalThis as any).window = {};
+    (globalThis as any).window = { localStorage: { getItem: () => null } };
     expect(() => identifyVisitor({ id: "abc" })).not.toThrow();
     vi.advanceTimersByTime(IDENTIFY_RETRY_DELAY_MS * (IDENTIFY_MAX_ATTEMPTS + 1));
     expect(vi.getTimerCount()).toBe(0);
@@ -58,12 +58,12 @@ describe("identifyVisitor", () => {
   test("no-ops outside production", () => {
     vi.stubEnv("NODE_ENV", "development");
     const spy = vi.fn();
-    (globalThis as any).window = { umami: { identify: spy } };
+    (globalThis as any).window = { umami: { identify: spy }, localStorage: { getItem: () => null } };
     identifyVisitor({ id: "abc" });
     expect(spy).not.toHaveBeenCalled();
   });
   test("retries when umami.identify isn't loaded yet, then calls it once available", () => {
-    const win: { umami?: { identify: ReturnType<typeof vi.fn> } } = {};
+    const win: { umami?: { identify: ReturnType<typeof vi.fn> }; localStorage?: { getItem: () => null } } = { localStorage: { getItem: () => null } };
     (globalThis as any).window = win;
     identifyVisitor({ id: "abc", data: { company: "zauber" } });
     const spy = vi.fn();
@@ -72,9 +72,23 @@ describe("identifyVisitor", () => {
     expect(spy).toHaveBeenCalledWith("abc", { company: "zauber" });
   });
   test("stops retrying after IDENTIFY_MAX_ATTEMPTS with umami still unavailable", () => {
-    (globalThis as any).window = {};
+    (globalThis as any).window = { localStorage: { getItem: () => null } };
     identifyVisitor({ id: "abc" });
     vi.advanceTimersByTime(IDENTIFY_RETRY_DELAY_MS * IDENTIFY_MAX_ATTEMPTS);
     expect(vi.getTimerCount()).toBe(0);
+  });
+  test("no-ops when the admin flag is set", () => {
+    const spy = vi.fn();
+    (globalThis as any).window = { umami: { identify: spy }, localStorage: { getItem: () => "1" } };
+    identifyVisitor({ id: "abc" });
+    expect(spy).not.toHaveBeenCalled();
+  });
+  test("does not throw when localStorage access itself throws", () => {
+    const spy = vi.fn();
+    (globalThis as any).window = {
+      umami: { identify: spy },
+      get localStorage() { throw new Error("denied"); },
+    };
+    expect(() => identifyVisitor({ id: "abc" })).not.toThrow();
   });
 });

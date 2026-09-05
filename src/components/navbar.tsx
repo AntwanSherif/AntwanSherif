@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { FileText } from "lucide-react";
 import { Dock, DockIcon } from "@/components/magicui/dock";
@@ -14,6 +15,7 @@ import {
 } from "@/components/ui/tooltip";
 import { DATA } from "@/data/resume";
 import { track } from "@/lib/analytics";
+import { CAMPAIGN_STORAGE_KEY } from "@/lib/site-campaign";
 import { cn } from "@/lib/utils";
 
 const dockIconBase =
@@ -27,6 +29,14 @@ const dockIconActive =
 
 export default function Navbar() {
   const pathname = usePathname();
+  const [campaign, setCampaign] = useState<string | null>(null);
+  useEffect(() => {
+    try {
+      setCampaign(window.sessionStorage.getItem(CAMPAIGN_STORAGE_KEY));
+    } catch {
+      /* private browsing — falls back to the untagged /cv link */
+    }
+  }, []);
 
   function isActive(href: string) {
     const hrefPath = href.split("?")[0];
@@ -105,7 +115,7 @@ export default function Navbar() {
         <Tooltip>
           <TooltipTrigger asChild>
             <a
-              href="/cv"
+              href={campaign ? `/cv?co=${campaign}` : "/cv"}
               aria-label="CV"
               className={dockLinkFocus}
               onClick={() =>

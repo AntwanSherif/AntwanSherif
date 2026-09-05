@@ -3,6 +3,8 @@
 // Mirrors track()'s discipline: prod-only, client-only, never throws.
 // See docs/adr/2026-06-13-analytics-visitor-identity.md.
 
+import { isAdminVisit } from "./analytics-admin";
+
 export const VISITOR_ID_KEY = "as_vid";
 
 /** Bounds on waiting for the tracker script (`AnalyticsScripts`, `strategy="afterInteractive"`)
@@ -28,6 +30,7 @@ export function identifyVisitor(input: { id: string; data?: Record<string, unkno
   if (process.env.NODE_ENV !== "production") return;
   if (typeof window === "undefined") return;
   try {
+    if (isAdminVisit(window.localStorage)) return;
     const identify = window.umami?.identify;
     if (!identify) {
       if (attempt < IDENTIFY_MAX_ATTEMPTS) {

@@ -34,6 +34,9 @@ export default async function StoryDetailPage({
   if (!card) notFound();
   const password = (await cookies()).get("stories-auth")?.value;
   const company = password ? companyFromPassword(password) ?? undefined : undefined;
+  // Testing-password allowlist for gated stories (marks the session as an internal
+  // reviewer), not the analytics self-exclusion opt-out — that one is `?admin=1`,
+  // unrelated to this company allowlist.
   const adminCompanies = (process.env.ANALYTICS_ADMIN_COMPANIES ?? "").split(",").map((s) => s.trim()).filter(Boolean);
   const isAdmin = company ? adminCompanies.includes(company) : false;
   // Merge public card + private detail so the rest of the page reads one `story` object.

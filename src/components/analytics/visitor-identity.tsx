@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { getOrCreateVisitorId, identifyVisitor } from "@/lib/analytics-identity";
+import { ADMIN_STORAGE_KEY, resolveAdminParam } from "@/lib/analytics-admin";
 import { CAMPAIGN_STORAGE_KEY, readCampaignFromLocation } from "@/lib/site-campaign";
 
 /** Sticky for the page session: once any mount learns the company, later mounts re-send it.
@@ -34,6 +35,18 @@ function resolveSiteCampaign(): string | undefined {
 export function VisitorIdentity({ company, isAdmin }: { company?: string; isAdmin?: boolean }) {
   useEffect(() => {
     try {
+      const adminParam = resolveAdminParam(window.location.search);
+      if (adminParam === "1") {
+        window.localStorage.setItem(ADMIN_STORAGE_KEY, "1");
+        // Umami's own tracker script checks this key itself and suppresses everything it
+        // sends on its own (auto pageviews, web-vitals) — distinct from our `as_admin` key,
+        // which only our own track()/identifyVisitor() calls check.
+        window.localStorage.setItem("umami.disabled", "1");
+      } else if (adminParam === "0") {
+        window.localStorage.removeItem(ADMIN_STORAGE_KEY);
+        window.localStorage.removeItem("umami.disabled");
+      }
+
       if (company) {
         sessionCompany = company;
         try {
@@ -43,6 +56,9 @@ export function VisitorIdentity({ company, isAdmin }: { company?: string; isAdmi
         }
       } else sessionCompany = sessionCompany ?? resolveSiteCampaign();
       const id = getOrCreateVisitorId(window.localStorage);
+      // `isAdmin` here is the gated-story content-access allowlist flag (sets the
+      // `is_admin` session prop) — unrelated to the `as_admin` self-exclusion flag written
+      // above in this same effect. See analytics-admin.ts for that one.
       const data = sessionCompany
         ? { company: sessionCompany, ...(isAdmin && { is_admin: true }) }
         : undefined;

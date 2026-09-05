@@ -45,26 +45,26 @@ describe("track", () => {
 
   test("calls window.umami.track with v stamped in", () => {
     const spy = vi.fn();
-    (globalThis as any).window = { umami: { track: spy } };
+    (globalThis as any).window = { umami: { track: spy }, localStorage: { getItem: () => null } };
     track({ name: "contact_click", props: { content_type: "contact", channel: "email", category: "professional" } });
     expect(spy).toHaveBeenCalledWith("contact_click", { v: 1, content_type: "contact", channel: "email", category: "professional" });
   });
   test("cv_view stamps v + nav/professional/source props", () => {
     const spy = vi.fn();
-    (globalThis as any).window = { umami: { track: spy } };
+    (globalThis as any).window = { umami: { track: spy }, localStorage: { getItem: () => null } };
     track({ name: "cv_view", props: { content_type: "nav", category: "professional", source: "navbar" } });
     expect(spy).toHaveBeenCalledWith("cv_view", { v: 1, content_type: "nav", category: "professional", source: "navbar" });
   });
   test("cv_download and cv_print are distinct cv-spine events", () => {
     const spy = vi.fn();
-    (globalThis as any).window = { umami: { track: spy } };
+    (globalThis as any).window = { umami: { track: spy }, localStorage: { getItem: () => null } };
     track({ name: "cv_download", props: { content_type: "cv", category: "professional" } });
     track({ name: "cv_print", props: { content_type: "cv", category: "professional" } });
     expect(spy).toHaveBeenNthCalledWith(1, "cv_download", { v: 1, content_type: "cv", category: "professional" });
     expect(spy).toHaveBeenNthCalledWith(2, "cv_print", { v: 1, content_type: "cv", category: "professional" });
   });
   test("no-ops (no throw) when umami is absent", () => {
-    (globalThis as any).window = {};
+    (globalThis as any).window = { localStorage: { getItem: () => null } };
     expect(() => track({ name: "impression", props: { content_type: "contact" } })).not.toThrow();
   });
   test("no-ops (no throw) during SSR when window is undefined", () => {
@@ -79,9 +79,23 @@ describe("track", () => {
   test("no-ops outside production", () => {
     vi.stubEnv("NODE_ENV", "development");
     const spy = vi.fn();
-    (globalThis as any).window = { umami: { track: spy } };
+    (globalThis as any).window = { umami: { track: spy }, localStorage: { getItem: () => null } };
     track({ name: "impression", props: { content_type: "contact" } });
     expect(spy).not.toHaveBeenCalled();
+  });
+  test("no-ops when the admin flag is set", () => {
+    const spy = vi.fn();
+    (globalThis as any).window = { umami: { track: spy }, localStorage: { getItem: () => "1" } };
+    track({ name: "contact_click", props: { content_type: "contact", channel: "email", category: "professional" } });
+    expect(spy).not.toHaveBeenCalled();
+  });
+  test("does not throw when localStorage access itself throws", () => {
+    const spy = vi.fn();
+    (globalThis as any).window = {
+      umami: { track: spy },
+      get localStorage() { throw new Error("denied"); },
+    };
+    expect(() => track({ name: "contact_click", props: { content_type: "contact", channel: "email", category: "professional" } })).not.toThrow();
   });
 });
 

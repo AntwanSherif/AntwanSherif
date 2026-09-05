@@ -2,6 +2,7 @@
 // plus pure helpers used by the DOM glue (so the glue stays untested-thin).
 
 import { TAXONOMY_VERSION, type ContentType, type OutboundCategory, type HomeSection } from "./analytics-taxonomy";
+import { isAdminVisit } from "./analytics-admin";
 
 export type OutboundProps = {
   content_type: ContentType; content_id?: string; category: OutboundCategory;
@@ -39,6 +40,7 @@ export function track(event: AnalyticsEvent): void {
   if (process.env.NODE_ENV !== "production") return;
   if (typeof window === "undefined") return;
   try {
+    if (isAdminVisit(window.localStorage)) return;
     window.umami?.track(event.name, { v: TAXONOMY_VERSION, ...event.props });
   } catch {
     /* analytics must never break the page */
