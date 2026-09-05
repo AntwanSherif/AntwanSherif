@@ -25,7 +25,7 @@ segments. **Always lowercase, always from these lists.**
 
 | Param | Allowed values | Meaning |
 |---|---|---|
-| `utm_source` | `github` · `linkedin` · `cv` · `devto` · `x` · `email_sig` | *Where the link lives* |
+| `utm_source` | `github` · `linkedin` · `cv` · `devto` · `x` · `email_sig` · `portfolio` (own-property hop, stamped client-side by the site-wide `?co=` mechanism) | *Where the link lives* |
 | `utm_medium` | `profile` · `post` · `pdf` · `bio` | *What form the link takes* |
 | `utm_campaign` | optional, e.g. `job_search_2026` | *A push you want to measure as a unit* |
 
@@ -65,9 +65,12 @@ Then apply either segment to any funnel/journey/retention report.
 
 ## Hygiene rules
 
-- **Only tag external entry points** (links you post elsewhere). Never add UTM to *internal*
-  navigation — it would restart attribution mid-session.
-- **Stick to the controlled values** above; resist inventing one-off sources.
+- **Only tag external entry points** (links you post elsewhere) or genuinely own-property hops
+  across a different domain (e.g. antwansherif.com → encoreshot.com). Never add UTM to
+  *same-host* internal navigation — it would restart attribution mid-session; `portfolio` above
+  is scoped by `stampSiteCampaign` to skip same-host links for this reason.
+- **Stick to the controlled values** above; resist inventing one-off sources — `portfolio` is
+  the one exception already vetted and added to the table, not a precedent for freehand values.
 - UTM params are visible in the URL (public) — that's fine; they carry no secrets.
 - The CV is a PDF, so the query-string link above is the pragmatic choice. If a dedicated
   `/cv` route is ever added, prefer `https://antwansherif.com/cv?utm_source=cv&utm_medium=pdf`.
