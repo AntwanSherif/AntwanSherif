@@ -55,5 +55,7 @@ So ②–④ never force another migration:
 - UTM & link-tagging conventions (operational, no code): `docs/analytics-utm-conventions.md`
 - Event surface + standing rules: `src/components/analytics/AGENTS.md`
 - As-built values + runbook: `docs/analytics-operations.md`
+- Dashboard field guide (which Umami screen answers which question, workstream ② as actually
+  used): https://claude.ai/code/artifact/4120d381-0eb0-4965-89e9-cc52366e8af0
 </content>
 </invoke>

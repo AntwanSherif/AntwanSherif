@@ -107,6 +107,13 @@ Two separate Vercel projects. **Set the portfolio vars to the `Production` envir
 
 Client tracker (`/u.js`, `data-domains` allowlist, `data-performance` on) → pageviews, Core Web Vitals, `outbound` (all external links), `contact-click{linkedin}`, `scroll-depth`, `impression`. Server channel (Server Action → `/api/e`) → `story-unlock{company}`, `story-view{company,story}` — prefetch- and ad-block-immune; the story **password is never sent, only the company slug**. Aggregate dashboard = default view; per-domain = the **hostname filter**.
 
+## Reading the dashboard
+
+Which of the sixteen Umami screens actually answers which question, confirmed working vs.
+confirmed broken by a live pass (Goals ignores Segment scoping; Homepage Churn funnel needed
+a property filter per step; Events → Properties auto-breaks-down any custom property like
+`company` with zero setup): https://claude.ai/code/artifact/4120d381-0eb0-4965-89e9-cc52366e8af0
+
 ## Workflow that produced this (reproducible)
 
 1. **Neon** → create free project, copy the **direct** connection string.
